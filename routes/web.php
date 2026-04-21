@@ -30,3 +30,7 @@ Route::get('/dashboard', function () {
 Route::get('/koleksi-abc', function () {
     return view('koleksi-abc');
 });
+
+Route::get('/', function () {
+    return view('landing');
+});
