@@ -4,8 +4,12 @@
     <meta charset="UTF-8">
     <title>FUDi-gital</title>
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- CSS kamu -->
+    <link rel="stylesheet" href="{{ asset('css/loginpage.css') }}">
 </head>
-<body class="bg-gray-100">
+
+<body class="@yield('body-class')">
 
     @yield('content')
 

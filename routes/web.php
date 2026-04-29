@@ -3,9 +3,6 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
 Route::get('/peminjaman', function () {
     return view('peminjaman');
@@ -34,3 +31,11 @@ Route::get('/koleksi-abc', function () {
 Route::get('/', function () {
     return view('landing');
 });
+
+Route::view('/register', 'register');
+
+Route::view('/login', 'login');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
