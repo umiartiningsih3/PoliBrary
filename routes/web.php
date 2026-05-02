@@ -3,39 +3,25 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/peminjaman', function () {
-    return view('peminjaman');
-});
+// Landing Page (pakai controller)
+Route::get('/', [HomeController::class, 'index']);
 
-Route::get('/tambah-buku', function () {
-    return view('tambah-buku');
-});
+// Halaman lain
+Route::view('/peminjaman', 'peminjaman');
+Route::view('/tambah-buku', 'tambah-buku');
+Route::view('/koleksi', 'koleksi');
+Route::view('/koleksi-abc', 'koleksi-abc');
+Route::view('/keranjang', 'keranjang');
 
-Route::get('/koleksi', function () {
-    return view('koleksi');
-});
+// Dashboard (cukup sekali + name)
+Route::view('/dashboard', 'dashboard')->name('dashboard');
 
-Route::get('/keranjang', function () {
-    return view('keranjang');
-});
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-});
-
-Route::get('/koleksi-abc', function () {
-    return view('koleksi-abc');
-});
-
-Route::get('/', function () {
-    return view('landing');
-});
-
+// Auth
 Route::view('/register', 'register');
-
 Route::view('/login', 'login');
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
