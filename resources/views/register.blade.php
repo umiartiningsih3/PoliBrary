@@ -2,68 +2,95 @@
 
 @section('content')
 
-<div class="min-h-screen flex">
+<div class="min-h-screen flex items-center justify-center bg-[#d7ecf7] px-6 py-10">
 
-    <!-- KIRI (FORM) -->
-    <div class="w-1/2 flex items-center justify-center bg-blue-100">
-        <div class="bg-blue-200 p-8 rounded-2xl w-96 shadow-lg">
+    <!-- Background Utama -->
+    <div class="relative w-full max-w-6xl h-[700px] rounded-[35px] overflow-hidden shadow-2xl bg-cover bg-center"
+         style="background-image: url('/image/register-bg.png');">
 
-            <!-- Icon + Title -->
-            <div class="text-center mb-6">
-                <h2 class="text-xl font-bold">Buat Akun Baru</h2>
+        <!-- Overlay transparan -->
+        <div class="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
+
+        <!-- Box Register di dalam Background -->
+        <div class="relative z-10 h-full flex items-center pl-40">
+
+    <div class="w-[420px] bg-sky-100/80 backdrop-blur-md rounded-[28px] shadow-xl px-8 py-8 border border-white/40">
+
+        <!-- Icon -->
+        <div class="flex justify-center mb-4">
+            <img src="{{ url('/image/informasi-bg.png') }}"
+                 alt="Icon"
+                 class="w-32 h-32 object-contain">
+        </div>
+
+                <!-- Title -->
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-700">
+                        Buat Akun Baru
+                    </h2>
+                </div>
+
+                <!-- Form -->
+                <form action="#" method="POST">
+                    @csrf
+
+                    <!-- Nama -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                            Nama Lengkap
+                        </label>
+
+                        <input type="text"
+                               placeholder="Masukkan nama lengkap"
+                               class="w-full px-4 py-2 rounded-xl bg-white border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none">
+                    </div>
+
+                    <!-- NIM -->
+                    <div class="mb-4">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                            NIM
+                        </label>
+
+                        <input type="text"
+                               placeholder="Masukkan NIM"
+                               class="w-full px-4 py-2 rounded-xl bg-white border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none">
+                    </div>
+
+                    <!-- Password -->
+                    <div class="mb-2">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                            Kata Sandi
+                        </label>
+
+                        <input type="password"
+                               placeholder="Masukkan kata sandi"
+                               class="w-full px-4 py-2 rounded-xl bg-white border border-gray-300 focus:ring-2 focus:ring-blue-400 outline-none">
+                    </div>
+
+                    <p class="text-xs text-gray-600 mb-5">
+                        Kata sandi harus setidaknya 6 karakter
+                    </p>
+
+                    <!-- Button -->
+                    <button type="submit"
+                            class="w-full bg-white text-blue-700 font-bold py-2.5 rounded-full shadow-md hover:bg-blue-100 transition">
+                        Daftar Sekarang
+                    </button>
+
+                    <!-- Link -->
+                    <p class="text-center text-sm mt-4 text-gray-700">
+                        Sudah punya akun?
+                        <a href="/login" class="text-blue-700 font-bold hover:underline">
+                            Masuk
+                        </a>
+                    </p>
+
+                </form>
+
             </div>
 
-            <!-- Form -->
-            <form action="#" method="POST">
-                @csrf
-
-                <!-- Nama -->
-                <div class="mb-4">
-                    <label class="text-sm">Nama Lengkap</label>
-                    <input type="text" placeholder="Masukkan nama lengkap"
-                        class="w-full px-3 py-2 rounded bg-gray-200 mt-1 outline-none">
-                </div>
-
-                <!-- NIM -->
-                <div class="mb-4">
-                    <label class="text-sm">NIM</label>
-                    <input type="text" placeholder="Masukkan NIM"
-                        class="w-full px-3 py-2 rounded bg-gray-200 mt-1 outline-none">
-                </div>
-
-                <!-- Password -->
-                <div class="mb-4">
-                    <label class="text-sm">Kata Sandi</label>
-                    <input type="password" placeholder="Masukkan kata sandi"
-                        class="w-full px-3 py-2 rounded bg-gray-200 mt-1 outline-none">
-                    <p class="text-xs text-gray-600 mt-1">
-                        kata sandi harus setidaknya 6 karakter
-                    </p>
-                </div>
-
-                <!-- Button -->
-                <button 
-                    class="w-full bg-blue-500 text-white py-2 rounded mt-4 hover:bg-blue-600">
-                    Daftar Sekarang
-                </button>
-
-                <!-- Link -->
-                <p class="text-center text-sm mt-4">
-                    Sudah punya akun?
-                    <a href="/login" class="text-blue-600 font-semibold">Masuk</a>
-                    | 
-                    <a href="/" class="text-gray-600">Kembali</a>
-                </p>
-
-            </form>
         </div>
-    </div>
 
-    <!-- KANAN (ILUSTRASI) -->
-    <div class="w-1/2 bg-white flex items-center justify-center">
-        <img src="{{ asset('image/register.png') }}" 
-             alt="ilustrasi" 
-             class="w-1/1">
     </div>
 
 </div>
