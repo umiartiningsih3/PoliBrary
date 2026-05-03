@@ -17,18 +17,18 @@
     <div class="w-[420px] bg-sky-100/80 backdrop-blur-md rounded-[28px] shadow-xl px-8 py-8 border border-white/40">
 
         <!-- Icon -->
-        <div class="flex justify-center mb-4">
-            <img src="{{ url('/image/informasi-bg.png') }}"
-                 alt="Icon"
-                 class="w-32 h-32 object-contain">
-        </div>
+<div class="flex justify-center mb-1">
+    <img src="{{ url('/image/informasi-bg.png') }}"
+         alt="Icon"
+         class="w-40 h-40 object-contain">
+</div>
 
-                <!-- Title -->
-                <div class="text-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-700">
-                        Buat Akun Baru
-                    </h2>
-                </div>
+<!-- Title -->
+<div class="text-center mb-6 -mt-3">
+    <h2 class="text-2xl font-bold text-gray-700">
+        Buat Akun Baru
+    </h2>
+</div>
 
                 <!-- Form -->
                 <form action="#" method="POST">
@@ -78,12 +78,19 @@
                     </button>
 
                     <!-- Link -->
-                    <p class="text-center text-sm mt-4 text-gray-700">
-                        Sudah punya akun?
-                        <a href="/login" class="text-blue-700 font-bold hover:underline">
-                            Masuk
-                        </a>
-                    </p>
+<p class="text-center text-sm mt-4 text-gray-700">
+    Sudah punya akun?
+    
+    <a href="/login" class="text-blue-700 font-bold hover:underline">
+        Masuk
+    </a>
+
+    <span class="mx-2 text-gray-500">|</span>
+
+    <a href="/" class="text-gray-700 font-semibold hover:underline">
+        Kembali
+    </a>
+</p>
 
                 </form>
 
