@@ -7,9 +7,9 @@
     <!-- Overlay -->
     <div class="absolute inset-0 bg-white/40"></div>
 
-    <!-- Navbar -->
-    <div class="relative z-10 px-6 py-3">
-        <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-md px-5 py-3 flex items-center justify-between border border-gray-200">
+    <!-- Navbar Sticky -->
+    <div class="fixed top-0 left-0 w-full z-50 px-6 py-3">
+        <div class="bg-white/85 backdrop-blur-md rounded-2xl shadow-md px-5 py-3 flex items-center justify-between border border-gray-200">
 
             <!-- Logo -->
             <div class="flex items-center">
@@ -44,9 +44,11 @@
                     DAFTAR
                 </a>
             </div>
-
         </div>
     </div>
+
+    <!-- Spacer Navbar -->
+    <div class="h-24"></div>
 
     <!-- Hero -->
     <div class="relative z-10 h-[85vh] flex items-center justify-center px-6">
@@ -77,46 +79,37 @@
 
             <div class="grid md:grid-cols-3 gap-6">
 
-                <!-- Card 1 -->
-                <div class="bg-blue-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                <div class="bg-blue-50 rounded-2xl p-6 shadow">
                     <h3 class="font-bold text-lg text-blue-700">
                         Jadwal Libur Nasional
                     </h3>
-
                     <p class="text-gray-600 mt-3 text-sm">
                         Perpustakaan tutup pada tanggal 17 Agustus dalam rangka Hari Kemerdekaan.
                     </p>
-
                     <span class="text-xs text-gray-400 mt-4 block">
                         10 Agustus 2026
                     </span>
                 </div>
 
-                <!-- Card 2 -->
-                <div class="bg-green-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                <div class="bg-green-50 rounded-2xl p-6 shadow">
                     <h3 class="font-bold text-lg text-green-700">
                         Buku Baru Tersedia
                     </h3>
-
                     <p class="text-gray-600 mt-3 text-sm">
                         Koleksi buku Teknik Informatika terbaru telah ditambahkan.
                     </p>
-
                     <span class="text-xs text-gray-400 mt-4 block">
                         8 Agustus 2026
                     </span>
                 </div>
 
-                <!-- Card 3 -->
-                <div class="bg-yellow-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                <div class="bg-yellow-50 rounded-2xl p-6 shadow">
                     <h3 class="font-bold text-lg text-yellow-700">
                         Perpanjangan Peminjaman
                     </h3>
-
                     <p class="text-gray-600 mt-3 text-sm">
                         Kini masa pinjam buku dapat diperpanjang langsung melalui sistem.
                     </p>
-
                     <span class="text-xs text-gray-400 mt-4 block">
                         5 Agustus 2026
                     </span>
@@ -125,6 +118,41 @@
             </div>
         </div>
     </section>
+
+    <!-- Footer -->
+    <footer class="relative z-10 bg-white py-4 px-6 border-t border-gray-300">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+
+            <!-- Logo -->
+            <div>
+                <img src="{{ url('image/fudi-gital.png') }}"
+                     class="h-10 w-auto">
+            </div>
+
+            <!-- Info -->
+            <div class="text-center text-xs text-gray-700">
+                <div class="flex gap-8 font-semibold justify-center">
+                    <span>Kebijakan Privasi</span>
+                    <span>Hubungi Kami</span>
+                    <span>Jam Operasional</span>
+                </div>
+
+                <p class="mt-1 text-gray-500">
+                    lantai 1 di Gedung Utama Politeknik Negeri Batam,
+                    Jalan Ahmad Yani, Batam Kota. 29461
+                </p>
+            </div>
+
+            <!-- Sosmed -->
+            <div class="flex gap-3 text-xl text-gray-700">
+                <span>🟢</span>
+                <span>📘</span>
+                <span>📷</span>
+                <span>▶️</span>
+            </div>
+
+        </div>
+    </footer>
 
     <!-- Popup -->
     <x-popup-informasi />
