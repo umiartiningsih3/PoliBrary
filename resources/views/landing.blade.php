@@ -1,40 +1,104 @@
 @extends('layouts.app')
 
 @section('content')
+<div class="min-h-screen bg-cover bg-center relative" style="background-image:url('/image/library-bg.png')">
+    <!-- Overlay -->
+    <div class="absolute inset-0 bg-white/40"></div>
 
-<div class="bg-white shadow px-6 py-3 flex justify-between items-center">
-    <!-- Logo -->
-    <div class="font-bold text-blue-600">FUDi-gital</div>
+    <!-- Navbar -->
+    <div class="relative z-10 px-6 py-3">
+        <div class="bg-white/80 backdrop-blur-md rounded-2xl shadow-md px-5 py-3 flex items-center justify-between border border-gray-200">
+            <!-- Logo -->
+            <div class="flex items-center">
+                <img src="{{ url('image/fudi-gital.png') }}" 
+                alt="Logo FUDi-gital"
+                class="h-12 w-auto">
+            </div>
 
-    <!-- Menu kanan -->
-    <div class="flex items-center gap-3">
-        <button onclick="openPopup()" 
-            class="bg-gray-300 px-3 py-1 rounded">
-            Informasi
-        </button>
+            <!-- Search -->
+            <div class="flex-1 mx-8 max-w-xl">
+                <div class="relative">
+                    <input type="text" placeholder="Cari" class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-300">
+                    <span class="absolute right-3 top-2.5 text-gray-400">🔍</span>
+                </div>
+            </div>
 
-        <!-- Button MASUK -->
-        <a href="/login" 
-           class="px-4 py-1 bg-gray-200 rounded hover:bg-gray-300 text-sm font-semibold">
-            MASUK
-        </a>
-
-        <!-- Button DAFTAR -->
-        <a href="/register" 
-           class="px-4 py-1 bg-blue-500 text-white rounded hover:bg-blue-600 text-sm font-semibold">
-            DAFTAR
-        </a>
+            <!-- Menu -->
+            <div class="flex items-center gap-3 text-sm font-semibold">
+                <button onclick="openPopup()" class="text-gray-700 hover:text-blue-500">Informasi</button>
+                <a href="/login" class="px-4 py-2 rounded-full bg-gray-200 hover:bg-gray-300 text-gray-700">MASUK</a>
+                <a href="/register" class="px-4 py-2 rounded-full bg-blue-400 hover:bg-blue-500 text-white">DAFTAR</a>
+            </div>
+        </div>
     </div>
+
+    <!-- Hero Content -->
+    <div class="relative z-10 h-[85vh] flex items-center justify-center">
+        <div class="text-center bg-white/30 backdrop-blur-sm px-8 py-6 rounded-3xl shadow-lg">
+            <h1 class="text-4xl font-bold text-gray-800">Selamat Datang di FUDi-gital</h1>
+            <p class="mt-3 text-gray-700">Sistem perpustakaan digital modern untuk membaca dan meminjam buku dengan mudah.</p>
+        </div>
+    </div>
+
+    <!-- Pengumuman -->
+<section class="relative z-10 bg-white py-16 px-6">
+    <div class="max-w-5xl mx-auto">
+        
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold text-gray-800">Pengumuman Terbaru</h2>
+            <p class="text-gray-500 mt-2">
+                Informasi dan pemberitahuan terbaru dari perpustakaan
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-6">
+
+            <!-- Card 1 -->
+            <div class="bg-blue-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                <h3 class="font-bold text-lg text-blue-700">
+                    Jadwal Libur Nasional
+                </h3>
+                <p class="text-gray-600 mt-3 text-sm">
+                    Perpustakaan tutup pada tanggal 17 Agustus dalam rangka Hari Kemerdekaan.
+                </p>
+                <span class="text-xs text-gray-400 mt-4 block">
+                    10 Agustus 2026
+                </span>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="bg-green-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                <h3 class="font-bold text-lg text-green-700">
+                    Buku Baru Tersedia
+                </h3>
+                <p class="text-gray-600 mt-3 text-sm">
+                    Koleksi buku Teknik Informatika terbaru telah ditambahkan.
+                </p>
+                <span class="text-xs text-gray-400 mt-4 block">
+                    8 Agustus 2026
+                </span>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="bg-yellow-50 rounded-2xl p-6 shadow hover:shadow-lg transition">
+                <h3 class="font-bold text-lg text-yellow-700">
+                    Perpanjangan Peminjaman
+                </h3>
+                <p class="text-gray-600 mt-3 text-sm">
+                    Kini masa pinjam buku dapat diperpanjang langsung melalui sistem.
+                </p>
+                <span class="text-xs text-gray-400 mt-4 block">
+                    5 Agustus 2026
+                </span>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+    <!-- Popup -->
+    <x-popup-informasi />
 </div>
-
-<!-- Background -->
-<div class="h-screen flex items-center justify-center">
-    <h1 class="text-2xl font-bold">Landing Page</h1>
-</div>
-
-<!-- Popup -->
-<x-popup-informasi />
-
 @endsection
 
 @push('scripts')
@@ -42,9 +106,7 @@
 function openPopup() {
     let popup = document.getElementById('popup');
     let box = document.getElementById('popupBox');
-
     popup.classList.remove('hidden');
-
     setTimeout(() => {
         box.classList.remove('scale-95','opacity-0');
         box.classList.add('scale-100','opacity-100');
@@ -54,17 +116,13 @@ function openPopup() {
 function closePopup() {
     let popup = document.getElementById('popup');
     let box = document.getElementById('popupBox');
-
     box.classList.add('scale-95','opacity-0');
-
     setTimeout(() => {
         popup.classList.add('hidden');
     }, 200);
-
     localStorage.setItem('popupShown', 'true');
 }
 
-// auto muncul pertama kali
 window.onload = function () {
     if (!localStorage.getItem('popupShown')) {
         openPopup();
