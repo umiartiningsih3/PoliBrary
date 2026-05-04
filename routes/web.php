@@ -86,3 +86,7 @@ Route::get('/admin/pengembalian', function () {
 Route::get('/admin/perpanjangan', function () {
     return view('admin.perpanjangan');
 })->name('admin.perpanjangan');
+
+Route::get('/admin/mahasiswa', function () {
+    return view('admin.mahasiswa');
+})->name('admin.mahasiswa');
