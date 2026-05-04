@@ -1,137 +1,244 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Dashboard</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-200">
+@extends('layouts.app')
 
-<!-- Navbar -->
-<div class="bg-white shadow px-6 py-3 flex justify-between items-center">
-    <div class="text-xl font-bold text-blue-600">FUDi-gital</div>
-    <div class="space-x-6">
-        <a href="#" class="font-semibold">Beranda</a>
-        <a href="#">Informasi</a>
-    </div>
-    <div>Jelajahi ▾</div>
+@section('content')
+
+<div class="min-h-screen bg-[#efefef] flex flex-col">
+
+    <!-- NAVBAR -->
+    <nav class="bg-[#d9eef8] border-b border-gray-400 h-[48px] px-3 flex items-center justify-between">
+
+        <!-- kiri -->
+        <div class="flex items-center gap-8">
+
+            <!-- logo -->
+            <a href="/" class="flex items-center">
+                <img src="{{ asset('image/fudi-gital.png') }}"
+                     alt="Logo"
+                     class="h-8 object-contain">
+            </a>
+
+            <!-- menu -->
+            <div class="flex items-center gap-6 text-[13px] font-bold text-black">
+                <a href="#">Beranda</a>
+                <a href="#">Informasi</a>
+            </div>
+
+        </div>
+
+        <!-- kanan -->
+        <div class="flex items-center gap-4 text-[13px] font-bold text-black">
+
+            <button class="flex items-center gap-1">
+                Jelajahi <span>▼</span>
+            </button>
+
+            <div class="w-7 h-7 rounded-full bg-blue-500 text-white flex items-center justify-center text-xs">
+                👤
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- CONTENT -->
+    <main class="flex-1 px-4 py-3">
+
+        <!-- sapaan -->
+        <h1 class="text-[18px] font-bold mb-5">
+            Selamat Datang, Umiarti Ningsih!
+        </h1>
+
+
+        <!-- statistik -->
+        <div class="grid grid-cols-4 gap-8 mb-5">
+
+            <div class="bg-[#d0d0d0] h-[72px] flex items-center justify-center text-center text-[12px] font-bold px-2">
+                Buku Terpinjam
+            </div>
+
+            <div class="bg-[#d0d0d0] h-[72px] flex items-center justify-center text-center text-[12px] font-bold px-2">
+                Terlambat Dikembalikan
+            </div>
+
+            <div class="bg-[#d0d0d0] h-[72px] flex items-center justify-center text-center text-[12px] font-bold px-2">
+                Total Denda<br>Saat ini
+            </div>
+
+            <div class="bg-[#d0d0d0] h-[72px] flex items-center justify-center text-center text-[12px] font-bold px-2">
+                Jumlah Koleksi<br>Buku
+            </div>
+
+        </div>
+
+
+        <!-- rekomendasi -->
+        <h2 class="font-bold text-[16px] mb-3">
+            Rekomendasi Buku
+        </h2>
+
+        <div class="grid grid-cols-2 gap-10 mb-5">
+
+            <!-- card -->
+            <div class="bg-[#d0d0d0] p-4 flex gap-4">
+
+                <div class="w-[54px] h-[66px] bg-[#ececec]"></div>
+
+                <div class="flex-1">
+                    <h3 class="font-bold text-[14px]">Budidaya Lele</h3>
+                    <p class="text-[12px] font-bold">Umi Cantik</p>
+
+                    <div class="border-b border-gray-500 my-2"></div>
+
+                    <p class="text-green-600 text-[12px] font-bold">
+                        Tersedia
+                    </p>
+
+                    <div class="flex gap-1 mt-1">
+                        <button class="bg-white border text-[9px] px-1 py-[2px]">
+                            📄 Tandai
+                        </button>
+
+                        <button class="bg-white border text-[9px] px-1 py-[2px]">
+                            ⊕ Tambah ke Keranjang
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- card -->
+            <div class="bg-[#d0d0d0] p-4 flex gap-4">
+
+                <div class="w-[54px] h-[66px] bg-[#ececec]"></div>
+
+                <div class="flex-1">
+                    <h3 class="font-bold text-[14px]">Budidaya Ayam</h3>
+                    <p class="text-[12px] font-bold">Umi Cantik</p>
+
+                    <div class="border-b border-gray-500 my-2"></div>
+
+                    <p class="text-green-600 text-[12px] font-bold">
+                        Tersedia
+                    </p>
+
+                    <div class="flex gap-1 mt-1">
+                        <button class="bg-white border text-[9px] px-1 py-[2px]">
+                            📄 Tandai
+                        </button>
+
+                        <button class="bg-white border text-[9px] px-1 py-[2px]">
+                            ⊕ Tambah ke Keranjang
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- buku terbaru -->
+        <h2 class="font-bold text-[16px] mb-3">
+            Buku Terbaru
+        </h2>
+
+        <div class="grid grid-cols-2 gap-10">
+
+            <!-- card -->
+            <div class="bg-[#d0d0d0] p-4 flex gap-4">
+
+                <div class="w-[54px] h-[66px] bg-[#ececec]"></div>
+
+                <div class="flex-1">
+                    <h3 class="font-bold text-[14px]">Budidaya Lele</h3>
+                    <p class="text-[12px] font-bold">Umi Cantik</p>
+
+                    <div class="border-b border-gray-500 my-2"></div>
+
+                    <p class="text-green-600 text-[12px] font-bold">
+                        Tersedia
+                    </p>
+
+                    <div class="flex gap-1 mt-1">
+                        <button class="bg-white border text-[9px] px-1 py-[2px]">
+                            📄 Tandai
+                        </button>
+
+                        <button class="bg-white border text-[9px] px-1 py-[2px]">
+                            ⊕ Tambah ke Keranjang
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!-- card -->
+            <div class="bg-[#d0d0d0] p-4 flex gap-4">
+
+                <div class="w-[54px] h-[66px] bg-[#ececec]"></div>
+
+                <div class="flex-1">
+                    <h3 class="font-bold text-[14px]">Budidaya Ayam</h3>
+                    <p class="text-[12px] font-bold">Umi Cantik</p>
+
+                    <div class="border-b border-gray-500 my-2"></div>
+
+                    <p class="text-green-600 text-[12px] font-bold">
+                        Tersedia
+                    </p>
+
+                    <div class="flex gap-1 mt-1">
+                        <button class="bg-white border text-[9px] px-1 py-[2px]">
+                            📄 Tandai
+                        </button>
+
+                        <button class="bg-white border text-[9px] px-1 py-[2px]">
+                            ⊕ Tambah ke Keranjang
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+
+    <!-- FOOTER -->
+    <footer class="bg-[#d9d9d9] border-t border-gray-400 h-[52px] px-3 flex items-center justify-between">
+
+        <!-- logo -->
+        <img src="{{ asset('image/fudi-gital.png') }}"
+             class="h-8 object-contain">
+
+        <!-- tengah -->
+        <div class="text-[10px] text-center leading-4">
+            <div class="flex gap-10 font-bold justify-center">
+                <span>Kebijakan Privasi</span>
+                <span>Hubungi Kami</span>
+                <span>Jam Operasional</span>
+            </div>
+
+            <p class="text-[9px] mt-1">
+                lantai 1 di Gedung Utama Politeknik Negeri Batam, Jalan Ahmad Yani Batam Kota, 29461
+            </p>
+        </div>
+
+        <!-- kanan -->
+        <div class="flex gap-2 text-[15px]">
+            <span>🟢</span>
+            <span>📘</span>
+            <span>📷</span>
+            <span>▶</span>
+        </div>
+
+    </footer>
+
 </div>
 
-<!-- Content -->
-<div class="p-6">
-
-    <!-- Greeting -->
-    <h2 class="text-xl font-bold mb-6">
-        Selamat Datang, Umiarti Ningsih!
-    </h2>
-
-    <!-- Statistik -->
-    <div class="grid grid-cols-4 gap-4 mb-6 text-center text-sm">
-        <div class="bg-gray-300 p-4">Buku Terpinjam</div>
-        <div class="bg-gray-300 p-4">Terlambat Dikembalikan</div>
-        <div class="bg-gray-300 p-4">Total Denda Saat ini</div>
-        <div class="bg-gray-300 p-4">Jumlah Koleksi Buku</div>
-    </div>
-
-    <!-- Rekomendasi -->
-    <h3 class="font-bold mb-3">Rekomendasi Buku</h3>
-    <div class="grid grid-cols-2 gap-6 mb-6">
-
-        <!-- Card -->
-        <div class="bg-gray-300 p-4 flex gap-4">
-            <div class="w-20 h-24 bg-gray-200"></div>
-
-            <div>
-                <h4 class="font-bold">Budidaya Lele</h4>
-                <p class="text-sm">Umi Cantik</p>
-                <p class="text-green-600 text-sm">Tersedia</p>
-
-                <div class="flex gap-2 mt-2 text-xs">
-                    <button class="bg-white px-2 py-1 border">
-                        Detail
-                    </button>
-                    <button class="bg-white px-2 py-1 border">
-                        Tambah ke Keranjang
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card -->
-        <div class="bg-gray-300 p-4 flex gap-4">
-            <div class="w-20 h-24 bg-gray-200"></div>
-
-            <div>
-                <h4 class="font-bold">Budidaya Ayam</h4>
-                <p class="text-sm">Umi Cantik</p>
-                <p class="text-green-600 text-sm">Tersedia</p>
-
-                <div class="flex gap-2 mt-2 text-xs">
-                    <button class="bg-white px-2 py-1 border">
-                        Detail
-                    </button>
-                    <button class="bg-white px-2 py-1 border">
-                        Tambah ke Keranjang
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Buku Terbaru -->
-    <h3 class="font-bold mb-3">Buku Terbaru</h3>
-    <div class="grid grid-cols-2 gap-6">
-
-        <!-- Card -->
-        <div class="bg-gray-300 p-4 flex gap-4">
-            <div class="w-20 h-24 bg-gray-200"></div>
-
-            <div>
-                <h4 class="font-bold">Budidaya Lele</h4>
-                <p class="text-sm">Umi Cantik</p>
-                <p class="text-green-600 text-sm">Tersedia</p>
-
-                <div class="flex gap-2 mt-2 text-xs">
-                    <button class="bg-white px-2 py-1 border">
-                        Detail
-                    </button>
-                    <button class="bg-white px-2 py-1 border">
-                        Tambah ke Keranjang
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Card -->
-        <div class="bg-gray-300 p-4 flex gap-4">
-            <div class="w-20 h-24 bg-gray-200"></div>
-
-            <div>
-                <h4 class="font-bold">Budidaya Ayam</h4>
-                <p class="text-sm">Umi Cantik</p>
-                <p class="text-green-600 text-sm">Tersedia</p>
-
-                <div class="flex gap-2 mt-2 text-xs">
-                    <button class="bg-white px-2 py-1 border">
-                        Detail
-                    </button>
-                    <button class="bg-white px-2 py-1 border">
-                        Tambah ke Keranjang
-                    </button>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-</div>
-
-<!-- Footer -->
-<div class="bg-white mt-6 p-4 text-center text-sm">
-    <p class="font-bold text-blue-600">FUDi-gital</p>
-    <p>Kebijakan Privasi | Hubungi Kami | Jam Operasional</p>
-</div>
-
-</body>
-</html>
+@endsection
