@@ -60,3 +60,29 @@ Route::post('/logout', function () {
     request()->session()->regenerateToken();
     return redirect('/');
 })->name('logout');
+
+Route::get('/admin', function () {
+    return view('admin.index');
+});
+
+// Route untuk menampilkan halaman form registrasi
+Route::get('/admin/register', function () {
+    return view('admin.register'); // Pastikan file ada di resources/views/admin/register.blade.php
+})->name('admin.register'); // <--- NAMA INI YANG WAJIB ADA
+
+Route::get('/admin/pengembalian', function () {
+    return view('admin.pengembalian');
+})->name('admin.pengembalian');
+
+// Route untuk menangani pengiriman data form (POST)
+Route::post('/admin/register', function () {
+    // Logika simpan data nanti di sini
+})->name('admin.store-mahasiswa');
+
+Route::get('/admin/pengembalian', function () {
+    return view('admin.pengembalian');
+})->name('admin.pengembalian');
+
+Route::get('/admin/perpanjangan', function () {
+    return view('admin.perpanjangan');
+})->name('admin.perpanjangan');

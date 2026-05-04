@@ -73,43 +73,123 @@
     <!-- CONTENT -->
     <div class="grid grid-cols-4 gap-6 mt-6">
 
-        <!-- LEFT -->
-        <div class="col-span-3 space-y-4">
+        <!-- LEFT (List Buku) -->
+        <div class="col-span-3 space-y-8">
 
-            <!-- Buku 1 (detail terbuka, ikon minus) -->
-            <div class="bg-white border rounded p-4 text-sm">
-                <div class="flex justify-between items-center">
-                    <h3 class="font-bold">Introduction to Algorithms</h3>
-                    <span class="text-xl">−</span>
+            <!-- Buku 1 (Detail Terbuka / Expanded) -->
+            <div class="flex gap-6 border-t pt-6 relative">
+                <!-- Nomor Urut -->
+                <div class="text-xl font-bold">1</div>
+                
+                <!-- Foto & Tombol Kiri -->
+                <div class="w-32 flex flex-col gap-1">
+                    <div class="w-full h-40 bg-gray-200 rounded"></div>
+                    <button class="bg-gray-200 text-black py-1 text-xs font-bold rounded">Detail</button>
+                    <button class="bg-gray-200 text-black py-1 text-xs font-bold rounded">Tersedia 2</button>
+                    <button class="bg-gray-200 text-black py-1 text-xs font-bold rounded flex items-center justify-center gap-1">
+                        <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                        Tandai
+                    </button>
                 </div>
-                <div class="flex gap-2 mt-2 text-xs">
-                    <button class="border px-2">Detail</button>
-                    <button class="border px-2">Tandai</button>
-                    <span class="text-green-600">Tersedia 2</span>
+
+                <!-- Konten Detail (Tabel) -->
+                <div class="flex-1">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-lg font-bold leading-tight">Introduction to Algorithms</h3>
+                        <button class="bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center text-xl font-bold">−</button>
+                    </div>
+                    
+                    <table class="w-full text-xs border-collapse">
+                        <tr class="border-y border-gray-800">
+                            <td class="py-2 font-bold w-32">ISBN</td>
+                            <td class="py-2">978-0262033848</td>
+                        </tr>
+                        <tr class="border-b border-gray-800">
+                            <td class="py-2 font-bold">Subjek Kategori</td>
+                            <td class="py-2 text-gray-800 font-medium">Algoritma & Struktur Data</td>
+                        </tr>
+                        <tr class="border-b border-gray-800">
+                            <td class="py-2 font-bold">Penerbit</td>
+                            <td class="py-2">MIT Press</td>
+                        </tr>
+                        <tr class="border-b border-gray-800">
+                            <td class="py-2 font-bold">Tahun Terbit</td>
+                            <td class="py-2">2009 (Edisi ke-3)</td>
+                        </tr>
+                        <tr class="border-b border-gray-800">
+                            <td class="py-2 font-bold">Penulis</td>
+                            <td class="py-2">Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, Clifford Stein</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
 
-            <!-- Buku 2 (detail belum dibuka, ikon panah) -->
-            <div class="bg-white border rounded p-4 text-sm">
-                <div class="flex justify-between items-center">
-                    <h3 class="font-bold">Clean Code: A Handbook of Agile Software Craftsmanship</h3>
-                    <span class="text-xl">↓</span>
+            <!-- Buku 2 (Detail Tertutup / Collapsed) -->
+            <div class="flex gap-6 border-t pt-6 relative">
+                <!-- Nomor Urut -->
+                <div class="text-xl font-bold">2</div>
+                
+                <!-- Foto -->
+                <div class="w-32">
+                    <div class="w-full h-40 bg-gray-200 rounded"></div>
                 </div>
-                <div class="flex gap-2 mt-2 text-xs">
-                    <button class="border px-2">Detail</button>
-                    <button class="border px-2">Tandai</button>
-                    <span class="text-green-600">Tersedia 1</span>
+
+                <!-- Konten Singkat -->
+                <div class="flex-1">
+                    <p class="text-xs text-gray-400 font-medium mb-1">Rekayasa Perangkat Lunak / Clean Code</p>
+                    <div class="flex justify-between items-start">
+                        <h3 class="text-lg font-bold leading-tight">Clean Code: A Handbook of Agile Software Craftsmanship</h3>
+                        <button class="bg-gray-300 rounded-full w-6 h-6 flex items-center justify-center text-xl font-bold rotate-180">^</button>
+                    </div>
+                    <p class="text-xs font-bold mt-1 mb-3">Robert C. Martin</p>
+                    
+                    <!-- Tombol Sejajar -->
+                    <div class="flex gap-2">
+                        <button class="bg-gray-200 px-6 py-1 text-xs font-bold rounded">Detail</button>
+                        <button class="bg-gray-200 px-6 py-1 text-xs font-bold rounded">Tersedia 1</button>
+                        <button class="bg-gray-200 px-6 py-1 text-xs font-bold rounded flex items-center gap-1">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
+                            Tandai
+                        </button>
+                    </div>
                 </div>
             </div>
 
             <!-- NEXT PAGE BUTTON -->
-            <div class="mt-4 text-right">
-                <button class="bg-pink-500 text-white px-3 py-1 text-sm rounded">
+            <div class="mt-8 text-right border-t pt-4">
+                <button class="bg-pink-500 text-white px-4 py-2 text-sm font-bold rounded shadow-sm">
                     Halaman Berikutnya →
                 </button>
             </div>
 
         </div>
+
+        <!-- RIGHT (Sidebar Kategori) -->
+        <div class="space-y-4">
+            <div class="bg-white border rounded p-4 text-sm shadow-sm">
+                <h4 class="font-bold mb-3 text-gray-700 border-b pb-2">Kategori Subjek</h4>
+                @php
+                    $subjek = [
+                        ["nama" => "Fiksi", "jumlah" => 12],
+                        ["nama" => "Non-Fiksi", "jumlah" => 8],
+                        ["nama" => "Pendidikan", "jumlah" => 15],
+                        ["nama" => "Ilmu Pengetahuan", "jumlah" => 20],
+                        ["nama" => "Teknologi & Komputer", "jumlah" => 9],
+                    ];
+                @endphp
+
+                <ul class="space-y-2">
+                    @foreach($subjek as $s)
+                        <li class="flex justify-between items-center hover:text-pink-500 cursor-pointer transition-colors">
+                            <span>{{ $s['nama'] }}</span>
+                            <span class="text-gray-400">({{ $s['jumlah'] }})</span>
+                        </li>
+                    @endforeach
+                </ul>
+            </div>
+        </div>
+
+    </div>
 
         <!-- RIGHT -->
         <div>
