@@ -1,222 +1,82 @@
-@extends('layouts.app')
+@extends('layouts.home')
 
 @section('content')
 <div class="min-h-screen bg-cover bg-center bg-fixed bg-no-repeat relative"
-     style="background-image:url('/image/library-bg.png')">
+     style="background-image:url('{{ asset('image/library-bg.png') }}')">
 
     <!-- Overlay -->
     <div class="absolute inset-0 bg-white/40"></div>
 
-    <!-- ================= NAVBAR ================= -->
-    <header class="fixed top-0 left-0 w-full z-50 px-3 md:px-6 py-3">
-        <div class="bg-white/85 backdrop-blur-md rounded-2xl shadow-md px-4 md:px-5 py-3 flex items-center justify-between border border-gray-200 gap-3">
-
-            <!-- Logo -->
-            <a href="/" class="flex items-center shrink-0">
-                <img src="{{ url('image/fudi-gital.png') }}"
-                     alt="Logo FUDi-gital"
-                     class="h-10 md:h-12 w-auto">
-            </a>
-
-            <!-- Search -->
-            <div class="hidden md:block flex-1 mx-6 max-w-xl">
-                <div class="relative">
-                    <input type="text"
-                           placeholder="Cari buku..."
-                           class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                    <span class="absolute right-3 top-2.5 text-gray-400">🔍</span>
-                </div>
-            </div>
-
-            <!-- Menu -->
-            <div class="flex items-center gap-3 text-sm font-semibold">
-                <button onclick="openPopup()"
-                    class="text-gray-700 hover:text-blue-500 transition">
-                    Informasi
-                </button>
-            </div>
-
-        </div>
-    </header>
-
-    <!-- Spacer -->
-    <div class="h-24"></div>
-
     <!-- ================= HERO ================= -->
     <section class="relative z-10 min-h-[85vh] flex items-center justify-center px-4 md:px-6">
-
-        <div class="text-center bg-white/30 backdrop-blur-sm px-6 md:px-8 py-6 rounded-3xl shadow-lg max-w-2xl">
-
-            <p class="text-blue-600 font-semibold tracking-wide uppercase text-sm">
+        <div class="text-center bg-white/30 backdrop-blur-sm px-6 md:px-12 py-10 rounded-[2.5rem] shadow-2xl border border-white/50 max-w-2xl">
+            <p class="text-blue-600 font-bold tracking-widest uppercase text-xs mb-3">
                 Selamat Datang
             </p>
-
-            <h1 class="text-3xl md:text-5xl font-bold text-gray-800 mt-2 leading-tight">
-                FUDi-gital
+            <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 leading-tight">
+                FUDi-<span class="text-blue-600">gital</span>
             </h1>
-
-            <p class="mt-4 text-gray-700 text-sm md:text-lg">
+            <p class="mt-4 text-gray-700 text-base md:text-lg leading-relaxed">
                 Sistem perpustakaan digital modern untuk membaca,
                 meminjam, dan mengelola buku dengan mudah.
             </p>
-
-            <!-- Tombol Mulai Sekarang -->
-            <div class="mt-6">
+            <div class="mt-8">
                 <a href="/login"
-                   class="inline-block px-6 py-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-semibold transition">
+                   class="inline-block px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-bold shadow-lg shadow-blue-200 transition transform hover:-translate-y-1">
                     Mulai Sekarang
                 </a>
             </div>
-
         </div>
     </section>
 
     <!-- ================= FITUR ================= -->
-    <section class="relative z-10 py-14 px-4 md:px-6 bg-white/85 backdrop-blur-md">
+    <section class="relative z-10 py-20 px-4 md:px-6 bg-white/90 backdrop-blur-md">
         <div class="max-w-6xl mx-auto">
-
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-gray-800">
-                    Fitur Unggulan
-                </h2>
-                <p class="text-gray-500 mt-2">
-                    Nikmati kemudahan layanan perpustakaan digital
-                </p>
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Fitur Unggulan</h2>
+                <div class="w-20 h-1 bg-blue-500 mx-auto mt-4 rounded-full"></div>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
-
-                <div class="bg-white rounded-2xl p-6 shadow text-center">
-                    <div class="text-4xl mb-3">📚</div>
-                    <h3 class="font-bold text-lg">Katalog Buku</h3>
-                    <p class="text-sm text-gray-500 mt-2">
-                        Cari berbagai koleksi buku dengan cepat.
-                    </p>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-center hover:shadow-xl transition duration-300">
+                    <div class="text-5xl mb-4">📚</div>
+                    <h3 class="font-bold text-xl text-gray-800">Katalog Buku</h3>
+                    <p class="text-sm text-gray-500 mt-3 leading-relaxed">Cari berbagai koleksi buku fisik dan digital dengan cepat.</p>
                 </div>
-
-                <div class="bg-white rounded-2xl p-6 shadow text-center">
-                    <div class="text-4xl mb-3">🛒</div>
-                    <h3 class="font-bold text-lg">Keranjang Pinjam</h3>
-                    <p class="text-sm text-gray-500 mt-2">
-                        Tambahkan buku ke keranjang pinjaman.
-                    </p>
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-center hover:shadow-xl transition duration-300">
+                    <div class="text-5xl mb-4">🛒</div>
+                    <h3 class="font-bold text-xl text-gray-800">Keranjang Pinjam</h3>
+                    <p class="text-sm text-gray-500 mt-3 leading-relaxed">Kelola daftar buku yang ingin Anda pinjam dalam satu tempat.</p>
                 </div>
-
-                <div class="bg-white rounded-2xl p-6 shadow text-center">
-                    <div class="text-4xl mb-3">⏰</div>
-                    <h3 class="font-bold text-lg">Riwayat Pinjam</h3>
-                    <p class="text-sm text-gray-500 mt-2">
-                        Pantau tanggal pinjam dan pengembalian.
-                    </p>
+                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100 text-center hover:shadow-xl transition duration-300">
+                    <div class="text-5xl mb-4">⏰</div>
+                    <h3 class="font-bold text-xl text-gray-800">Riwayat Pinjam</h3>
+                    <p class="text-sm text-gray-500 mt-3 leading-relaxed">Pantau batas waktu dan riwayat pengembalian buku Anda.</p>
                 </div>
-
             </div>
         </div>
     </section>
 
     <!-- ================= PENGUMUMAN ================= -->
-    <section class="relative z-10 bg-white py-16 px-4 md:px-6">
-        <div class="max-w-5xl mx-auto">
-
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold text-gray-800">
-                    Pengumuman Terbaru
-                </h2>
-
-                <p class="text-gray-500 mt-2">
-                    Informasi dan pemberitahuan terbaru
-                </p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-6">
-
-                <div class="bg-blue-50 rounded-2xl p-6 shadow">
-                    <h3 class="font-bold text-blue-700">
-                        Jadwal Libur Nasional
-                    </h3>
-                    <p class="text-sm text-gray-600 mt-3">
-                        Perpustakaan tutup pada tanggal 17 Agustus.
-                    </p>
+    <section class="relative z-10 bg-white py-20 px-4 md:px-6 border-t border-gray-50">
+        <div class="max-w-5xl mx-auto text-center">
+            <h2 class="text-3xl font-bold text-gray-800 mb-12">Pengumuman Terbaru</h2>
+            <div class="grid md:grid-cols-3 gap-6 text-left">
+                <div class="bg-blue-50/50 rounded-2xl p-6 border border-blue-100 shadow-sm">
+                    <h3 class="font-bold text-blue-700">Jadwal Libur Nasional</h3>
+                    <p class="text-sm text-gray-600 mt-3 italic">Perpustakaan tutup pada tanggal 17 Agustus.</p>
                 </div>
-
-                <div class="bg-green-50 rounded-2xl p-6 shadow">
-                    <h3 class="font-bold text-green-700">
-                        Buku Baru Tersedia
-                    </h3>
-                    <p class="text-sm text-gray-600 mt-3">
-                        Koleksi terbaru telah ditambahkan.
-                    </p>
+                <div class="bg-green-50/50 rounded-2xl p-6 border border-green-100 shadow-sm">
+                    <h3 class="font-bold text-green-700">Buku Baru Tersedia</h3>
+                    <p class="text-sm text-gray-600 mt-3">Koleksi referensi IT terbaru telah ditambahkan ke sistem.</p>
                 </div>
-
-                <div class="bg-yellow-50 rounded-2xl p-6 shadow">
-                    <h3 class="font-bold text-yellow-700">
-                        Perpanjangan Peminjaman
-                    </h3>
-                    <p class="text-sm text-gray-600 mt-3">
-                        Kini bisa diperpanjang lewat sistem.
-                    </p>
+                <div class="bg-yellow-50/50 rounded-2xl p-6 border border-yellow-100 shadow-sm">
+                    <h3 class="font-bold text-yellow-700">Perpanjangan Mandiri</h3>
+                    <p class="text-sm text-gray-600 mt-3">Kini peminjaman bisa diperpanjang online maksimal 1x.</p>
                 </div>
-
             </div>
         </div>
     </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-white border-t px-6 py-4 flex items-center justify-between text-sm text-gray-600">
-
-        <!-- kiri -->
-        <img src="{{ asset('image/fudi-gital.png') }}" class="h-8">
-
-        <!-- tengah -->
-        <div class="text-center">
-            <div class="flex gap-6 justify-center font-semibold">
-                <span class="hover:text-blue-600 cursor-pointer">Kebijakan Privasi</span>
-                <span class="hover:text-blue-600 cursor-pointer">Hubungi Kami</span>
-                <span class="hover:text-blue-600 cursor-pointer">Jam Operasional</span>
-            </div>
-
-            <p class="text-xs mt-1 text-gray-500">
-                Politeknik Negeri Batam, Jalan Ahmad Yani Batam Kota
-            </p>
-        </div>
-
-        <div class="flex gap-4">
-
-    <!-- Facebook (BIRU) -->
-    <a href="#" class="transition hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-             fill="#1877F2" viewBox="0 0 24 24">
-            <path d="M22 12.07C22 6.48 17.52 2 12 2S2 6.48 2 12.07c0 5.03 3.66 9.18 8.44 9.93v-7.02H7.9v-2.91h2.54V9.41c0-2.5 1.5-3.88 3.8-3.88 1.1 0 2.25.2 2.25.2v2.48h-1.27c-1.25 0-1.64.78-1.64 1.58v1.9h2.8l-.45 2.91h-2.35V22c4.78-.75 8.44-4.9 8.44-9.93z"/>
-        </svg>
-    </a>
-
-    <!-- Instagram (GRADIENT) -->
-    <a href="#" class="transition hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24">
-            <defs>
-                <linearGradient id="ig-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#feda75"/>
-                    <stop offset="25%" stop-color="#fa7e1e"/>
-                    <stop offset="50%" stop-color="#d62976"/>
-                    <stop offset="75%" stop-color="#962fbf"/>
-                    <stop offset="100%" stop-color="#4f5bd5"/>
-                </linearGradient>
-            </defs>
-            <path fill="url(#ig-gradient)" d="M7.75 2C4.57 2 2 4.57 2 7.75v8.5C2 19.43 4.57 22 7.75 22h8.5C19.43 22 22 19.43 22 16.25v-8.5C22 4.57 19.43 2 16.25 2h-8.5zm0 2h8.5A3.75 3.75 0 0120 7.75v8.5A3.75 3.75 0 0116.25 20h-8.5A3.75 3.75 0 014 16.25v-8.5A3.75 3.75 0 017.75 4zm8.75 1.5a.75.75 0 100 1.5.75.75 0 000-1.5zM12 7a5 5 0 100 10 5 5 0 000-10zm0 2a3 3 0 110 6 3 3 0 010-6z"/>
-        </svg>
-    </a>
-
-    <!-- YouTube (MERAH) -->
-    <a href="#" class="transition hover:scale-110">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5"
-             fill="#FF0000" viewBox="0 0 24 24">
-            <path d="M21.8 8s-.2-1.4-.8-2c-.8-.8-1.7-.8-2.1-.9C15.9 5 12 5 12 5h0s-3.9 0-6.9.1c-.4 0-1.3.1-2.1.9-.6.6-.8 2-.8 2S2 9.6 2 11.2v1.6C2 14.4 2.2 16 2.2 16s.2 1.4.8 2c.8.8 1.9.8 2.4.9 1.7.2 6.6.2 6.6.2s3.9 0 6.9-.1c.4 0 1.3-.1 2.1-.9.6-.6.8-2 .8-2s.2-1.6.2-3.2v-1.6C22 9.6 21.8 8 21.8 8zM10 14.5v-5l5 2.5-5 2.5z"/>
-        </svg>
-    </a>
-
-</div>
-
-    </footer>
 
     <!-- Popup -->
     <x-popup-informasi />
@@ -224,36 +84,39 @@
 </div>
 @endsection
 
-
 @push('scripts')
 <script>
-function openPopup() {
-    let popup = document.getElementById('popup');
-    let box = document.getElementById('popupBox');
+    function openPopup() {
+        const popup = document.getElementById('popup');
+        const box = document.getElementById('popupBox');
+        if(!popup || !box) return;
 
-    popup.classList.remove('hidden');
-
-    setTimeout(() => {
-        box.classList.remove('scale-95','opacity-0');
-        box.classList.add('scale-100','opacity-100');
-    }, 10);
-}
-
-function closePopup() {
-    let popup = document.getElementById('popup');
-    let box = document.getElementById('popupBox');
-
-    box.classList.add('scale-95','opacity-0');
-
-    setTimeout(() => {
-        popup.classList.add('hidden');
-    }, 200);
-}
-
-window.onload = function () {
-    if (!localStorage.getItem('popupShown')) {
-        openPopup();
+        popup.classList.remove('hidden');
+        setTimeout(() => {
+            box.classList.remove('scale-95','opacity-0');
+            box.classList.add('scale-100','opacity-100');
+        }, 10);
     }
-}
+
+    function closePopup() {
+        const popup = document.getElementById('popup');
+        const box = document.getElementById('popupBox');
+        
+        box.classList.add('scale-95','opacity-0');
+        box.classList.remove('scale-100','opacity-100');
+
+        setTimeout(() => {
+            popup.classList.add('hidden');
+        }, 300);
+        
+        // Simpan status agar popup tidak muncul setiap refresh
+        localStorage.setItem('popupShown', 'true');
+    }
+
+    window.onload = function () {
+        if (!localStorage.getItem('popupShown')) {
+            openPopup();
+        }
+    }
 </script>
 @endpush
