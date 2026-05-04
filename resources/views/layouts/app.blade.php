@@ -56,6 +56,7 @@
 
 <body class="bg-gray-100 font-poppins flex flex-col min-h-screen">
     <!-- NAVBAR -->
+@if(!Route::is('login') && !Route::is('register'))
 <nav class="bg-white shadow-sm px-6 h-[60px] flex items-center justify-between">
 
     <div class="flex items-center gap-10">
@@ -201,6 +202,7 @@
     </div>
 </div>
 </nav>
+@endif
 
     <!-- CONTENT -->
 <main class="flex-1">
@@ -208,6 +210,7 @@
 </main>
 
 <!-- FOOTER -->
+ @if(!Route::is('login') && !Route::is('register'))
     <footer class="bg-white border-t px-6 py-4 flex items-center justify-between text-sm text-gray-600">
 
         <!-- kiri -->
@@ -263,6 +266,7 @@
 </div>
 
     </footer>
+    @endif
 
 <script>
 function toggleMenu() {

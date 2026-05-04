@@ -10,6 +10,7 @@
 <body class="bg-gray-50 font-sans antialiased">
 
     <!-- ================= NAVBAR ================= -->
+     @if(!Route::is('login') && !Route::is('register'))
     <header class="fixed top-0 left-0 w-full z-50 px-3 md:px-6 py-3">
         <div class="bg-white/85 backdrop-blur-md rounded-2xl shadow-md px-4 md:px-5 py-3 flex items-center justify-between border border-gray-200 gap-3">
 
@@ -40,16 +41,18 @@
 
         </div>
     </header>
+    @endif
 
     <!-- Spacer agar konten tidak tertutup Navbar fixed -->
     <div class="h-24"></div>
 
     <!-- Konten Utama -->
-    <main>
-        @yield('content')
-    </main>
+    <main class="flex-1 flex flex-col">
+    @yield('content')
+</main>
 
      <!-- FOOTER -->
+      @if(!Route::is('login') && !Route::is('register'))
     <footer class="bg-white border-t px-6 py-4 flex items-center justify-between text-sm text-gray-600">
 
         <!-- kiri -->
@@ -105,6 +108,7 @@
 </div>
 
     </footer>
+    @endif
 
 
     @stack('scripts')
