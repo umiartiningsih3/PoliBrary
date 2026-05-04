@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -15,3 +16,12 @@ Route::view('/koleksi-abc', 'koleksi-abc');
 Route::view('/keranjang', 'keranjang');
 Route::view('/peminjaman', 'peminjaman');
 Route::view('/tambah-buku', 'tambah-buku');
+
+/* ✅ TAMBAHAN WAJIB */
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+
+    return redirect('/');
+})->name('logout');
