@@ -60,15 +60,11 @@
                 meminjam, dan mengelola buku dengan mudah.
             </p>
 
-            <div class="mt-6 flex flex-col sm:flex-row justify-center gap-3">
-                <a href="/register"
-                   class="px-6 py-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-semibold transition">
-                    Mulai Sekarang
-                </a>
-
+            <!-- Tombol Mulai Sekarang -->
+            <div class="mt-6">
                 <a href="/login"
-                   class="px-6 py-3 rounded-full bg-white hover:bg-gray-100 text-gray-700 font-semibold transition">
-                    Login
+                   class="inline-block px-6 py-3 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-semibold transition">
+                    Mulai Sekarang
                 </a>
             </div>
 
