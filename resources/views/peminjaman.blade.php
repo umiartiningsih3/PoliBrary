@@ -5,9 +5,11 @@
 @php
     use Carbon\Carbon;
 
+    // Simulasi data dari Database
     $jatuhTempo = Carbon::parse('2026-04-19');
     $hariIni = Carbon::now();
 
+    // Logika perhitungan denda
     $terlambat = $hariIni->greaterThan($jatuhTempo)
         ? $hariIni->diffInDays($jatuhTempo)
         : 0;
@@ -16,158 +18,242 @@
     $totalDenda = $terlambat * $dendaPerHari;
 @endphp
 
-<div class="p-8">
+<div class="bg-gray-50 min-h-screen py-10 px-4 md:px-12">
+    <div class="max-w-6xl mx-auto">
+        
+        <!-- Header & Breadcrumbs -->
+        <div class="mb-8">
+            <a href="{{ route('pinjaman-saya') }}" class="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 mb-2 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Kembali ke Pinjaman Saya
+            </a>
+            <h1 class="text-3xl font-extrabold text-gray-800 tracking-tight">Rincian Pinjaman Buku</h1>
+        </div>
 
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">
-        Rincian Pinjaman Buku
-    </h2>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Kolom Kiri: Detail Buku & Aksi -->
+            <div class="lg:col-span-2 space-y-6">
+                
+                <!-- Card Utama Detail -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8">
+                    <!-- Cover Buku -->
+                    <div class="w-full md:w-48 h-64 bg-gray-100 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-200">
+                        <div class="text-center p-4">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                            </svg>
+                            <span class="text-xs text-gray-400 font-medium italic text-balance">Introduction to Algorithms</span>
+                        </div>
+                    </div>
 
-    <div class="grid grid-cols-3 gap-6">
+                    <!-- Informasi Buku -->
+                    <div class="flex-1 space-y-5">
+                        <div class="space-y-4 text-sm">
+                            <div class="grid grid-cols-[140px_10px_1fr] items-baseline">
+                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Judul Buku</span>
+                                <span class="text-gray-400">:</span>
+                                <span class="font-bold text-gray-800 text-lg leading-tight">Introduction to Algorithms</span>
+                            </div>
+                            <div class="grid grid-cols-[140px_10px_1fr]">
+                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Penulis</span>
+                                <span class="text-gray-400">:</span>
+                                <span class="text-gray-700">Thomas H. Cormen</span>
+                            </div>
+                            <div class="grid grid-cols-[140px_10px_1fr]">
+                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Kategori</span>
+                                <span class="text-gray-400">:</span>
+                                <span class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs font-bold w-fit">Algoritma & Struktur Data</span>
+                            </div>
+                            <div class="grid grid-cols-[140px_10px_1fr]">
+                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">No. Inventaris</span>
+                                <span class="text-gray-400">:</span>
+                                <span class="text-gray-700 font-mono">INV12345</span>
+                            </div>
+                            <div class="grid grid-cols-[140px_10px_1fr]">
+                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Status</span>
+                                <span class="text-gray-400">:</span>
+                                <span class="text-blue-600 font-bold italic">Dipinjam</span>
+                            </div>
+                            <div class="grid grid-cols-[140px_10px_1fr]">
+                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Tanggal Pinjam</span>
+                                <span class="text-gray-400">:</span>
+                                <span class="text-gray-700">12 April 2026</span>
+                            </div>
+                            <div class="grid grid-cols-[140px_10px_1fr]">
+                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Jatuh Tempo</span>
+                                <span class="text-gray-400">:</span>
+                                <span class="font-bold {{ $terlambat > 0 ? 'text-red-600' : 'text-blue-600' }}">
+                                    {{ $jatuhTempo->translatedFormat('d F Y') }}
+                                </span>
+                            </div>
+                        </div>
 
-        <!-- LEFT -->
-        <div class="col-span-2 bg-white p-6 rounded-2xl shadow flex gap-6">
+                        <!-- Tombol Aksi -->
+                        <div class="flex flex-wrap gap-3 pt-6 border-t border-gray-100 mt-6">
+                            <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-blue-700 transition shadow-md text-sm">
+                                Perpanjang Pinjaman
+                            </button>
+                            <button class="bg-white border-2 border-gray-200 text-gray-700 px-6 py-2.5 rounded-xl font-bold hover:bg-gray-50 transition text-sm">
+                                Kembalikan Buku
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- COVER -->
-            <div class="w-32 h-44 bg-gray-200 rounded-lg"></div>
+                <!-- Card Riwayat Perpanjangan -->
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
+                    <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-3">
+                        <span class="p-2 bg-blue-100 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </span>
+                        Riwayat Perpanjangan
+                    </h3>
+                    <div class="overflow-hidden border border-gray-100 rounded-xl">
+                        <table class="w-full text-sm text-left">
+                            <thead class="bg-gray-50 text-gray-500 border-b border-gray-100">
+                                <tr>
+                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider text-[11px]">Tanggal</th>
+                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider text-[11px]">Jatuh Tempo Baru</th>
+                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider text-[11px]">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100">
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 text-gray-600 font-medium">12/04/2026</td>
+                                    <td class="px-6 py-4 text-gray-800 font-bold">19/04/2026</td>
+                                    <td class="px-6 py-4 text-green-600 font-semibold italic">Disetujui Petugas</td>
+                                </tr>
+                                <tr class="hover:bg-gray-50 transition">
+                                    <td class="px-6 py-4 text-gray-600 font-medium">19/04/2026</td>
+                                    <td class="px-6 py-4 text-gray-800 font-bold">26/04/2026</td>
+                                    <td class="px-6 py-4 text-green-600 font-semibold italic">Disetujui Petugas</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
 
-            <!-- DETAIL -->
-            <div class="flex-1 text-sm space-y-7">
+            <!-- Kolom Kanan: Status Keuangan & Pembayaran -->
+            <div class="space-y-6">
+                
+                <!-- Card Status Denda -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-red-50 rounded-full opacity-50"></div>
+                    <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">Informasi Denda</h3>
+                    <div class="space-y-1">
+                        <p class="text-sm text-gray-600">
+                            {{ $terlambat }} Hari Terlambat <span class="mx-1">×</span> Rp {{ number_format($dendaPerHari, 0, ',', '.') }}
+                        </p>
+                        <p class="text-3xl font-black text-red-600">
+                            Rp {{ number_format($totalDenda, 0, ',', '.') }}
+                        </p>
+                    </div>
 
-            <div class="space-y-3 text-sm">
+                    <div class="mt-6 pt-6 border-t border-dashed border-gray-200">
+                        <span class="text-xs font-bold text-gray-400 block mb-2 uppercase tracking-wider">Status Saat Ini</span>
+                        <div class="flex items-center gap-2">
+                            <span class="flex h-3 w-3 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full {{ $terlambat > 0 ? 'bg-red-400' : 'bg-green-400' }} opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-3 w-3 {{ $terlambat > 0 ? 'bg-red-500' : 'bg-green-500' }}"></span>
+                            </span>
+                            <span class="font-bold text-sm {{ $terlambat > 0 ? 'text-red-700' : 'text-green-700' }}">
+                                {{ $terlambat > 0 ? 'Wajib Mengembalikan' : 'Pinjaman Aman' }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="grid grid-cols-[160px_10px_1fr]">
-        <span class="font-semibold">Judul Buku</span><span>:</span><span>Introduction to Algorithms</span>
+                <!-- Bagian Modul Pembayaran yang diperbaiki -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border {{ $totalDenda > 0 ? 'border-red-100' : 'border-gray-100' }}">
+    <h3 class="font-bold text-gray-800 mb-4 text-sm flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        </svg>
+        Metode Pembayaran
+    </h3>
+    
+    <div class="space-y-3">
+        <!-- Opsi QRIS -->
+        <label class="flex items-center justify-between p-4 border border-gray-100 rounded-2xl hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all group">
+            <div class="flex items-center gap-3">
+                <input type="radio" name="payment" value="qris" class="w-4 h-4 text-blue-600 focus:ring-blue-500" {{ $totalDenda > 0 ? 'checked' : '' }}>
+                <div>
+                    <span class="text-sm font-bold text-gray-700 block">QRIS / E-Wallet</span>
+                    <span class="text-[10px] text-gray-400">Gopay, OVO, Dana, LinkAja</span>
+                </div>
+            </div>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" alt="QRIS" class="h-5 grayscale group-hover:grayscale-0 transition">
+        </label>
+
+        <!-- Opsi Transfer Bank -->
+        <label class="flex items-center justify-between p-4 border border-gray-100 rounded-2xl hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all group">
+            <div class="flex items-center gap-3">
+                <input type="radio" name="payment" value="va" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
+                <div>
+                    <span class="text-sm font-bold text-gray-700 block">Transfer Bank (VA)</span>
+                    <span class="text-[10px] text-gray-400">Virtual Account Mandiri, BNI, BRI</span>
+                </div>
+            </div>
+            <div class="flex gap-1 opacity-50 group-hover:opacity-100 transition">
+                <div class="w-6 h-4 bg-gray-200 rounded-sm"></div>
+                <div class="w-6 h-4 bg-gray-200 rounded-sm"></div>
+            </div>
+        </label>
+
+        <!-- Opsi Tunai -->
+        <label class="flex items-center justify-between p-4 border border-gray-100 rounded-2xl hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all group">
+            <div class="flex items-center gap-3">
+                <input type="radio" name="payment" value="cash" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
+                <div>
+                    <span class="text-sm font-bold text-gray-700 block">Tunai di Kasir</span>
+                    <span class="text-[10px] text-gray-400">Bayar langsung ke petugas perpus</span>
+                </div>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+        </label>
     </div>
 
-    <div class="grid grid-cols-[160px_10px_1fr]">
-        <span class="font-semibold">Penulis</span><span>:</span><span>Thomas H. Cormen</span>
-    </div>
-
-    <div class="grid grid-cols-[160px_10px_1fr]">
-        <span class="font-semibold">Kategori</span><span>:</span><span>Algoritma & Struktur Data</span>
-    </div>
-
-    <div class="grid grid-cols-[160px_10px_1fr]">
-        <span class="font-semibold">Nomor Inventaris</span><span>:</span><span>INV12345</span>
-    </div>
-
-    <div class="grid grid-cols-[160px_10px_1fr]">
-        <span class="font-semibold">Status Peminjaman</span><span>:</span><span>Dipinjam</span>
-    </div>
-
-    <div class="grid grid-cols-[160px_10px_1fr]">
-        <span class="font-semibold">Tanggal Pinjam</span><span>:</span><span>12 April 2026</span>
-    </div>
-
-    <div class="grid grid-cols-[160px_10px_1fr]">
-        <span class="font-semibold">Jatuh Tempo</span><span>:</span>
-        <span>{{ $jatuhTempo->format('d F Y') }}</span>
-    </div>
-
+    <!-- Tombol Bayar -->
+    <button class="w-full bg-blue-600 text-white mt-6 py-4 rounded-2xl font-black hover:bg-blue-700 transition shadow-xl shadow-blue-100 text-sm uppercase tracking-widest {{ $totalDenda == 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $totalDenda == 0 ? 'disabled' : '' }}>
+        Konfirmasi Pembayaran
+    </button>
 </div>
-                <!-- BUTTON -->
-                <div class="flex justify-center gap-3 mt-12">
 
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition text-sm">
-                        Perpanjang Peminjaman
-                    </button>
+<!-- Catatan Kebijakan (Selalu Muncul) -->
+<div class="bg-gray-100 p-6 rounded-2xl border border-gray-200 mt-4">
+    <h4 class="text-[10px] font-black text-gray-400 mb-3 uppercase tracking-[0.2em]">Ketentuan Denda</h4>
+    <ul class="text-[11px] text-gray-500 space-y-3 italic">
+        <li class="flex gap-3 leading-relaxed">
+            <span class="text-red-500 font-bold">01.</span>
+            Denda keterlambatan buku adalah sebesar **Rp 2.000/hari**.
+        </li>
+        <li class="flex gap-3 leading-relaxed">
+            <span class="text-red-500 font-bold">02.</span>
+            Akses peminjaman buku baru akan **dibekukan secara otomatis** oleh sistem jika terdapat denda aktif yang belum dilunasi.
+        </li>
+    </ul>
+</div>
 
-                    <button class="bg-gray-200 px-4 py-2 rounded-lg hover:bg-gray-300 transition text-sm">
-                        Kembalikan Buku
-                    </button>
-
+                <!-- Card Info Tambahan -->
+                <div class="bg-blue-600 p-6 rounded-2xl shadow-sm text-white">
+                    <h4 class="font-bold mb-2 text-sm">Butuh bantuan?</h4>
+                    <p class="text-xs text-blue-100 leading-relaxed">
+                        Jika ada kendala dalam perpanjangan buku atau kesalahan data, silakan hubungi petugas melalui layanan chat.
+                    </p>
+                    <a href="#" class="mt-4 block text-center bg-blue-500 py-2 rounded-lg text-xs font-bold hover:bg-blue-400 transition">Hubungi Petugas</a>
                 </div>
 
             </div>
         </div>
-
-        <!-- RIGHT -->
-        <div class="space-y-4">
-
-            <!-- DENDA -->
-            <div class="bg-white p-5 rounded-2xl shadow text-sm">
-
-                <p class="font-bold text-gray-800 mb-2">
-                    Denda Keterlambatan
-                </p>
-
-                <p>{{ $terlambat }} Hari × Rp {{ number_format($dendaPerHari, 0, ',', '.') }}</p>
-
-                <p class="font-bold text-red-500 text-lg mt-1">
-                    Rp {{ number_format($totalDenda, 0, ',', '.') }}
-                </p>
-
-                <p class="mt-3 font-semibold">Status</p>
-
-                <p class="{{ $terlambat > 0 ? 'text-red-500' : 'text-green-500' }} font-bold">
-                    {{ $terlambat > 0 ? 'Telat Dikembalikan' : 'Belum Telat' }}
-                </p>
-
-            </div>
-
-            <!-- PEMBAYARAN -->
-            <div class="bg-white p-5 rounded-2xl shadow text-sm">
-
-                <p class="font-bold mb-2">
-                    Pembayaran Denda
-                </p>
-
-                <p>
-                    Total:
-                    <span class="text-red-500 font-semibold">
-                        Rp {{ number_format($totalDenda, 0, ',', '.') }}
-                    </span>
-                </p>
-
-                <button class="mt-3 w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition">
-                    Bayar Denda
-                </button>
-
-                <p class="text-xs text-gray-500 mt-2 text-center">
-                    Konfirmasi otomatis setelah pembayaran
-                </p>
-
-            </div>
-
-        </div>
-
     </div>
-
-    <!-- RIWAYAT -->
-    <div class="mt-8 bg-white p-6 rounded-2xl shadow">
-
-        <h3 class="font-bold text-gray-800 mb-4">
-            Riwayat Perpanjangan
-        </h3>
-
-        <table class="w-full text-sm border rounded-lg overflow-hidden">
-
-            <thead class="bg-blue-50">
-                <tr>
-                    <th class="p-3 text-left">Tanggal Perpanjangan</th>
-                    <th class="p-3 text-left">Jatuh Tempo Baru</th>
-                    <th class="p-3 text-left">Keterangan</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                <tr class="border-t">
-                    <td class="p-3">12/04/2026</td>
-                    <td class="p-3">19/04/2026</td>
-                    <td class="p-3 text-green-600">Perpanjangan Disetujui</td>
-                </tr>
-
-                <tr class="border-t">
-                    <td class="p-3">19/04/2026</td>
-                    <td class="p-3">26/04/2026</td>
-                    <td class="p-3 text-green-600">Perpanjangan Disetujui</td>
-                </tr>
-            </tbody>
-
-        </table>
-
-    </div>
-
 </div>
 
 @endsection
