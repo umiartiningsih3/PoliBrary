@@ -1,90 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Keranjang Buku</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-black">
+@extends('layouts.app')
 
-<!-- Navbar -->
-<div class="bg-white shadow px-6 py-3 flex justify-between items-center">
-    <div class="text-xl font-bold text-blue-600">FUDi-gital</div>
-    <div class="space-x-6">
-        <a href="#" class="font-semibold">Beranda</a>
-        <a href="#">Informasi</a>
-    </div>
-    <div>Jelajahi ▾</div>
-</div>
+@section('content')
 
-<!-- Content -->
-<div class="p-10 space-y-6">
+<div class="p-6 space-y-6">
 
-    <!-- Item 1 -->
-    <div class="flex items-center gap-4">
-        
-        <!-- Checkbox -->
-        <input type="checkbox" class="w-5 h-5">
+    <h2 class="text-xl font-bold">Keranjang Buku</h2>
 
-        <!-- Card -->
-        <div class="flex bg-gray-300 w-full p-4 items-center gap-4">
-            
-            <!-- Cover -->
-            <div class="w-20 h-24 bg-gray-200"></div>
+    <div class="space-y-4">
 
-            <!-- Info -->
-            <div class="flex-1">
-                <h3 class="font-bold">Budidaya Ikan Bandeng</h3>
-                <p class="text-sm">Umiarti Ningsih</p>
+        <!-- ITEM TERSEDIA -->
+        <div class="flex items-center gap-4">
 
-                <button class="mt-2 bg-gray-500 px-3 py-1 text-sm rounded">
-                    Hapus
-                </button>
-            </div>
+            <input type="checkbox" class="w-5 h-5">
 
-            <!-- Status -->
-            <div class="text-green-600 font-semibold">
-                Tersedia
+            <div class="flex bg-white shadow rounded p-4 w-full items-center gap-4">
+
+                <div class="w-20 h-24 bg-gray-200 rounded"></div>
+
+                <div class="flex-1">
+
+                    <h3 class="font-bold">Budidaya Ikan Bandeng</h3>
+                    <p class="text-sm text-gray-600">Umiarti Ningsih</p>
+
+                    <!-- STOK -->
+                    <p class="text-xs text-orange-500 font-medium mt-1">
+                        Sisa 1 buku
+                    </p>
+
+                    <button class="mt-2 text-sm bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+                        Hapus
+                    </button>
+
+                </div>
+
+                <div class="text-right">
+                    <p class="text-green-600 font-semibold">Tersedia</p>
+                </div>
+
             </div>
         </div>
-    </div>
 
-    <!-- Item 2 -->
-    <div class="flex items-center gap-4">
-        <input type="checkbox" class="w-5 h-5">
+        <!-- ITEM HABIS -->
+        <div class="flex items-center gap-4">
 
-        <div class="flex bg-gray-300 w-full p-4 items-center gap-4">
-            <div class="w-20 h-24 bg-gray-200"></div>
+            <!-- DISABLE CHECKBOX -->
+            <input type="checkbox" class="w-5 h-5" disabled>
 
-            <div class="flex-1">
-                <h3 class="font-bold">Budidaya Ikan Bandeng</h3>
-                <p class="text-sm">Umiarti Ningsih</p>
+            <div class="flex bg-white shadow rounded p-4 w-full items-center gap-4 opacity-60">
 
-                <button class="mt-2 bg-gray-500 px-3 py-1 text-sm rounded">
-                    Hapus
-                </button>
-            </div>
+                <div class="w-20 h-24 bg-gray-200 rounded"></div>
 
-            <div class="text-green-600 font-semibold">
-                Tersedia
+                <div class="flex-1">
+
+                    <h3 class="font-bold">Dasar Pemrograman Web</h3>
+                    <p class="text-sm text-gray-600">Andi Saputra</p>
+
+                    <!-- STOK HABIS -->
+                    <p class="text-xs text-red-500 font-medium mt-1">
+                        Buku kosong
+                    </p>
+
+                    <button class="mt-2 text-sm bg-gray-400 text-white px-3 py-1 rounded cursor-not-allowed">
+                        Tidak tersedia
+                    </button>
+
+                </div>
+
+                <div class="text-right">
+                    <p class="text-red-500 font-semibold">Habis</p>
+                </div>
+
             </div>
         </div>
+
     </div>
 
-    <!-- Button -->
-    <div class="flex justify-end">
-        <button class="bg-gray-300 px-6 py-2 rounded">
+    <!-- BUTTON -->
+    <div class="flex justify-end pt-4">
+        <button class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
             Pinjam Sekarang
         </button>
     </div>
 
 </div>
 
-<!-- Footer -->
-<div class="bg-white mt-10 p-4 text-center text-sm">
-    <p class="font-bold text-blue-600">FUDi-gital</p>
-    <p>Kebijakan Privasi | Hubungi Kami | Jam Operasional</p>
-</div>
-
-</body>
-</html>
+@endsection
