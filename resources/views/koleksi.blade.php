@@ -8,13 +8,15 @@
         <h2 class="text-2xl font-bold">Koleksi Buku</h2>
 
         <!-- NAVIGATION -->
-        <div class="flex justify-center gap-6 mt-3 text-sm font-medium border-b">
-            <span class="cursor-pointer text-gray-500 hover:text-black pb-2 border-b-2 border-transparent hover:border-gray-400">
-                Daftar ABC
-            </span>
-            <span class="pb-2 border-b-2 border-pink-500 text-pink-600 font-semibold">
-                Daftar berdasarkan Subjek
-            </span>
+        <div class="bg-white border-y mt-5">
+            <div class="flex justify-center gap-8 text-sm font-medium px-3 py-2">
+                <span class="cursor-pointer text-gray-500 hover:text-black pb-2 border-b-2 border-transparent hover:border-gray-400">
+                    Daftar ABC
+                </span>
+                <span class="pb-2 border-b-2 border-pink-500 text-pink-600 font-semibold">
+                    Daftar berdasarkan Subjek
+                </span>
+            </div>
         </div>
     </div>
 
@@ -36,9 +38,9 @@
         $aktif = $subjek[0]; // kategori pertama aktif
     @endphp
 
-    <div class="grid grid-cols-3 gap-4 mt-6">
+    <div class="grid grid-cols-3 gap-6 mt-8">
         @foreach ($subjek as $item)
-            <div class="flex items-center gap-3 px-4 py-3 rounded-lg shadow cursor-pointer transition
+            <div class="flex items-center gap-3 px-5 py-4 rounded-lg shadow cursor-pointer transition
                         {{ $item['nama'] === $aktif['nama'] ? 'bg-pink-500 text-white' : 'bg-white hover:bg-pink-50' }}">
                 <!-- ANGKA DI KIRI -->
                 <div class="flex items-center justify-center w-10 h-10 
@@ -53,7 +55,7 @@
     </div>
 
     <!-- DETAIL KATEGORI TERPILIH -->
-    <div class="bg-gray-50 border rounded p-5 mt-6">
+    <div class="bg-gray-50 border rounded p-6 mt-8">
         <div class="flex justify-between items-center">
             <h3 class="font-bold">
                 {{ $aktif['nama'] }}
@@ -75,17 +77,17 @@
             $aktifSub = $subkategori[0]; // subkategori pertama aktif
         @endphp
 
-        <div class="flex flex-wrap gap-2 mt-4 text-xs">
+        <div class="flex flex-wrap gap-3 mt-5 text-xs">
             @foreach ($subkategori as $sub)
-                <span class="px-3 py-1 rounded cursor-pointer transition
+                <span class="px-4 py-2 rounded-full cursor-pointer transition
                              {{ $sub['nama'] === $aktifSub['nama'] ? 'bg-pink-500 text-white font-semibold' : 'bg-white border hover:bg-pink-500 hover:text-white' }}">
                     {{ $sub['nama'] }} ({{ $sub['jumlah'] }})
                 </span>
             @endforeach
         </div>
 
-        <!-- DETAIL LIST SUBKATEGORI TERPILIH -->
-        <div class="mt-5 border-t pt-4">
+        <!-- KOTAK BESAR MEMBUNGKUS SUB-SUBKATEGORI -->
+        <div class="bg-white border rounded p-5 mt-6">
             <div class="flex justify-between items-center">
                 <h4 class="font-semibold text-sm">
                     {{ $aktifSub['nama'] }}
@@ -96,7 +98,7 @@
                 </a>
             </div>
 
-            <ul class="mt-2 text-sm text-red-500 list-disc ml-6 space-y-1">
+            <ul class="mt-3 text-sm text-red-500 space-y-2">
                 <li>Fantasi (2)</li>
                 <li>Romansa (1)</li>
                 <li>Misteri (2)</li>
