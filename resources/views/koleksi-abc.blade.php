@@ -1,136 +1,144 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Koleksi Buku</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-</head>
-<body class="bg-gray-200">
+@extends('layouts.app')
 
-<!-- Navbar -->
-<div class="bg-white shadow px-6 py-3 flex justify-between items-center">
-    <div class="text-xl font-bold text-blue-600">FUDi-gital</div>
+@section('content')
+<div class="p-6 space-y-6">
 
-    <div class="flex items-center gap-2">
-        <input type="text" placeholder="Cari" class="border px-2 py-1">
-        <span>🔍</span>
+    <!-- TITLE -->
+    <div class="text-center">
+        <h2 class="text-2xl font-bold">Koleksi Buku</h2>
+
+        <!-- NAVIGATION -->
+        <div class="bg-white border-y mt-5">
+            <div class="flex justify-center gap-8 text-sm font-medium px-3 py-2">
+                <span class="pb-2 border-b-2 border-pink-500 text-pink-600 font-semibold">
+                    Daftar ABC
+                </span>
+                <span class="cursor-pointer text-gray-500 hover:text-black pb-2 border-b-2 border-transparent hover:border-gray-400">
+                    Daftar berdasarkan Subjek
+                </span>
+            </div>
+        </div>
     </div>
 
-    <div class="flex gap-4">
-        <a href="#">Informasi</a>
-        <a href="#">Jelajahi ▾</a>
-        <div class="w-8 h-8 bg-blue-300 rounded-full"></div>
+    <!-- SEARCH BAR -->
+    <div class="flex justify-center mt-6">
+        <div class="bg-white border rounded px-6 py-4 flex items-center gap-3">
+            <label class="font-medium">Kata kunci :</label>
+            <select class="border px-2 py-1 text-sm rounded">
+                <option value="judul">Judul</option>
+                <option value="isbn">ISBN</option>
+                <option value="penulis">Penulis</option>
+            </select>
+            <input type="text" class="border px-2 py-1 w-64 text-sm rounded"
+                placeholder="Masukkan istilah penelusuran">
+            <button class="bg-pink-500 text-white px-3 py-1 text-sm rounded">Pencarian</button>
+        </div>
     </div>
-</div>
 
-<!-- Title -->
-<div class="text-center mt-4">
-    <h2 class="text-xl font-bold">Koleksi Buku</h2>
-
-    <div class="flex justify-center gap-4 mt-2">
-        <span class="bg-pink-300 px-3 py-1 font-semibold">
-            Daftar ABC
-        </span>
-        <span>Daftar berdasarkan Subjek</span>
+    <!-- ALPHABET FILTER -->
+    <div class="bg-white border rounded px-6 py-3 mt-4 flex flex-wrap gap-2 text-xs justify-center">
+        <span class="bg-pink-500 text-white px-2 rounded">Semua</span>
+        @foreach(range('A','Z') as $huruf)
+            <span class="bg-gray-100 px-2 rounded">{{ $huruf }}</span>
+        @endforeach
     </div>
-</div>
 
-<!-- Search -->
-<div class="px-6 mt-4 flex items-center gap-2">
-    <label>Kata kunci :</label>
-    <input type="text" class="border px-2 py-1 w-1/3"
-        placeholder="Masukkan istilah penelusuran">
-    <button class="bg-gray-300 px-2">Pencarian</button>
-</div>
+    <!-- PAGINATION AT TOP -->
+    <div class="bg-white border rounded p-3 mt-4 text-sm flex items-center justify-between flex-wrap">
+        <!-- Kiri: Kata Kunci -->
+        <span>Kata Kunci : <span class="text-red-500">ABC</span> Semua</span>
 
-<!-- Alphabet Filter -->
-<div class="px-6 mt-3 flex flex-wrap gap-1 text-xs">
-    <span class="bg-gray-300 px-2">Semua</span>
-    @foreach(range('A','Z') as $huruf)
-        <span class="bg-gray-200 px-2">{{ $huruf }}</span>
-    @endforeach
-</div>
+        <!-- Kanan: Kontrol Pagination -->
+        <div class="flex items-center gap-4">
+            <button class="border px-2 rounded">&laquo;</button>
+            <span>Halaman <b>1</b> / 700</span>
+            <button class="border px-2 rounded">&raquo;</button>
 
-<!-- Content -->
-<div class="grid grid-cols-4 gap-6 px-6 mt-6">
+            <select class="border px-2 py-1 text-sm rounded">
+                <option>Relevansi</option>
+                <option>Terbaru</option>
+                <option>Judul A-Z</option>
+            </select>
 
-    <!-- LEFT -->
-    <div class="col-span-3">
+            <select class="border px-2 py-1 text-sm rounded">
+                <option>10</option>
+                <option>20</option>
+                <option>50</option>
+            </select>
 
-        <p class="text-sm mb-2">
-            Kata Kunci : <span class="text-red-500">ABC</span> Semua
-        </p>
+            <button class="border px-3 py-1 text-sm rounded">Inquiry</button>
+        </div>
+    </div>
 
-        <!-- Buku 1 -->
-        <div class="border-b pb-4 mb-4 flex gap-4">
-            <div class="w-20 h-24 bg-gray-300"></div>
+    <!-- CONTENT -->
+    <div class="grid grid-cols-4 gap-6 mt-6">
 
-            <div class="flex-1 text-sm">
-                <h3 class="font-bold">
-                    Introduction to Algorithms
-                </h3>
-                <p class="text-xs">1990–2023</p>
+        <!-- LEFT -->
+        <div class="col-span-3 space-y-4">
 
-                <p><b>Subjek</b> : Algoritma & Struktur Data</p>
-                <p><b>ISBN</b> : 978</p>
-                <p><b>Tahun Terbit</b> : 2009 (Edisi ke-3)</p>
-
-                <p class="text-xs mt-1">
-                    Thomas H. Cormen, Charles E. Leiserson...
-                </p>
-
+            <!-- Buku 1 (detail terbuka, ikon minus) -->
+            <div class="bg-white border rounded p-4 text-sm">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold">Introduction to Algorithms</h3>
+                    <span class="text-xl">−</span>
+                </div>
                 <div class="flex gap-2 mt-2 text-xs">
                     <button class="border px-2">Detail</button>
-                    <span class="text-green-600">Tersedia</span>
-                    <button class="border px-2">Tambah</button>
+                    <button class="border px-2">Tandai</button>
+                    <span class="text-green-600">Tersedia 2</span>
                 </div>
+            </div>
+
+            <!-- Buku 2 (detail belum dibuka, ikon panah) -->
+            <div class="bg-white border rounded p-4 text-sm">
+                <div class="flex justify-between items-center">
+                    <h3 class="font-bold">Clean Code: A Handbook of Agile Software Craftsmanship</h3>
+                    <span class="text-xl">↓</span>
+                </div>
+                <div class="flex gap-2 mt-2 text-xs">
+                    <button class="border px-2">Detail</button>
+                    <button class="border px-2">Tandai</button>
+                    <span class="text-green-600">Tersedia 1</span>
+                </div>
+            </div>
+
+            <!-- NEXT PAGE BUTTON -->
+            <div class="mt-4 text-right">
+                <button class="bg-pink-500 text-white px-3 py-1 text-sm rounded">
+                    Halaman Berikutnya →
+                </button>
+            </div>
+
+        </div>
+
+        <!-- RIGHT -->
+        <div>
+            <div class="bg-white border rounded p-4 text-sm">
+                <h4 class="font-bold mb-2">Kategori Subjek</h4>
+                @php
+                    $subjek = [
+                        ["nama" => "Fiksi", "jumlah" => 12],
+                        ["nama" => "Non-Fiksi", "jumlah" => 8],
+                        ["nama" => "Pendidikan", "jumlah" => 15],
+                        ["nama" => "Ilmu Pengetahuan", "jumlah" => 20],
+                        ["nama" => "Teknologi & Komputer", "jumlah" => 9],
+                        ["nama" => "Sosial & Humaniora", "jumlah" => 11],
+                        ["nama" => "Bahasa", "jumlah" => 7],
+                        ["nama" => "Seni & Budaya", "jumlah" => 6],
+                        ["nama" => "Agama", "jumlah" => 10],
+                        ["nama" => "Referensi", "jumlah" => 5],
+                    ];
+                @endphp
+
+                <ul class="space-y-1">
+                    @foreach($subjek as $s)
+                        <li>{{ $s['nama'] }} ({{ $s['jumlah'] }})</li>
+                    @endforeach
+                </ul>
             </div>
         </div>
 
-        <!-- Buku 2 -->
-        <div class="border-b pb-4 mb-4 flex gap-4">
-            <div class="w-20 h-24 bg-gray-300"></div>
-
-            <div class="flex-1 text-sm">
-                <h3 class="font-bold">
-                    Clean Code: A Handbook of Agile Software Craftsmanship
-                </h3>
-
-                <div class="flex gap-2 mt-2 text-xs">
-                    <button class="border px-2">Detail</button>
-                    <span class="text-green-600">Tersedia</span>
-                    <button class="border px-2">Tambah</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Pagination -->
-        <div class="mt-4 text-sm flex items-center gap-2">
-            <button class="border px-2">1</button>
-            <span>/ 700 Hal</span>
-        </div>
-
-    </div>
-
-    <!-- RIGHT -->
-    <div>
-        <div class="bg-gray-300 p-3 text-sm">
-            <h4 class="font-bold mb-2">Kategori Subjek</h4>
-            <p>Karya Umum</p>
-            <p>Filsafat & Psikologi</p>
-            <p>Agama</p>
-            <p>Ilmu Sosial</p>
-            <p>Bahasa</p>
-        </div>
     </div>
 
 </div>
-
-<!-- Footer -->
-<div class="bg-white mt-6 p-4 text-center text-sm">
-    <p class="font-bold text-blue-600">FUDi-gital</p>
-    <p>Kebijakan Privasi | Hubungi Kami | Jam Operasional</p>
-</div>
-
-</body>
-</html>
+@endsection
