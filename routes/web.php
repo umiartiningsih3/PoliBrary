@@ -90,3 +90,23 @@ Route::get('/admin/perpanjangan', function () {
 Route::get('/admin/mahasiswa', function () {
     return view('admin.mahasiswa');
 })->name('admin.mahasiswa');
+
+Route::get('/riwayat-peminjaman', function () {
+    return view('riwayat-peminjaman');
+})->name('riwayat-peminjaman');
+
+Route::get('/riwayat-peminjaman', function () {
+
+    $riwayat = [
+        [
+            'judul' => 'Pemrograman Web Laravel',
+            'tgl_pinjam' => '2026-05-01',
+            'tgl_kembali' => '2026-05-07',
+            'status' => 'Dikembalikan',
+            'denda' => 0
+        ]
+    ];
+
+    return view('peminjaman.riwayat', compact('riwayat'));
+
+})->name('riwayat.index');
