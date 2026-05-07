@@ -78,7 +78,6 @@
         </div>
     </section>
 
-    <!-- Popup -->
     <x-popup-informasi />
 
 </div>
