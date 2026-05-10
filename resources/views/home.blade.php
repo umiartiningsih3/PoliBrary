@@ -21,10 +21,14 @@
                 meminjam, dan mengelola buku dengan mudah.
             </p>
             <div class="mt-8">
-                <a href="/login"
+                @auth
+                <a href="{{ route('dashboard') }}" class="...">Ke Dashboard</a>
+                @else
+                <a href="{{ route('login') }}"
                    class="inline-block px-8 py-4 rounded-full bg-blue-500 hover:bg-blue-600 text-white font-bold shadow-lg shadow-blue-200 transition transform hover:-translate-y-1">
                     Mulai Sekarang
                 </a>
+                @endauth
             </div>
         </div>
     </section>

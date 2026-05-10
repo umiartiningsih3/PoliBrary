@@ -65,7 +65,7 @@
         </a>
 
         <div class="flex gap-6 text-sm font-semibold text-gray-700">
-            <a href="#" class="hover:text-blue-600">Beranda</a>
+            <a href="{{ route('dashboard') }}" class="hover:text-blue-600">Beranda</a>
             <a href="#" class="hover:text-blue-600">Informasi</a>
         </div>
     </div>
@@ -93,7 +93,7 @@
             <div id="menuDropdown"
                 class="hidden absolute right-0 mt-3 w-52 bg-white rounded-xl shadow-lg border z-20 overflow-hidden">
 
-                <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
+                <a href="koleksi" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
                     <svg class="w-5 h-5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v13.5"/>
                         <path d="M8 6v13"/>
@@ -101,7 +101,7 @@
                     Koleksi Buku
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
+                <a href="{{ route('keranjang') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
                     <svg class="w-5 h-5 text-green-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M6 6h15l-1.5 9H7z"/>
                         <circle cx="9" cy="20" r="1"/>
@@ -118,7 +118,7 @@
                     Notifikasi
                 </a>
 
-                <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
+                <a href="{{ route('tambah-buku') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
                     <svg class="w-5 h-5 text-purple-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 5v14M5 12h14"/>
                     </svg>
@@ -157,7 +157,7 @@
         </div>
 
         <!-- Akun saya -->
-        <a href="#"
+        <a href="{{ route('profile') }}"
            class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
 
             <svg class="w-5 h-5 text-blue-500 shrink-0"
