@@ -9,11 +9,11 @@
     <div class="w-full flex justify-center">
 
         <!-- Ukuran disesuaikan dengan layar HP -->
-        <div class="w-[315px] md:w-[325px] mt-30 md:mt-24
+        <div class="w-[315px] md:w-[370px] mt-30 md:mt-24
                     bg-sky-200/75 backdrop-blur-md
                     border-2 border-blue-200
                     rounded-[34px] shadow-2xl
-                    px-7 py-9">
+                    px-9 py-16">
 
             <!-- Title -->
             <div class="text-center mb-5">
@@ -53,20 +53,6 @@
                         class="w-full bg-white text-blue-700 text-sm font-bold py-2 rounded-full shadow hover:bg-blue-100 transition">
                     Masuk
                 </button>
-
-                <!-- Register + Kembali -->
-                <p class="text-center text-xs mt-4 text-gray-700">
-                    Belum punya akun?
-                    <a href="/register" class="text-blue-700 font-bold hover:underline">
-                        Daftar
-                    </a>
-
-                    <span class="mx-1">|</span>
-
-                    <a href="/" class="text-blue-700 font-bold hover:underline">
-                        Kembali
-                    </a>
-                </p>
 
             </form>
 
