@@ -50,12 +50,9 @@
                     </h2>
 
                     <p class="mt-6 text-lg text-gray-700 leading-relaxed max-w-xl">
-
-                        PoliBrary adalah perpustakaan digital Polibatam
-                        yang menyediakan koleksi buku, jurnal, dan sumber
-                        belajar kapan saja dan di mana saja.
-
-                    </p>
+    PoliBrary memudahkan mahasiswa meminjam buku secara digital
+    dan membantu pustakawan mengelola perpustakaan dengan lebih efisien.
+</p>
 
                 </div>
 
