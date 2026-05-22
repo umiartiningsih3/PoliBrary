@@ -209,13 +209,11 @@
     @yield('content')
 </main>
 
-<!-- ================= FOOTER ================= -->
-
+@if (!request()->routeIs('login', 'register'))
 <div class="text-center text-xs text-gray-500 mt-5 border-t pt-4 pb-4">
-
     © {{ date('Y') }} PoliBrary — Digital Library Polibatam
-
 </div>
+@endif
 
 <script>
 function toggleMenu() {

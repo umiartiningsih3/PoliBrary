@@ -11,7 +11,9 @@ use App\Http\Controllers\BukuController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Route Login & Register
-Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 
 // Autentikasi (Register)
@@ -111,3 +113,22 @@ Route::get('/riwayat-peminjaman', function () {
     return view('peminjaman.riwayat', compact('riwayat'));
 
 })->name('riwayat.index');
+
+use App\Http\Controllers\AuthController;
+
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('forgot.password');
+
+Route::post('/forgot-password', [AuthController::class, 'sendOtp'])
+    ->name('otp.send');
+
+Route::get('/verify-otp', function () {
+    return view('auth.verify-otp');
+})->name('otp.form');
+
+Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])
+    ->name('otp.verify');
+
+Route::post('/reset-password', [AuthController::class, 'resetPassword'])
+    ->name('password.reset');
