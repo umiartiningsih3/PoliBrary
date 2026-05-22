@@ -66,7 +66,6 @@
 
         <div class="flex gap-6 text-sm font-semibold text-gray-700">
             <a href="{{ route('dashboard') }}" class="hover:text-blue-600">Beranda</a>
-            <a href="#" class="hover:text-blue-600">Informasi</a>
         </div>
     </div>
 

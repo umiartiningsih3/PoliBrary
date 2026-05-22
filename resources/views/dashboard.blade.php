@@ -4,14 +4,13 @@
 
 <div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex flex-col">
 
-    <!-- CONTENT -->
     <main class="flex-1 px-8 py-6">
 
         <h1 class="text-xl font-bold text-gray-800 mb-6">
             Selamat Datang, Umiarti Ningsih
         </h1>
 
-        <!-- STATISTIK -->
+        <!-- ================= STATISTIK ================= -->
         <div class="grid grid-cols-4 gap-6 mb-10">
 
             <div class="bg-white rounded-xl shadow p-4 flex items-center gap-3">
@@ -61,7 +60,7 @@
         </div>
 
 
-        <!-- REKOMENDASI -->
+        <!-- ================= REKOMENDASI ================= -->
         <div class="mb-10">
 
             <div class="flex justify-between items-center mb-3">
@@ -79,8 +78,20 @@
                 @for ($i = 1; $i <= 6; $i++)
                 <div class="min-w-[260px] bg-white rounded-xl shadow p-4 flex gap-4 hover:shadow-md transition">
 
-                    <div class="w-[60px] h-[80px] bg-gray-200 rounded"></div>
+                    <!-- COVER (DEFAULT LOGO JIKA TIDAK ADA GAMBAR) -->
+                    <div class="w-[60px] h-[80px] rounded bg-gray-100 flex items-center justify-center overflow-hidden">
 
+                        @if(false)
+                            {{-- nanti diganti: $book->cover --}}
+                            <img src="" class="w-full h-full object-cover">
+                        @else
+                            <img src="{{ asset('image/Polibrary-logo.png') }}"
+                                 class="w-6 h-6 opacity-30 grayscale">
+                        @endif
+
+                    </div>
+
+                    <!-- INFO -->
                     <div>
                         <h3 class="font-bold text-gray-800">Buku {{ $i }}</h3>
                         <p class="text-sm text-gray-500">Penulis {{ $i }}</p>
@@ -102,7 +113,7 @@
         </div>
 
 
-        <!-- TERBARU -->
+        <!-- ================= TERBARU ================= -->
         <div>
 
             <div class="flex justify-between items-center mb-3">
@@ -120,8 +131,20 @@
                 @for ($i = 1; $i <= 6; $i++)
                 <div class="min-w-[260px] bg-white rounded-xl shadow p-4 flex gap-4 hover:shadow-md transition">
 
-                    <div class="w-[60px] h-[80px] bg-gray-200 rounded"></div>
+                    <!-- COVER (DEFAULT LOGO JIKA TIDAK ADA GAMBAR) -->
+                    <div class="w-[60px] h-[80px] rounded bg-gray-100 flex items-center justify-center overflow-hidden">
 
+                        @if(false)
+                            {{-- nanti diganti: $book->cover --}}
+                            <img src="" class="w-full h-full object-cover">
+                        @else
+                            <img src="{{ asset('image/Polibrary-logo.png') }}"
+                                 class="w-6 h-6 opacity-30 grayscale">
+                        @endif
+
+                    </div>
+
+                    <!-- INFO -->
                     <div>
                         <h3 class="font-bold text-gray-800">Buku Baru {{ $i }}</h3>
                         <p class="text-sm text-gray-500">Penulis {{ $i }}</p>
@@ -129,6 +152,10 @@
                         <div class="border-b my-2"></div>
 
                         <p class="text-green-500 text-sm font-semibold">Tersedia</p>
+                        <div class="flex gap-2 mt-2">
+                            <button class="bg-gray-100 px-2 py-1 rounded text-xs">Tandai</button>
+                            <button class="bg-blue-500 text-white px-2 py-1 rounded text-xs">Tambah</button>
+                        </div>
                     </div>
 
                 </div>
@@ -142,6 +169,7 @@
 </div>
 
 @endsection
+
 
 @push('scripts')
 <script>

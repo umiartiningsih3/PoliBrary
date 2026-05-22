@@ -4,30 +4,41 @@
 
 <div class="p-6">
 
-    <h2 class="text-xl font-bold mb-4">Tambah Koleksi Buku</h2>
+    <h2 class="text-xl font-bold mb-6">Tambah Koleksi Buku</h2>
 
     <div class="bg-white p-6 shadow rounded border">
 
         <form action="#" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <div class="grid grid-cols-3 gap-6">
+            <!-- GRID UTAMA (LEFT: COVER | RIGHT: FORM) -->
+            <div class="grid grid-cols-3 gap-8">
 
-                <!-- UPLOAD COVER -->
+                <!-- ================= LEFT: UPLOAD COVER ================= -->
                 <div class="flex flex-col items-center">
 
-                    <div class="w-40 h-48 bg-gray-200 mb-3 rounded"></div>
+                    <div class="w-40 h-48 bg-gray-100 mb-3 rounded flex items-center justify-center overflow-hidden">
 
-                    <input type="file" class="text-sm w-40 mb-1">
+                        <img id="previewImage"
+                             src="{{ asset('image/Polibrary-logo.png') }}"
+                             class="w-16 h-16 opacity-30 grayscale">
+
+                    </div>
+
+                    <input type="file"
+                           accept="image/*"
+                           onchange="previewCover(event)"
+                           class="text-sm w-40 mb-2">
 
                     <button type="button"
-                        class="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 text-sm">
+                            class="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400 text-sm">
                         Unggah Sampul
                     </button>
 
                 </div>
 
-                <!-- FORM -->
+
+                <!-- ================= RIGHT: FORM ================= -->
                 <div class="col-span-2 grid grid-cols-2 gap-4 text-sm">
 
                     <div>
@@ -45,7 +56,6 @@
                         <input type="text" class="w-full border p-2 rounded">
                     </div>
 
-                    <!-- KATEGORI -->
                     <div>
                         <label class="font-semibold">Kategori Buku</label>
                         <select id="kategori" class="w-full border p-2 rounded">
@@ -63,7 +73,6 @@
                         </select>
                     </div>
 
-                    <!-- SUB KATEGORI -->
                     <div>
                         <label class="font-semibold">Sub Kategori</label>
                         <select id="subkategori" class="w-full border p-2 rounded">
@@ -71,7 +80,6 @@
                         </select>
                     </div>
 
-                    <!-- NOMOR INVENTARIS -->
                     <div>
                         <label class="font-semibold">Nomor Inventaris</label>
 
@@ -102,25 +110,22 @@
                     <div class="col-span-2 flex items-center gap-3">
                         <label class="font-semibold">Jumlah Eksemplar</label>
                         <input type="number" class="w-20 border p-2 rounded">
-                        <button type="button"
-                            class="bg-gray-300 px-3 py-1 rounded hover:bg-gray-400">
-                            +
-                        </button>
                     </div>
 
                 </div>
+
             </div>
 
             <!-- BUTTON -->
             <div class="mt-6 flex gap-4 justify-end">
 
                 <button type="submit"
-                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
+                        class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
                     Tambah Buku
                 </button>
 
                 <button type="reset"
-                    class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
+                        class="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400">
                     Batal
                 </button>
 
@@ -129,51 +134,62 @@
         </form>
 
     </div>
-
 </div>
 
+@endsection
+
+
+@push('scripts')
 <script>
+function previewCover(event) {
+    const input = event.target;
+    const preview = document.getElementById('previewImage');
+
+    if (input.files && input.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            preview.src = e.target.result;
+            preview.classList.remove('w-10','h-10','opacity-30','grayscale');
+            preview.classList.add('w-full','h-full','object-cover');
+        }
+
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
 
     const kategori = document.getElementById("kategori");
     const subkategori = document.getElementById("subkategori");
 
-    if (!kategori || !subkategori) {
-        console.log("Kategori / Subkategori tidak ditemukan");
-        return;
-    }
-
     const data = {
         fiksi: ["Novel","Cerpen","Fantasi","Romansa","Misteri","Thriller","Horor","Sci-fi"],
         nonfiksi: ["Biografi","Autobiografi","Sejarah","Motivasi","Esai","Jurnal"],
-        pendidikan: ["Buku Pelajaran SD","Buku Pelajaran SMP","Buku Pelajaran SMA","Modul Kuliah","Soal Latihan","Panduan Belajar"],
+        pendidikan: ["Buku Pelajaran","Modul Kuliah","Soal Latihan","Panduan Belajar"],
         ip: ["Matematika","Fisika","Kimia","Biologi","Statistik","Astronomi"],
-        teknologi: ["Pemrograman","Web Development","Mobile Development","Database","Jaringan Komputer","UI/UX Design","Artificial Intelligence"],
-        sosial: ["Ekonomi","Psikologi","Sosiologi","Politik","Hukum","Ilmu Komunikasi"],
-        bahasa: ["Bahasa Indonesia","Bahasa Inggris","Bahasa Jepang","Bahasa Korea","Tata Bahasa","Kamus"],
-        seni: ["Musik","Seni Rupa","Desain Grafis","Film","Fotografi"],
-        agama: ["Islam","Kristen","Hindu","Buddha","Tafsir / Kitab Suci","Rohani"],
-        referensi: ["Ensiklopedia","Atlas","Kamus Besar","Manual / Handbook","Data Statistik"]
+        teknologi: ["Pemrograman","Web","Mobile","Database","AI"],
+        sosial: ["Ekonomi","Psikologi","Sosiologi","Hukum"],
+        bahasa: ["Indonesia","Inggris","Jepang","Korea"],
+        seni: ["Musik","Desain","Fotografi"],
+        agama: ["Islam","Kristen","Hindu","Buddha"],
+        referensi: ["Ensiklopedia","Atlas","Kamus"]
     };
 
     kategori.addEventListener("change", function () {
 
-        const value = this.value;
-
         subkategori.innerHTML = `<option value="">Pilih Sub Kategori</option>`;
 
-        if (data[value]) {
-            data[value].forEach(item => {
-                const option = document.createElement("option");
-                option.value = item;
-                option.textContent = item;
-                subkategori.appendChild(option);
+        if (data[this.value]) {
+            data[this.value].forEach(item => {
+                const opt = document.createElement("option");
+                opt.value = item;
+                opt.textContent = item;
+                subkategori.appendChild(opt);
             });
         }
-
     });
 
 });
 </script>
-
-@endsection
+@endpush
