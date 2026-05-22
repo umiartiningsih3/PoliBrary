@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FUDi-gital</title>
+<title>Polibrary</title>
 
 <!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -61,7 +61,7 @@
 
     <div class="flex items-center gap-10">
         <a href="/">
-            <img src="{{ asset('image/fudi-gital.png') }}" class="h-10">
+            <img src="{{ asset('image/Polibrary-logo.png') }}" class="h-10">
         </a>
 
         <div class="flex gap-6 text-sm font-semibold text-gray-700">
@@ -214,7 +214,7 @@
     <footer class="bg-white border-t px-6 py-4 flex items-center justify-between text-sm text-gray-600">
 
         <!-- kiri -->
-        <img src="{{ asset('image/fudi-gital.png') }}" class="h-8">
+        <img src="{{ asset('image/footer-logo.png') }}" class="h-8">
 
         <!-- tengah -->
         <div class="text-center">

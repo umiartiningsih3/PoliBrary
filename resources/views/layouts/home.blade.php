@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FUDi-gital - Perpustakaan Digital Modern</title>
+    <title>Polibrary - Sistem Perpustakaan Digital</title>
     @vite('resources/css/app.css')
     <script src="https://cdn.tailwindcss.com"></script> {{-- Backup jika Vite belum di-build --}}
 </head>
@@ -16,9 +16,9 @@
 
             <!-- Logo -->
             <a href="/" class="flex items-center shrink-0">
-                <img src="{{ url('image/fudi-gital.png') }}"
-                     alt="Logo FUDi-gital"
-                     class="h-10 md:h-12 w-auto">
+                <img src="{{ url('image/Polibrary-logo.png') }}"
+                     alt="Logo Polibrary"
+                     class="h-13 md:h-12 w-auto">
             </a>
 
             <!-- Search -->
@@ -56,7 +56,7 @@
     <footer class="bg-white border-t px-6 py-4 flex items-center justify-between text-sm text-gray-600">
 
         <!-- kiri -->
-        <img src="{{ asset('image/fudi-gital.png') }}" class="h-8">
+        <img src="{{ asset('image/footer-logo.png') }}" class="h-12">
 
         <!-- tengah -->
         <div class="text-center">

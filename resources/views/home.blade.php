@@ -14,10 +14,10 @@
                 Selamat Datang
             </p>
             <h1 class="text-4xl md:text-6xl font-extrabold text-gray-800 leading-tight">
-                FUDi-<span class="text-blue-600">gital</span>
+                Poli-<span class="text-blue-600">Library</span>
             </h1>
             <p class="mt-4 text-gray-700 text-base md:text-lg leading-relaxed">
-                Sistem perpustakaan digital modern untuk membaca,
+                Sistem perpustakaan digital Politeknik Negeri Batam untuk membaca,
                 meminjam, dan mengelola buku dengan mudah.
             </p>
             <div class="mt-8">
