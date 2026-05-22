@@ -132,3 +132,7 @@ Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])
 
 Route::post('/reset-password', [AuthController::class, 'resetPassword'])
     ->name('password.reset');
+
+Route::get('/riwayat-peminjaman', function () {
+    return view('riwayat-peminjaman');
+})->name('riwayat-peminjaman');
