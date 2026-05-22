@@ -38,5 +38,17 @@ jobs:
       - name: Run Migration
         run: php artisan migrate --force
 
+      # ✅ TAMBAHAN PENTING
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install NPM Dependencies
+        run: npm install
+
+      - name: Build Vite Assets
+        run: npm run build
+
       - name: Run Tests
         run: php artisan test

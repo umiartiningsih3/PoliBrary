@@ -92,9 +92,9 @@
 
 <!-- FOOTER -->
  @if(!Route::is('login') && !Route::is('register'))
-    <footer class="bg-gradient-to-r from-[#12376B] via-[#1D4E89] to-[#47B8F2] 
-text-white px-6 py-5 flex items-center justify-between 
-border-t border-white/10 shadow-inner">
+    <footer class="bg-gradient-to-r from-[#dff4ff] via-[#eef7ff] to-[#cdefff]
+border-t border-blue-100 px-6 py-5 flex items-center justify-between
+text-gray-700 shadow-sm">
 
         <!-- kiri -->
         <img src="{{ asset('image/footer-logo.png') }}" class="h-12">
@@ -102,12 +102,12 @@ border-t border-white/10 shadow-inner">
         <!-- tengah -->
         <div class="text-center">
             <div class="flex gap-6 justify-center font-semibold">
-                <span class="hover:text-cyan-200 transition cursor-pointer">Kebijakan Privasi</span>
-                <span class="hover:text-cyan-200 transition cursor-pointer">Hubungi Kami</span>
-                <span class="hover:text-cyan-200 transition cursor-pointer">Jam Operasional</span>
+                <span class="hover:text-blue-600 transition cursor-pointer">Kebijakan Privasi</span>
+                <span class="hover:text-blue-600 transition cursor-pointer">Hubungi Kami</span>
+                <span class="hover:text-blue-600 transition cursor-pointer">Jam Operasional</span>
             </div>
 
-            <p class="text-xs mt-1 text-white/70">
+            <p class="text-xs mt-1 text-gray-500">
                 Politeknik Negeri Batam, Jalan Ahmad Yani Batam Kota
             </p>
         </div>
