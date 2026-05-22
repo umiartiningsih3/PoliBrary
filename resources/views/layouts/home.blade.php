@@ -3,56 +3,95 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Polibrary - Sistem Perpustakaan Digital</title>
+
+    <title>PoliBrary - Sistem Perpustakaan Digital</title>
+
     @vite('resources/css/app.css')
-    <script src="https://cdn.tailwindcss.com"></script> {{-- Backup jika Vite belum di-build --}}
+
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Smooth Scroll -->
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
 </head>
+
 <body class="bg-gray-50 font-sans antialiased">
 
-    <!-- ================= NAVBAR ================= -->
-     @if(!Route::is('login') && !Route::is('register'))
-    <header class="fixed top-0 left-0 w-full z-50 px-3 md:px-6 py-3">
-        <div class="bg-white/85 backdrop-blur-md rounded-2xl shadow-md px-4 md:px-5 py-3 flex items-center justify-between border border-gray-200 gap-3">
+<!-- ================= NAVBAR ================= -->
+@if(!Route::is('login') && !Route::is('register'))
 
-            <!-- Logo -->
-            <a href="/" class="flex items-center shrink-0">
-                <img src="{{ url('image/Polibrary-logo.png') }}"
-                     alt="Logo Polibrary"
-                     class="h-13 md:h-12 w-auto">
+<header class="fixed top-0 left-0 w-full z-50 px-3 md:px-6 py-3">
+
+    <div class="bg-white/85 backdrop-blur-xl rounded-2xl shadow-md border border-gray-200
+                px-4 md:px-6 py-3 flex items-center justify-between">
+
+        <!-- ================= LOGO ================= -->
+        <a href="/" class="flex items-center shrink-0">
+            <img src="{{ asset('image/Polibrary-logo.png') }}"
+                 alt="Logo PoliBrary"
+                 class="h-12 w-auto">
+        </a>
+
+        <!-- ================= MENU ================= -->
+        <div class="hidden md:flex items-center gap-8 font-semibold text-sm">
+
+            <!-- Beranda -->
+            <a href="/"
+               class="text-gray-700 hover:text-blue-500 transition duration-300">
+                Beranda
             </a>
 
-            <!-- Search -->
-            <div class="hidden md:block flex-1 mx-6 max-w-xl">
-                <div class="relative">
-                    <input type="text"
-                           placeholder="Cari buku..."
-                           class="w-full rounded-xl border border-gray-300 bg-white px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-300">
-                    <span class="absolute right-3 top-2.5 text-gray-400">🔍</span>
-                </div>
-            </div>
+            <!-- Fitur -->
+            <a href="#fitur"
+               class="text-gray-700 hover:text-blue-500 transition duration-300">
+                Fitur
+            </a>
 
-            <!-- Menu -->
-            <div class="flex items-center gap-3 text-sm font-semibold">
-                <button onclick="openPopup()"
-                    class="text-gray-700 hover:text-blue-500 transition">
-                    Informasi
-                </button>
-            </div>
+            <!-- Pengumuman -->
+            <a href="#pengumuman"
+               class="text-gray-700 hover:text-blue-500 transition duration-300">
+                Pengumuman
+            </a>
+
+            <!-- Informasi -->
+            <button onclick="openPopup()"
+                    type="button"
+                    class="text-gray-700 hover:text-blue-500 transition duration-300">
+                Informasi
+            </button>
 
         </div>
-    </header>
-    @endif
 
-    <!-- Spacer agar konten tidak tertutup Navbar fixed -->
-    <div class="h-24"></div>
+        <!-- ================= MOBILE BUTTON ================= -->
+        <div class="md:hidden">
 
-    <!-- Konten Utama -->
-    <main class="flex-1 flex flex-col">
+            <button type="button"
+                    class="text-2xl text-gray-700">
+                ☰
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+@endif
+
+<!-- ================= SPACER ================= -->
+<div class="h-24"></div>
+
+<!-- ================= CONTENT ================= -->
+<main class="flex-1 flex flex-col">
     @yield('content')
 </main>
 
-     <!-- FOOTER -->
-      @if(!Route::is('login') && !Route::is('register'))
+<!-- FOOTER -->
+ @if(!Route::is('login') && !Route::is('register'))
     <footer class="bg-white border-t px-6 py-4 flex items-center justify-between text-sm text-gray-600">
 
         <!-- kiri -->
@@ -71,7 +110,7 @@
             </p>
         </div>
 
-        <div class="flex gap-4">
+            <div class="flex gap-4">
 
     <!-- Facebook (BIRU) -->
     <a href="#" class="transition hover:scale-110">
@@ -110,7 +149,8 @@
     </footer>
     @endif
 
+<!-- ================= SCRIPTS ================= -->
+@stack('scripts')
 
-    @stack('scripts')
 </body>
 </html>
