@@ -1,254 +1,251 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Polibrary</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polibrary</title>
 
-<!-- Tailwind -->
-<script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 
-<!-- Font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
-<!-- Setting Tailwind -->
-<script>
-    tailwind.config = {
-        theme: {
-            extend: {
-                fontFamily: {
-                    poppins: ['Poppins', 'sans-serif'],
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    }
                 }
             }
         }
-    }
-</script>
+    </script>
 
-<style>
-    body {
-        font-family: 'Poppins', sans-serif;
-    }
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
 
-.scrollbar-hide::-webkit-scrollbar {
-    display: none;
-}
-.scrollbar-hide {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-}
+        /* Menyembunyikan Scrollbar jika diperlukan */
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .scrollbar-hide {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
 
-/* tombol panah */
-.btn-nav {
-    background: white;
-    border: 1px solid #ddd;
-    padding: 6px 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    transition: 0.2s;
-}
-.btn-nav:hover {
-    background: #3b82f6;
-    color: white;
-}
-</style>
-
+        /* Tombol Navigasi Custom bawaan Anda */
+        .btn-nav {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+        .btn-nav:hover {
+            background: #3b82f6;
+            color: white;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-100 font-poppins flex flex-col min-h-screen">
-    <!-- NAVBAR -->
-@if(!Route::is('login') && !Route::is('register'))
-<nav class="bg-white shadow-sm px-6 h-[60px] flex items-center justify-between">
+<body class="bg-gray-100 font-poppins flex flex-col min-h-screen relative overflow-x-hidden">
 
-    <div class="flex items-center gap-10">
-        <a href="/">
-            <img src="{{ asset('image/Polibrary-logo.png') }}" class="h-10">
-        </a>
-
-        <div class="flex gap-6 text-sm font-semibold text-gray-700">
-            <a href="{{ route('dashboard') }}" class="hover:text-blue-600">Beranda</a>
+    @if(!Route::is('login') && !Route::is('register'))
+    <div id="sidebarBackdrop" class="fixed inset-0 bg-slate-900/40 z-50 hidden transition-opacity duration-300 opacity-0"></div>
+    
+    <aside id="sidebarMenu" class="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-r border-slate-200">
+        <div class="px-6 h-[60px] border-b border-slate-100 flex items-center justify-between bg-slate-50">
+            <div class="flex items-center gap-2">
+                <img src="{{ asset('image/Polibrary-logo.png') }}" class="h-8 w-auto" alt="Logo">
+                <span class="font-bold text-slate-800 text-sm tracking-wider uppercase">Polibrary</span>
+            </div>
+            <button id="sidebarClose" class="p-1.5 hover:bg-slate-200 text-slate-500 rounded-lg transition">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
         </div>
-    </div>
 
-    <!-- 🔥 FIX UTAMA: tambahkan ml-auto -->
-    <div class="flex items-center gap-4 text-sm font-semibold ml-auto">
+        <nav class="flex-1 p-4 flex flex-col gap-1">
+            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold {{ Route::is('dashboard') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-xl transition">
+                <span class="text-base">🏠 Beranda</span>
+            </a>
+            <a href="/koleksi" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">
+                <span class="text-base">📚 Koleksi Buku</span>
+            </a>
+            <a href="{{ route('keranjang') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">
+                <span class="text-base">🛒 Keranjang Saya</span>
+            </a>
+            <a href="{{ route('tambah-buku') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">
+                <span class="text-base">➕ Tambah Koleksi</span>
+            </a>
+            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">
+                <span class="text-base">💳 Status Denda</span>
+            </a>
+            
+            <div class="border-t border-slate-100 my-4"></div>
+            
+            <a href="{{ route('logout') }}" 
+               onclick="event.preventDefault(); document.getElementById('sidebar-logout-form').submit();"
+               class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl transition mt-auto">
+                <span class="text-base">🚪 Keluar Sesi</span>
+            </a>
+            <form id="sidebar-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                @csrf
+            </form>
+        </nav>
+    </aside>
+    @endif
 
-        <!-- WRAPPER DROPDOWN -->
-        <div class="relative">
-            <button onclick="toggleMenu()" class="flex items-center gap-2 text-gray-700 hover:text-blue-600">
-                Jelajahi
 
-                <svg class="w-4 h-4 shrink-0"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="2"
-                    stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path d="M6 9l6 6 6-6"></path>
+    @if(!Route::is('login') && !Route::is('register'))
+    <nav class="bg-white shadow-sm px-6 h-[60px] flex items-center justify-between sticky top-0 z-40 select-none">
+
+        <div class="flex items-center gap-4">
+            <button id="sidebarToggle" class="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition" aria-label="Open Menu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
             </button>
 
-            <!-- Dropdown -->
-            <div id="menuDropdown"
-                class="hidden absolute right-0 mt-3 w-52 bg-white rounded-xl shadow-lg border z-20 overflow-hidden">
+            <a href="/" class="flex items-center gap-2">
+                <img src="{{ asset('image/Polibrary-logo.png') }}" class="h-9 w-auto" alt="Logo">
+                <span class="font-bold text-[#1e293b] text-base tracking-wider uppercase hidden sm:block">POLIBRARY</span>
+            </a>
+        </div>
 
-                <a href="koleksi" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
-                    <svg class="w-5 h-5 text-blue-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v13.5"/>
-                        <path d="M8 6v13"/>
+        <div class="flex-1 max-w-xl mx-8 hidden md:block">
+            <div class="relative flex items-center shadow-sm rounded-lg border border-gray-200 bg-gray-50">
+                <input type="text" 
+                       placeholder="Cari judul buku, penulis, atau kategori di platform..." 
+                       class="w-full bg-transparent px-4 py-2 text-xs text-gray-600 placeholder-gray-400 focus:outline-none transition rounded-l-lg">
+                <button class="bg-[#10b981] hover:bg-[#059669] text-white px-5 h-[34px] rounded-r-lg transition flex items-center justify-center">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    Koleksi Buku
-                </a>
-
-                <a href="{{ route('keranjang') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
-                    <svg class="w-5 h-5 text-green-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M6 6h15l-1.5 9H7z"/>
-                        <circle cx="9" cy="20" r="1"/>
-                        <circle cx="18" cy="20" r="1"/>
-                    </svg>
-                    Keranjang Saya
-                </a>
-
-                <a href="#" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
-                    <svg class="w-5 h-5 text-yellow-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M15 17h5l-1.5-1.5A2 2 0 0118 14V11a6 6 0 10-12 0v3a2 2 0 01-.5 1.5L4 17h5"/>
-                        <path d="M9 21h6"/>
-                    </svg>
-                    Notifikasi
-                </a>
-
-                <a href="{{ route('tambah-buku') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
-                    <svg class="w-5 h-5 text-purple-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 5v14M5 12h14"/>
-                    </svg>
-                    Tambah Koleksi
-                </a>
-
+                </button>
             </div>
         </div>
 
-        <!-- PROFILE -->
-<div class="relative">
+        <div class="flex items-center gap-4">
+            
+            <button onclick="toggleMenu()" class="p-1.5 text-gray-500 hover:bg-gray-100 rounded-full relative transition">
+                <span class="absolute top-1 right-1 w-2 h-2 bg-[#ef4444] rounded-full"></span>
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+                </svg>
+            </button>
 
-    <!-- Button profile -->
-    <button onclick="toggleProfile()" class="w-9 h-9 rounded-full bg-blue-500 flex items-center justify-center">
-        <svg class="w-5 h-5 text-white shrink-0"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round">
-            <path d="M12 12a3 3 0 100-6 3 3 0 000 6z"/>
-            <path d="M4 20a8 8 0 0116 0"/>
-        </svg>
-    </button>
+            <div id="menuDropdown" class="hidden absolute right-16 top-[55px] w-52 bg-white rounded-xl shadow-lg border z-50 overflow-hidden">
+                <div class="px-4 py-2 border-b bg-slate-50 text-xs font-semibold text-gray-500">Pilihan Jelajahi</div>
+                <a href="koleksi" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Koleksi Buku</a>
+                <a href="{{ route('keranjang') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Keranjang Saya</a>
+                <a href="{{ route('tambah-buku') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Tambah Koleksi</a>
+            </div>
 
-    <!-- Dropdown profile -->
-    <div id="profileDropdown"
-        class="hidden absolute right-0 mt-3 w-56 bg-white rounded-xl shadow-lg border z-50 overflow-hidden">
+            <div class="relative">
+                <button onclick="toggleProfile()" class="w-9 h-9 rounded-full bg-[#bae6fd] flex items-center justify-center font-bold text-[#0369a1] text-xs shadow-sm cursor-pointer hover:opacity-90 transition">
+                    {{ isset(auth()->user()->name) ? strtoupper(substr(auth()->user()->name, 0, 2)) : 'UN' }}
+                </button>
 
-        <!-- Nama user -->
-        <div class="px-4 py-3 border-b">
-            <p class="font-semibold text-gray-800">
-                {{ auth()->user()->name ?? 'User' }}
-            </p>
+                <div id="profileDropdown" class="hidden absolute right-0 top-[45px] w-56 bg-white rounded-xl shadow-lg border z-50 overflow-hidden">
+                    <div class="px-4 py-3 border-b bg-slate-50">
+                        <p class="text-xs text-slate-400 font-medium">Masuk Sebagai:</p>
+                        <p class="font-semibold text-gray-800 truncate">
+                            {{ auth()->user()->name ?? 'Umiarti Ningsih' }}
+                        </p>
+                    </div>
+                    <a href="{{ route('profile') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">
+                        Akun Saya
+                    </a>
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                       class="flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-sm text-red-500 font-medium border-t">
+                        Keluar Sesi
+                    </a>
+                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
+                        @csrf
+                    </form>
+                </div>
+            </div>
+            
         </div>
+    </nav>
+    @endif
 
-        <!-- Akun saya -->
-        <a href="{{ route('profile') }}"
-           class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm">
+    <main class="flex-1 flex flex-col">
+        @yield('content')
+    </main>
 
-            <svg class="w-5 h-5 text-blue-500 shrink-0"
-                 viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round">
-                <path d="M12 12a3 3 0 100-6 3 3 0 000 6z"/>
-                <path d="M4 20a8 8 0 0116 0"/>
-            </svg>
-
-            Akun Saya
-        </a>
-
-        <!-- Logout -->
-        <a href="{{ route('logout') }}"
-           onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-           class="flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-sm text-red-500">
-
-            <svg class="w-5 h-5 shrink-0"
-                 viewBox="0 0 24 24"
-                 fill="none"
-                 stroke="currentColor"
-                 stroke-width="2"
-                 stroke-linecap="round"
-                 stroke-linejoin="round">
-                <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/>
-                <path d="M16 17l5-5-5-5"/>
-                <path d="M21 12H9"/>
-            </svg>
-
-            Keluar
-        </a>
-
-        <!-- form logout laravel -->
-        <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-            @csrf
-        </form>
-
+    @if (!request()->routeIs('login', 'register'))
+    <div class="text-center text-xs text-gray-500 mt-auto border-t pt-4 pb-4 bg-white">
+        © {{ date('Y') }} PoliBrary — Digital Library Polibatam
     </div>
-</div>
-</nav>
-@endif
+    @endif
 
-    <!-- CONTENT -->
-<main class="flex-1">
-    @yield('content')
-</main>
+    <script>
+        // Logika Dropdown Navbar Atas
+        function toggleMenu() {
+            const menu = document.getElementById('menuDropdown');
+            const profile = document.getElementById('profileDropdown');
+            if (profile) profile.classList.add('hidden');
+            if (menu) menu.classList.toggle('hidden');
+        }
 
-@if (!request()->routeIs('login', 'register'))
-<div class="text-center text-xs text-gray-500 mt-5 border-t pt-4 pb-4">
-    © {{ date('Y') }} PoliBrary — Digital Library Polibatam
-</div>
-@endif
+        function toggleProfile() {
+            const menu = document.getElementById('menuDropdown');
+            const profile = document.getElementById('profileDropdown');
+            if (menu) menu.classList.add('hidden');
+            if (profile) profile.classList.toggle('hidden');
+        }
 
-<script>
-function toggleMenu() {
-    const menu = document.getElementById('menuDropdown');
-    const profile = document.getElementById('profileDropdown');
+        // Logika Interaktif Animasi Sidebar (Menu Samping)
+        const sidebarMenu = document.getElementById('sidebarMenu');
+        const sidebarBackdrop = document.getElementById('sidebarBackdrop');
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarClose = document.getElementById('sidebarClose');
 
-    // tutup profile kalau ada
-    if (profile) profile.classList.add('hidden');
+        function openSidebar() {
+            if(!sidebarMenu || !sidebarBackdrop) return;
+            sidebarBackdrop.classList.remove('hidden');
+            setTimeout(() => {
+                sidebarMenu.classList.remove('-translate-x-full');
+                sidebarBackdrop.classList.add('opacity-100');
+            }, 20); // memberikan sedikit delay mikro agar transisi CSS terpancing
+        }
 
-    menu.classList.toggle('hidden');
-}
+        function closeSidebar() {
+            if(!sidebarMenu || !sidebarBackdrop) return;
+            sidebarMenu.classList.add('-translate-x-full');
+            sidebarBackdrop.classList.remove('opacity-100');
+            setTimeout(() => {
+                sidebarBackdrop.classList.add('hidden');
+            }, 300); // Durasi diatur 300ms sesuai class duration-300 Tailwind
+        }
 
-function toggleProfile() {
-    const menu = document.getElementById('menuDropdown');
-    const profile = document.getElementById('profileDropdown');
+        // Memasang Event Listener Klik ke Elemen Sidebar
+        if(sidebarToggle) sidebarToggle.addEventListener('click', openSidebar);
+        if(sidebarClose) sidebarClose.addEventListener('click', closeSidebar);
+        if(sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebar);
 
-    // tutup menu jelajah kalau ada
-    if (menu) menu.classList.add('hidden');
+        // Menutup Dropdown atau Menu saat klik di area kosong manapun
+        window.addEventListener('click', function(e) {
+            const menu = document.getElementById('menuDropdown');
+            const profile = document.getElementById('profileDropdown');
+            const isButton = e.target.closest('button');
 
-    profile.classList.toggle('hidden');
-}
+            if (!isButton) {
+                if (menu) menu.classList.add('hidden');
+                if (profile) profile.classList.add('hidden');
+            }
+        });
+    </script>
 
-// klik luar → tutup semua dropdown
-window.addEventListener('click', function(e) {
-    const menu = document.getElementById('menuDropdown');
-    const profile = document.getElementById('profileDropdown');
-
-    const isButton = e.target.closest('button');
-
-    if (!isButton) {
-        if (menu) menu.classList.add('hidden');
-        if (profile) profile.classList.add('hidden');
-    }
-});
-</script>
-
-@stack('scripts')
+    @stack('scripts')
 </body>
 </html>

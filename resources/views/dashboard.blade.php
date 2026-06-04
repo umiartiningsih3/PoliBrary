@@ -1,190 +1,186 @@
 @extends('layouts.app')
 
 @section('content')
-
-<div class="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 flex flex-col">
-
-    <main class="flex-1 px-8 py-6">
-
-        <h1 class="text-xl font-bold text-gray-800 mb-6">
-            Selamat Datang, Umiarti Ningsih
-        </h1>
-
-        <!-- ================= STATISTIK ================= -->
-        <div class="grid grid-cols-4 gap-6 mb-10">
-
-            <div class="bg-white rounded-xl shadow p-4 flex items-center gap-3">
-                <svg class="w-6 h-6 text-blue-500" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 6v6l4 2"/>
-                    <circle cx="12" cy="12" r="10"/>
-                </svg>
-                <div>
-                    <p class="text-sm text-gray-500">Buku Terpinjam</p>
-                    <p class="font-bold text-lg">5</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow p-4 flex items-center gap-3">
-                <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 8v4l3 3"/>
-                    <circle cx="12" cy="12" r="10"/>
-                </svg>
-                <div>
-                    <p class="text-sm text-gray-500">Terlambat</p>
-                    <p class="font-bold text-lg">1</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow p-4 flex items-center gap-3">
-                <svg class="w-6 h-6 text-yellow-500" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M12 8c-3 0-5 2-5 4s2 4 5 4 5-2 5-4-2-4-5-4z"/>
-                    <path d="M12 2v4M12 18v4"/>
-                </svg>
-                <div>
-                    <p class="text-sm text-gray-500">Total Denda</p>
-                    <p class="font-bold text-lg">Rp 10.000</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow p-4 flex items-center gap-3">
-                <svg class="w-6 h-6 text-green-500" fill="none" stroke="currentColor" stroke-width="2">
-                    <path d="M4 19.5V6a2 2 0 012-2h12a2 2 0 012 2v13.5"/>
-                    <path d="M8 6v13"/>
-                </svg>
-                <div>
-                    <p class="text-sm text-gray-500">Koleksi Buku</p>
-                    <p class="font-bold text-lg">120</p>
-                </div>
-            </div>
-
+<div class="min-h-screen bg-slate-50 flex flex-col font-sans relative overflow-x-hidden">
+    
+    <!-- BANNER ATAS (Biru Muda sesuai dengan tema Polibrary) -->
+    <div class="bg-gradient-to-r from-sky-100 to-blue-100 text-slate-800 py-12 px-12 relative overflow-hidden shadow-sm border-b border-sky-200">
+        @if(true)
+        <div class="absolute top-0 left-0 right-0 bg-amber-400 text-center py-2 text-xs font-semibold text-slate-900 shadow-sm">
+            Pengingat: Anda memiliki denda yang belum dibayar sebesar <span class="font-bold">Rp 10.000</span>. Mohon segera lunasi di ruang pustakawan.
         </div>
+        @endif
 
+        <div class="max-w-7xl mx-auto mt-4 text-center">
+            <h1 class="text-4xl font-light tracking-wide mb-2 text-slate-800">
+                Selamat Datang, <span class="font-semibold text-sky-900">Umiarti Ningsih</span>
+            </h1>
+            <p class="text-slate-600 text-sm tracking-wide font-medium">
+                Membaca adalah jendela dunia. Lanjutkan petualangan literasimu hari ini.
+            </p>
+        </div>
+    </div>
 
-        <!-- ================= REKOMENDASI ================= -->
-        <div class="mb-10">
-
-            <div class="flex justify-between items-center mb-3">
-                <h2 class="font-bold text-lg text-gray-800">Rekomendasi Buku</h2>
-
-                <div class="flex gap-2">
-                    <button onclick="scrollLeft('rekomendasi')" class="btn-nav">◀</button>
-                    <button onclick="scrollRight('rekomendasi')" class="btn-nav">▶</button>
-                </div>
-            </div>
-
-            <div id="rekomendasi"
-                 class="flex gap-6 overflow-x-auto scroll-smooth pb-3 scrollbar-hide">
-
-                @for ($i = 1; $i <= 6; $i++)
-                <div class="min-w-[260px] bg-white rounded-xl shadow p-4 flex gap-4 hover:shadow-md transition">
-
-                    <!-- COVER (DEFAULT LOGO JIKA TIDAK ADA GAMBAR) -->
-                    <div class="w-[60px] h-[80px] rounded bg-gray-100 flex items-center justify-center overflow-hidden">
-
-                        @if(false)
-                            {{-- nanti diganti: $book->cover --}}
-                            <img src="" class="w-full h-full object-cover">
-                        @else
-                            <img src="{{ asset('image/Polibrary-logo.png') }}"
-                                 class="w-6 h-6 opacity-30 grayscale">
-                        @endif
-
-                    </div>
-
-                    <!-- INFO -->
+    <!-- KONTEN UTAMA (Sistem Dua Kolom) -->
+    <main class="max-w-7xl w-full mx-auto px-6 py-10 flex-1">
+        <div class="grid grid-cols-12 gap-8">
+            
+            <!-- ================= KOLOM KIRI: STATUS & STATISTIK ================= -->
+            <div class="col-span-12 lg:col-span-4 flex flex-col gap-6">
+                
+                <!-- Status Peminjaman -->
+                <div class="bg-emerald-500 text-white rounded-2xl p-6 shadow-sm flex items-center justify-between transition-transform hover:scale-[1.01]">
                     <div>
-                        <h3 class="font-bold text-gray-800">Buku {{ $i }}</h3>
-                        <p class="text-sm text-gray-500">Penulis {{ $i }}</p>
+                        <h2 class="text-xl font-semibold tracking-wide">Status Aman</h2>
+                        <p class="text-emerald-100 text-xs mt-1">Semua buku wajib sudah dikembalikan!</p>
+                    </div>
+                    <div class="bg-white text-emerald-500 p-2 rounded-full shadow-inner">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                </div>
 
-                        <div class="border-b my-2"></div>
-
-                        <p class="text-green-500 text-sm font-semibold">Tersedia</p>
-
-                        <div class="flex gap-2 mt-2">
-                            <button class="bg-gray-100 px-2 py-1 rounded text-xs">Tandai</button>
-                            <button class="bg-blue-500 text-white px-2 py-1 rounded text-xs">Tambah</button>
+                <!-- Detail Ringkasan Akun -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col gap-4">
+                    <h3 class="text-xs font-bold text-slate-400 uppercase tracking-wider">Aktivitas Perpustakaan</h3>
+                    
+                    <div class="flex items-center justify-between p-3 bg-sky-50/50 rounded-xl border border-sky-100">
+                        <div class="flex items-center gap-3">
+                            <span class="text-sky-600 bg-white p-2 rounded-lg text-lg shadow-sm">📚</span>
+                            <span class="text-sm font-medium text-slate-700">Buku Terpinjam</span>
                         </div>
+                        <span class="font-bold text-slate-900 text-lg">5</span>
                     </div>
 
-                </div>
-                @endfor
-
-            </div>
-        </div>
-
-
-        <!-- ================= TERBARU ================= -->
-        <div>
-
-            <div class="flex justify-between items-center mb-3">
-                <h2 class="font-bold text-lg text-gray-800">Buku Terbaru</h2>
-
-                <div class="flex gap-2">
-                    <button onclick="scrollLeft('terbaru')" class="btn-nav">◀</button>
-                    <button onclick="scrollRight('terbaru')" class="btn-nav">▶</button>
-                </div>
-            </div>
-
-            <div id="terbaru"
-                 class="flex gap-6 overflow-x-auto scroll-smooth pb-3 scrollbar-hide">
-
-                @for ($i = 1; $i <= 6; $i++)
-                <div class="min-w-[260px] bg-white rounded-xl shadow p-4 flex gap-4 hover:shadow-md transition">
-
-                    <!-- COVER (DEFAULT LOGO JIKA TIDAK ADA GAMBAR) -->
-                    <div class="w-[60px] h-[80px] rounded bg-gray-100 flex items-center justify-center overflow-hidden">
-
-                        @if(false)
-                            {{-- nanti diganti: $book->cover --}}
-                            <img src="" class="w-full h-full object-cover">
-                        @else
-                            <img src="{{ asset('image/Polibrary-logo.png') }}"
-                                 class="w-6 h-6 opacity-30 grayscale">
-                        @endif
-
+                    <div class="flex items-center justify-between p-3 bg-red-50 rounded-xl border border-red-100">
+                        <div class="flex items-center gap-3">
+                            <span class="text-red-600 bg-white p-2 rounded-lg text-lg shadow-sm">⚠️</span>
+                            <span class="text-sm font-medium text-slate-700">Terlambat</span>
+                        </div>
+                        <span class="font-bold text-red-600 text-lg">1</span>
                     </div>
 
-                    <!-- INFO -->
+                    <div class="flex items-center justify-between p-3 bg-emerald-50/50 rounded-xl border border-emerald-100">
+                        <div class="flex items-center gap-3">
+                            <span class="text-emerald-600 bg-white p-2 rounded-lg text-lg shadow-sm">🏛️</span>
+                            <span class="text-sm font-medium text-slate-700">Total Koleksi</span>
+                        </div>
+                        <span class="font-bold text-slate-900 text-lg">120</span>
+                    </div>
+                </div>
+
+                <!-- Banner Download Aplikasi Mobile -->
+                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm relative overflow-hidden flex flex-col justify-between min-h-[200px]">
+                    <div class="absolute -right-10 -bottom-10 w-32 h-32 bg-sky-50 rounded-full opacity-60 pointer-events-none"></div>
                     <div>
-                        <h3 class="font-bold text-gray-800">Buku Baru {{ $i }}</h3>
-                        <p class="text-sm text-gray-500">Penulis {{ $i }}</p>
+                        <h3 class="text-lg font-bold text-sky-950 tracking-tight">Baca Buku di Mana Saja?</h3>
+                        <p class="text-slate-500 text-[11px] mt-2 leading-relaxed">
+                            Unduh aplikasi <strong class="text-sky-900">Polibrary Mobile</strong> untuk membaca e-book secara offline dan lacak pinjamanmu kapan saja.
+                        </p>
+                    </div>
+                    <div class="flex flex-col gap-1.5 mt-4 relative z-10">
+                        <a href="#" class="border border-sky-300 text-sky-800 font-semibold text-[11px] py-1.5 px-4 rounded-full text-center bg-sky-50 hover:bg-sky-100 transition shadow-sm">
+                            Download iOS
+                        </a>
+                        <a href="#" class="border border-sky-300 text-sky-800 font-semibold text-[11px] py-1.5 px-4 rounded-full text-center bg-sky-50 hover:bg-sky-100 transition shadow-sm">
+                            Download Play Store
+                        </a>
+                    </div>
+                </div>
 
-                        <div class="border-b my-2"></div>
+            </div>
 
-                        <p class="text-green-500 text-sm font-semibold">Tersedia</p>
-                        <div class="flex gap-2 mt-2">
-                            <button class="bg-gray-100 px-2 py-1 rounded text-xs">Tandai</button>
-                            <button class="bg-blue-500 text-white px-2 py-1 rounded text-xs">Tambah</button>
+            <!-- ================= KOLOM KANAN: KATALOG BUKU DENGAN TAB NAVIGASI ================= -->
+            <div class="col-span-12 lg:col-span-8 bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col justify-between">
+                
+                <div>
+                    <h2 class="text-xl font-bold text-sky-950 mb-4">E-Library Explorer</h2>
+                    
+                    <!-- Tab Navigasi Kategori Buku -->
+                    <div class="flex border-b border-slate-200 text-xs font-semibold text-slate-500 mb-6 overflow-x-auto">
+                        <button onclick="switchTab('rekomendasi-section')" id="tab-rekomendasi" class="tab-btn border-b-2 border-sky-500 text-sky-600 pb-3 px-4 flex items-center gap-1.5 whitespace-nowrap">
+                            Rekomendasi Buku 
+                            <span class="bg-sky-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">6</span>
+                        </button>
+                        <button onclick="switchTab('terbaru-section')" id="tab-terbaru" class="tab-btn pb-3 px-4 text-slate-400 hover:text-slate-600 flex items-center gap-1.5 whitespace-nowrap">
+                            Buku Terbaru 
+                            <span class="bg-red-500 text-white text-[10px] px-1.5 py-0.5 rounded-full font-bold">Baru</span>
+                        </button>
+                    </div>
+
+                    <!-- KONTEN TAB 1: REKOMENDASI BUKU -->
+                    <div id="rekomendasi-section" class="tab-content flex flex-col gap-3">
+                        @for ($i = 1; $i <= 4; $i++)
+                        <div class="bg-sky-50/60 hover:bg-sky-50 transition rounded-xl p-4 flex items-center justify-between border border-sky-100/70">
+                            <div class="flex items-center gap-4 min-w-0">
+                                <div class="w-[45px] h-[60px] rounded bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden">
+                                    <img src="{{ asset('image/Polibrary-logo.png') }}" class="w-5 h-5 opacity-20 grayscale">
+                                </div>
+                                <div class="min-w-0">
+                                    <h4 class="font-bold text-slate-800 text-sm truncate">Buku Rekomendasi {{ $i }}</h4>
+                                    <p class="text-[11px] text-slate-500 font-medium">Penulis {{ $i }} • Rak A-{{ $i }}</p>
+                                    <span class="inline-block bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-md mt-1">Tersedia</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="border border-sky-400 text-sky-800 font-medium text-xs px-4 py-1 rounded-full bg-white hover:bg-sky-50 transition shadow-sm">Pinjam</button>
+                            </div>
                         </div>
+                        @endfor
+                    </div>
+
+                    <!-- KONTEN TAB 2: BUKU TERBARU -->
+                    <div id="terbaru-section" class="tab-content flex flex-col gap-3 hidden">
+                        @for ($i = 1; $i <= 4; $i++)
+                        <div class="bg-sky-50/60 hover:bg-sky-50 transition rounded-xl p-4 flex items-center justify-between border border-sky-100/70">
+                            <div class="flex items-center gap-4 min-w-0">
+                                <div class="w-[45px] h-[60px] rounded bg-white border border-slate-200 flex items-center justify-center flex-shrink-0 shadow-sm overflow-hidden">
+                                    <img src="{{ asset('image/Polibrary-logo.png') }}" class="w-5 h-5 opacity-20 grayscale">
+                                </div>
+                                <div class="min-w-0">
+                                    <h4 class="font-bold text-slate-800 text-sm truncate">Buku Rilisan Terbaru {{ $i }}</h4>
+                                    <p class="text-[11px] text-slate-500 font-medium">Penulis Novel {{ $i }} • Tahun 2026</p>
+                                    <span class="inline-block bg-green-100 text-green-700 text-[10px] font-bold px-2 py-0.5 rounded-md mt-1">Tersedia</span>
+                                </div>
+                            </div>
+                            <div class="flex gap-2">
+                                <button class="border border-sky-400 text-sky-800 font-medium text-xs px-4 py-1 rounded-full bg-white hover:bg-sky-50 transition shadow-sm">Pinjam</button>
+                            </div>
+                        </div>
+                        @endfor
                     </div>
 
                 </div>
-                @endfor
+
+                <div class="mt-8">
+                    <button class="border border-sky-500 text-sky-800 font-semibold text-xs py-2 px-6 rounded-full hover:bg-sky-50 transition shadow-sm">
+                        Lihat Semua Koleksi Buku
+                    </button>
+                </div>
 
             </div>
-        </div>
 
+        </div>
     </main>
-
 </div>
-
 @endsection
-
 
 @push('scripts')
 <script>
-function scrollLeft(id) {
-    document.getElementById(id).scrollBy({
-        left: -300,
-        behavior: 'smooth'
-    });
-}
+// Fungsi Switch Tab Buku (Hanya logika tab internal halaman dashboard)
+function switchTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    document.getElementById(tabId).classList.remove('hidden');
 
-function scrollRight(id) {
-    document.getElementById(id).scrollBy({
-        left: 300,
-        behavior: 'smooth'
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('border-b-2', 'border-sky-500', 'text-sky-600');
+        btn.classList.add('text-gray-400');
     });
+
+    const activeTab = event.currentTarget;
+    activeTab.classList.add('border-b-2', 'border-sky-500', 'text-sky-600');
+    activeTab.classList.remove('text-gray-400');
 }
 </script>
 @endpush

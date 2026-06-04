@@ -136,3 +136,6 @@ Route::post('/reset-password', [AuthController::class, 'resetPassword'])
 Route::get('/riwayat-peminjaman', function () {
     return view('riwayat-peminjaman');
 })->name('riwayat-peminjaman');
+
+Route::get('/koleksi', [BukuController::class, 'index'])->name('koleksi.index');
+Route::get('/koleksi/subjek', [BukuController::class, 'subjek'])->name('koleksi.subjek');
