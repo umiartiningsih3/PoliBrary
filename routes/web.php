@@ -139,16 +139,17 @@ Route::get('/reset-password', [PasswordController::class, 'showForm']);
 // Untuk memproses data (POST)
 Route::post('/reset-password', [PasswordController::class, 'update']);
 
+// Gunakan titik (.) untuk memisahkan nama folder
 Route::get('/riwayat-peminjaman', function () {
-    return view('riwayat-peminjaman');
-})->name('riwayat-peminjaman');
+    return view('peminjaman.riwayat'); 
+})->name('riwayat.index');
 
 Route::get('/koleksi', [BukuController::class, 'index'])->name('koleksi.index');
 Route::get('/koleksi/subjek', [BukuController::class, 'subjek'])->name('koleksi.subjek');
 Route::get('/cari', [App\Http\Controllers\BukuController::class, 'searchGlobal'])->name('global.search');
-Route::get('/denda', function () {
-    return view('account.fines');
-});
+// Tambahkan baris ini di routes/web.php
+// Sesuaikan Controller dan Method-nya dengan yang Anda miliki
+Route::get('/denda', [App\Http\Controllers\DendaController::class, 'index'])->name('denda');    
 Route::get('/peminjaman/detail/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.detail');
 
 // Rute untuk menampilkan form (GET)
@@ -157,3 +158,28 @@ Route::get('/reset-password', [PasswordController::class, 'showForm'])->name('pa
 // Rute untuk memproses form (POST)
 // Pastikan namanya 'password.reset' agar sesuai dengan error yang muncul
 Route::post('/reset-password', [PasswordController::class, 'update'])->name('password.reset');
+
+Route::get('/riwayat-peminjaman', function () {
+    // Simulasi data riwayat (Nantinya ini diambil dari Database/Model)
+    $riwayat = [
+        ['judul' => 'Pemrograman Laravel', 'tgl_pinjam' => '2026-06-01', 'tgl_kembali' => '2026-06-08', 'status' => 'Dikembalikan', 'denda' => 0],
+        ['judul' => 'Basis Data Lanjut', 'tgl_pinjam' => '2026-06-02', 'tgl_kembali' => '-', 'status' => 'Dipinjam', 'denda' => 0],
+    ];
+
+    // Kirim variabel $riwayat ke view
+    return view('peminjaman.riwayat', compact('riwayat')); 
+})->name('riwayat.index');
+
+// Tambahkan baris ini ke routes/web.php
+// Sesuaikan PeminjamanController dengan nama controller yang Anda gunakan
+Route::get('/peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('peminjaman.index');
+
+// Pastikan juga rute untuk denda sudah ada agar tidak error lagi
+Route::get('/denda', [App\Http\Controllers\DendaController::class, 'index'])->name('denda');
+
+use App\Http\Controllers\DendaController; // Tambahkan ini di paling atas
+
+Route::get('/denda', [DendaController::class, 'index'])->name('denda');
+
+Route::get('/pinjaman-saya', [App\Http\Controllers\PeminjamanController::class, 'pinjamanSaya'])->name('pinjaman-saya');
+Route::get('/peminjaman/detail/{id}', [App\Http\Controllers\PeminjamanController::class, 'show'])->name('peminjaman.detail');

@@ -8,28 +8,16 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class PeminjamanController extends Controller
 {
-    public function index()
-    {
-        // Simulasi data untuk keperluan PBL Digital Library
-        $riwayat = [
-            [
-                'judul' => 'Introduction to Algorithms',
-                'tgl_pinjam' => '2026-04-12',
-                'tgl_kembali' => '2026-04-19',
-                'status' => 'Dikembalikan',
-                'denda' => 0
-            ],
-            [
-                'judul' => 'Clean Code',
-                'tgl_pinjam' => '2026-05-01',
-                'tgl_kembali' => '2026-05-10',
-                'status' => 'Terlambat',
-                'denda' => 6000
-            ],
-        ];
+    public function pinjamanSaya()
+{
+    // Simulasi data untuk "Pinjaman Saya" (buku yang sedang dipinjam)
+    $dataPinjaman = [
+        (object)['id' => 1, 'judul' => 'Pemrograman PHP Modern', 'penulis' => 'Andi Offset', 'tgl_pinjam' => '2026-04-28', 'tgl_kembali' => '2026-05-05', 'status' => 'Berjalan'],
+        (object)['id' => 2, 'judul' => 'Sistem Basis Data', 'penulis' => 'Rinaldi Munir', 'tgl_pinjam' => '2026-05-01', 'tgl_kembali' => '2026-05-08', 'status' => 'Berjalan'],
+    ];
 
-        return view('peminjaman.riwayat', compact('riwayat'));
-    }
+    return view('pinjaman-saya', compact('dataPinjaman'));
+}
 
     public function exportPdf()
     {
@@ -38,8 +26,10 @@ class PeminjamanController extends Controller
         $pdf = Pdf::loadView('peminjaman.riwayat_pdf', compact('riwayat'));
         return $pdf->download('Riwayat_Peminjaman_Umiarti.pdf');
     }
-    public function show($id) {
-    // Logika untuk mengambil data peminjaman berdasarkan $id
+    public function show($id) 
+{
+    // Simulasi data detail berdasarkan ID
+    $dataPeminjaman = (object)['id' => $id, 'judul' => 'Buku Terpilih']; 
     return view('peminjaman.detail', compact('dataPeminjaman'));
 }
 }
