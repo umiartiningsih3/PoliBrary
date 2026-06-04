@@ -101,15 +101,15 @@
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
             Status Denda
         </a>
-        <a href="{{ route('peminjaman.index') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('peminjaman.index') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+        <a href="{{ route('pinjaman-saya') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('peminjaman.index') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
             Pinjaman Saya
         </a>
-        <a href="#" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+        <a href="{{ route('disukai-saya') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
             Disukai Saya
         </a>
-        <a href="#" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+        <a href="{{ route('keamanan-saya') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             Keamanan Saya
         </a>

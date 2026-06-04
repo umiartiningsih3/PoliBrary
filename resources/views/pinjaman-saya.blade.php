@@ -13,7 +13,7 @@
                     <p class="text-sm text-gray-500 mt-1">Daftar buku yang sedang Anda pinjam saat ini</p>
                 </div>
                 <span class="bg-blue-50 text-[#0052cc] text-xs font-bold px-4 py-2 rounded-full border border-blue-100">
-                    {{ $dataPinjaman->count() }} Buku Dipinjam
+                    {{ $dataPinjaman->count() }} {{ count($dataPinjaman) }}
                 </span>
             </div>
 
