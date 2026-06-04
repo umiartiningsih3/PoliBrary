@@ -10,4 +10,15 @@ class DendaController extends Controller
     {
         return view('peminjaman.denda');
     }
+    public function riwayat()
+{
+    $riwayatDenda = Denda::with(['user', 'buku'])->latest()->get();
+    return view('denda.riwayat-denda', compact('riwayatDenda'));
+}
+
+public function export()
+{
+    // Menggunakan package Maatwebsite/Excel
+    return Excel::download(new DendaExport, 'Laporan_Riwayat_Denda_'.date('Y-m-d').'.xlsx');
+}
 }

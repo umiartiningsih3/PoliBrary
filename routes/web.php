@@ -183,3 +183,26 @@ Route::get('/denda', [DendaController::class, 'index'])->name('denda');
 
 Route::get('/pinjaman-saya', [App\Http\Controllers\PeminjamanController::class, 'pinjamanSaya'])->name('pinjaman-saya');
 Route::get('/peminjaman/detail/{id}', [App\Http\Controllers\PeminjamanController::class, 'show'])->name('peminjaman.detail');
+// Menambahkan route untuk menu baru
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Kelola Mahasiswa
+    Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
+    
+    // Kelola Peminjaman
+    Route::get('/peminjaman', [PeminjamanAdminController::class, 'index'])->name('peminjaman.admin');
+    
+    // Kelola Perpanjangan
+    Route::get('/perpanjangan', [PerpanjanganController::class, 'index'])->name('perpanjangan.index');
+    
+    // Kelola Pengembalian
+    Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
+});
+
+// Route untuk Pustakawan
+Route::middleware(['auth', 'admin'])->group(function () {
+    // ... route lainnya ...
+    
+    // Riwayat Denda
+    Route::get('/denda/riwayat', [DendaController::class, 'riwayat'])->name('denda.riwayat');
+    Route::get('/denda/riwayat/export', [DendaController::class, 'export'])->name('denda.riwayat.export');
+});
