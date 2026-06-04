@@ -8,24 +8,18 @@ return new class extends Migration
 {
     public function up()
     {
-        // Tabel User (Disesuaikan dengan field login & profile)
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('nim')->unique(); // Untuk Login
-            $table->string('email')->unique();
-            $table->string('password');
+        // 1. Modifikasi tabel users yang sudah ada
+        Schema::table('users', function (Blueprint $table) {
+            $table->string('nim')->unique()->after('name');
             $table->string('prodi')->nullable();
             $table->date('tgl_lahir')->nullable();
             $table->string('no_telp')->nullable();
-            $table->string('security_question')->nullable(); // Untuk reset password
+            $table->string('security_question')->nullable();
             $table->string('security_answer')->nullable();
             $table->string('avatar')->nullable();
-            $table->rememberToken();
-            $table->timestamps();
         });
 
-        // Tabel Buku (Sesuai form tambah-buku)
+        // 2. Buat tabel baru (hanya untuk tabel yang belum ada, seperti buku)
         Schema::create('buku', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
@@ -35,7 +29,7 @@ return new class extends Migration
             $table->string('tahun_terbit');
             $table->string('kategori');
             $table->string('sub_kategori');
-            $table->string('nomor_inventaris')->unique(); // INV00001
+            $table->string('nomor_inventaris')->unique();
             $table->text('deskripsi');
             $table->integer('jumlah_eksemplar');
             $table->string('cover_image')->nullable();
@@ -45,7 +39,10 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('users');
+        // Hapus kolom yang ditambahkan jika rollback
+        Schema::table('users', function (Blueprint $table) {
+            $table->dropColumn(['nim', 'prodi', 'tgl_lahir', 'no_telp', 'security_question', 'security_answer', 'avatar']);
+        });
         Schema::dropIfExists('buku');
     }
 };
