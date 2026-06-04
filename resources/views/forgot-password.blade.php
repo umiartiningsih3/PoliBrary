@@ -47,19 +47,17 @@
                         class="w-full px-4 py-3 rounded-xl bg-white/90 border mt-2">
                 </div>
 
-                <!-- Pertanyaan -->
-                <div class="mb-4">
-                    <label class="text-sm font-semibold text-gray-700">Pertanyaan Keamanan</label>
-
-                    <select name="question"
-                        class="w-full px-4 py-3 rounded-xl bg-white/90 border mt-2">
-                        <option disabled selected>Pilih pertanyaan</option>
-                        <option value="food">Makanan kesukaan</option>
-                        <option value="place">Tempat favorit</option>
-                        <option value="parent">Nama orang tua</option>
-                        <option value="birthplace">Tempat kelahiran</option>
-                    </select>
-                </div>
+                <!-- Pertanyaan Keamanan (Diperbarui) -->
+<div class="mb-4">
+    <label class="text-sm font-semibold text-gray-700">Pertanyaan Keamanan</label>
+    <select name="question"
+        class="w-full px-4 py-3 rounded-xl bg-white/90 border mt-2 outline-none focus:ring-2 focus:ring-sky-300">
+        <option disabled selected>Pilih pertanyaan</option>
+        <option value="favorit">Apa tempat favorit Anda?</option>
+        <option value="makanan">Apa makanan kesukaan Anda?</option>
+        <option value="kota">Apa kota impian Anda?</option>
+    </select>
+</div>
 
                 <!-- Jawaban -->
                 <div class="mb-6">
