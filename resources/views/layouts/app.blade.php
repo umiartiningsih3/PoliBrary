@@ -58,48 +58,77 @@
     @if(!Route::is('login') && !Route::is('register'))
     <div id="sidebarBackdrop" class="fixed inset-0 bg-slate-900/40 z-50 hidden transition-opacity duration-300 opacity-0"></div>
     
-    <aside id="sidebarMenu" class="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-r border-slate-200">
-        <div class="px-6 h-[60px] border-b border-slate-100 flex items-center justify-between bg-slate-50">
-            <div class="flex items-center gap-2">
-                <img src="{{ asset('image/Polibrary-logo.png') }}" class="h-8 w-auto" alt="Logo">
-                <span class="font-bold text-slate-800 text-sm tracking-wider uppercase">Polibrary</span>
-            </div>
-            <button id="sidebarClose" class="p-1.5 hover:bg-slate-200 text-slate-500 rounded-lg transition">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
+   <aside id="sidebarMenu" class="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-r border-slate-200">
+    <!-- Header dengan Tombol Close -->
+    <div class="px-6 h-[60px] flex items-center justify-between">
+        <button id="sidebarClose" class="p-1 text-slate-500 hover:bg-slate-100 rounded-full">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+        </button>
+        <img src="{{ asset('image/Polibrary-logo.png') }}" class="h-8 w-auto" alt="Logo">
+    </div>
 
-        <nav class="flex-1 p-4 flex flex-col gap-1">
-            <a href="{{ route('dashboard') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-semibold {{ Route::is('dashboard') ? 'text-blue-600 bg-blue-50' : 'text-gray-700 hover:bg-gray-50' }} rounded-xl transition">
-                <span class="text-base">🏠 Beranda</span>
-            </a>
-            <a href="/koleksi" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">
-                <span class="text-base">📚 Koleksi Buku</span>
-            </a>
-            <a href="{{ route('keranjang') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">
-                <span class="text-base">🛒 Keranjang Saya</span>
-            </a>
-            <a href="{{ route('tambah-buku') }}" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">
-                <span class="text-base">➕ Tambah Koleksi</span>
-            </a>
-            <a href="#" class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-blue-50 hover:text-blue-600 rounded-xl transition">
-                <span class="text-base">💳 Status Denda</span>
-            </a>
-            
-            <div class="border-t border-slate-100 my-4"></div>
-            
-            <a href="{{ route('logout') }}" 
-               onclick="event.preventDefault(); document.getElementById('sidebar-logout-form').submit();"
-               class="flex items-center gap-3 px-4 py-3 text-sm font-medium text-red-500 hover:bg-red-50 rounded-xl transition mt-auto">
-                <span class="text-base">🚪 Keluar Sesi</span>
-            </a>
-            <form id="sidebar-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">
-                @csrf
-            </form>
-        </nav>
-    </aside>
+    <!-- Area Profil dengan Gradasi Biru -->
+<div class="bg-gradient-to-br from-[#0052cc] to-[#3b82f6] p-6 text-white shadow-md">
+    <div class="flex items-center justify-between mb-4">
+        <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-xl shadow-inner border border-white/30">
+            {{ isset(auth()->user()->name) ? strtoupper(substr(auth()->user()->name, 0, 2)) : 'UN' }}
+        </div>
+        <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('sidebar-logout-form').submit();" class="text-xs font-semibold hover:text-white transition opacity-90">
+            Sign out ⟳
+        </a>
+    </div>
+    <p class="font-semibold text-sm truncate">{{ auth()->user()->name ?? 'Umiarti Ningsih' }}</p>
+    <div class="flex justify-between items-center">
+        <p class="text-xs text-blue-50 truncate">{{ auth()->user()->email ?? 'umiarti.ningsih@polibatam.ac.id' }}</p>
+        
+        <!-- Ikon pensil dibungkus dengan link ke route profile -->
+        <a href="{{ route('profile') }}" class="hover:text-white transition p-1">
+            ✎
+        </a>
+    </div>
+</div>
+
+    <!-- Menu Navigasi (Ikon Biru Seragam) -->
+    <nav class="flex-1 p-2 flex flex-col gap-1 overflow-y-auto">
+        <a href="{{ route('dashboard') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('dashboard') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            Home
+        </a>
+        <a href="/koleksi" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+            Koleksi Buku
+        </a>
+        <a href="{{ route('keranjang') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+            Keranjang Saya
+        </a>
+        <a href="{{ route('tambah-buku') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Tambah Koleksi
+        </a>
+        <a href="#" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+            Status Denda
+        </a>
+        <a href="#" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
+            Pinjaman Saya
+        </a>
+        <a href="#" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
+            Disukai Saya
+        </a>
+        <a href="#" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            Keamanan Saya
+        </a>
+        <a href="#" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            Riwayat Peminjaman
+        </a>
+    </nav>
+    <form id="sidebar-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
+</aside>
     @endif
 
 
@@ -119,18 +148,20 @@
             </a>
         </div>
 
-        <div class="flex-1 max-w-xl mx-8 hidden md:block">
+        <form action="{{ route('global.search') }}" method="GET" class="flex-1 max-w-xl mx-8 hidden md:block">
             <div class="relative flex items-center shadow-sm rounded-lg border border-gray-200 bg-gray-50">
                 <input type="text" 
+                       name="q"
+                       value="{{ request('q') }}"
                        placeholder="Cari judul buku, penulis, atau kategori di platform..." 
                        class="w-full bg-transparent px-4 py-2 text-xs text-gray-600 placeholder-gray-400 focus:outline-none transition rounded-l-lg">
-                <button class="bg-[#10b981] hover:bg-[#059669] text-white px-5 h-[34px] rounded-r-lg transition flex items-center justify-center">
+                <button type="submit" class="bg-[#10b981] hover:bg-[#059669] text-white px-5 h-[34px] rounded-r-lg transition flex items-center justify-center">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                 </button>
             </div>
-        </div>
+        </form>
 
         <div class="flex items-center gap-4">
             
@@ -216,7 +247,7 @@
             setTimeout(() => {
                 sidebarMenu.classList.remove('-translate-x-full');
                 sidebarBackdrop.classList.add('opacity-100');
-            }, 20); // memberikan sedikit delay mikro agar transisi CSS terpancing
+            }, 20);
         }
 
         function closeSidebar() {
@@ -225,15 +256,13 @@
             sidebarBackdrop.classList.remove('opacity-100');
             setTimeout(() => {
                 sidebarBackdrop.classList.add('hidden');
-            }, 300); // Durasi diatur 300ms sesuai class duration-300 Tailwind
+            }, 300);
         }
 
-        // Memasang Event Listener Klik ke Elemen Sidebar
         if(sidebarToggle) sidebarToggle.addEventListener('click', openSidebar);
         if(sidebarClose) sidebarClose.addEventListener('click', closeSidebar);
         if(sidebarBackdrop) sidebarBackdrop.addEventListener('click', closeSidebar);
 
-        // Menutup Dropdown atau Menu saat klik di area kosong manapun
         window.addEventListener('click', function(e) {
             const menu = document.getElementById('menuDropdown');
             const profile = document.getElementById('profileDropdown');

@@ -139,3 +139,8 @@ Route::get('/riwayat-peminjaman', function () {
 
 Route::get('/koleksi', [BukuController::class, 'index'])->name('koleksi.index');
 Route::get('/koleksi/subjek', [BukuController::class, 'subjek'])->name('koleksi.subjek');
+Route::get('/cari', [App\Http\Controllers\BukuController::class, 'searchGlobal'])->name('global.search');
+Route::get('/denda', function () {
+    return view('account.fines');
+});
+Route::get('/peminjaman/detail/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.detail');

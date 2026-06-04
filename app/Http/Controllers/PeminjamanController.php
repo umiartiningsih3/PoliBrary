@@ -38,4 +38,8 @@ class PeminjamanController extends Controller
         $pdf = Pdf::loadView('peminjaman.riwayat_pdf', compact('riwayat'));
         return $pdf->download('Riwayat_Peminjaman_Umiarti.pdf');
     }
+    public function show($id) {
+    // Logika untuk mengambil data peminjaman berdasarkan $id
+    return view('peminjaman.detail', compact('dataPeminjaman'));
+}
 }
