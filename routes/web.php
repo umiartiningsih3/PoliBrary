@@ -6,6 +6,8 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\PeminjamanController;
 use App\Http\Controllers\BukuController;
+use App\Http\Controllers\PasswordController;
+
 
 // Route Home[cite: 4]
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -130,8 +132,12 @@ Route::get('/verify-otp', function () {
 Route::post('/verify-otp', [AuthController::class, 'verifyOtp'])
     ->name('otp.verify');
 
-Route::post('/reset-password', [AuthController::class, 'resetPassword'])
-    ->name('password.reset');
+Route::match(['get', 'post'], '/reset-password', [PasswordController::class, 'update']);
+// Untuk menampilkan form (GET)
+Route::get('/reset-password', [PasswordController::class, 'showForm']);
+
+// Untuk memproses data (POST)
+Route::post('/reset-password', [PasswordController::class, 'update']);
 
 Route::get('/riwayat-peminjaman', function () {
     return view('riwayat-peminjaman');
@@ -144,3 +150,10 @@ Route::get('/denda', function () {
     return view('account.fines');
 });
 Route::get('/peminjaman/detail/{id}', [PeminjamanController::class, 'show'])->name('peminjaman.detail');
+
+// Rute untuk menampilkan form (GET)
+Route::get('/reset-password', [PasswordController::class, 'showForm'])->name('password.show');
+
+// Rute untuk memproses form (POST)
+// Pastikan namanya 'password.reset' agar sesuai dengan error yang muncul
+Route::post('/reset-password', [PasswordController::class, 'update'])->name('password.reset');
