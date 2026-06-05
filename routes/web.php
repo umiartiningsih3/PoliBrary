@@ -206,3 +206,25 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/denda/riwayat', [DendaController::class, 'riwayat'])->name('denda.riwayat');
     Route::get('/denda/riwayat/export', [DendaController::class, 'export'])->name('denda.riwayat.export');
 });
+
+use App\Http\Controllers\MahasiswaController;
+
+Route::post('/admin/mahasiswa/store', [MahasiswaController::class, 'store'])->name('admin.store-mahasiswa');
+Route::get('/admin/mahasiswa', [MahasiswaController::class, 'index'])->name('admin.mahasiswa');
+
+
+// Halaman Login
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+
+// Proses Login (Post)
+Route::post('/login', [AuthController::class, 'login'])->name('login.process');
+
+// Route Dashboard (Pastikan dilindungi middleware auth)
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware('auth')->name('dashboard');
+
+Route::get('/koleksi', [BukuController::class, 'index'])->name('koleksi.index');
+Route::post('/koleksi/store', [BukuController::class, 'store'])->name('buku.store');
+Route::delete('/koleksi/hapus/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
+Route::get('/koleksi/subjek', [BukuController::class, 'subjek'])->name('koleksi.subjek');

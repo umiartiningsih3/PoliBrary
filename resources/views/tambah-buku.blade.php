@@ -10,97 +10,102 @@
 
     <div class="bg-white p-8 shadow-sm rounded-2xl border border-gray-100">
 
-        <form action="#" method="POST" enctype="multipart/form-data">
-            @csrf
+        <form action="{{ route('buku.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
-            <div class="grid grid-cols-3 gap-8">
+    <div class="grid grid-cols-3 gap-8">
+        <div class="flex flex-col items-center">
+            <div class="w-40 h-48 bg-gray-50 mb-3 rounded-xl border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden">
+                <img id="previewImage"
+                     src="{{ asset('image/Polibrary-logo.png') }}"
+                     class="w-16 h-16 opacity-30 grayscale object-contain">
+            </div>
 
-                <div class="flex flex-col items-center">
-                    <div class="w-40 h-48 bg-gray-50 mb-3 rounded-xl border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden">
-                        <img id="previewImage"
-                             src="{{ asset('image/Polibrary-logo.png') }}"
-                             class="w-16 h-16 opacity-30 grayscale object-contain">
-                    </div>
+            <input type="file" name="sampul" id="fileInput" accept="image/*"
+                   onchange="previewCover(event)" class="hidden">
 
-                    <input type="file"
-                           accept="image/*"
-                           onchange="previewCover(event)"
-                           class="text-sm w-40 mb-2 file:hidden cursor-pointer">
+            <label for="fileInput"
+                   class="cursor-pointer bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 text-sm font-semibold text-gray-700 transition">
+                Unggah Sampul
+            </label>
+        </div>
 
-                    <button type="button"
-                            class="bg-gray-100 px-4 py-2 rounded-lg hover:bg-gray-200 text-sm font-semibold text-gray-700 transition">
-                        Unggah Sampul
-                    </button>
-                </div>
+        <div class="col-span-2 grid grid-cols-2 gap-4 text-sm">
+            <div>
+                <label class="font-semibold text-gray-700">Judul Buku</label>
+                <input type="text" name="judul_buku" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
+            </div>
+            <div>
+                <label class="font-semibold text-gray-700">ISBN</label>
+                <input type="text" name="isbn" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
+            </div>
+            <div>
+                <label class="font-semibold text-gray-700">Penulis</label>
+                <input type="text" name="penulis" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
+            </div>
+            <div>
+                <label class="font-semibold text-gray-700">Kategori Buku</label>
+                <select id="kategori" name="kategori" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none bg-white transition">
+                    <option value="">Pilih Kategori</option>
 
-                <div class="col-span-2 grid grid-cols-2 gap-4 text-sm">
-                    <div>
-                        <label class="font-semibold text-gray-700">Judul Buku</label>
-                        <input type="text" class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                    <div>
-                        <label class="font-semibold text-gray-700">ISBN</label>
-                        <input type="text" class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                    <div>
-                        <label class="font-semibold text-gray-700">Penulis</label>
-                        <input type="text" class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                    <div>
-                        <label class="font-semibold text-gray-700">Kategori Buku</label>
-                        <select id="kategori" class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none bg-white transition">
-                            <option value="">Pilih Kategori</option>
                             <option value="fiksi">Fiksi</option>
-                            <option value="nonfiksi">Non-Fiksi</option>
-                            <option value="pendidikan">Pendidikan</option>
-                            <option value="ip">Ilmu Pengetahuan</option>
-                            <option value="teknologi">Teknologi & Komputer</option>
-                            <option value="sosial">Sosial & Humaniora</option>
-                            <option value="bahasa">Bahasa</option>
-                            <option value="seni">Seni & Budaya</option>
-                            <option value="agama">Agama</option>
-                            <option value="referensi">Referensi</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="font-semibold text-gray-700">Sub Kategori</label>
-                        <select id="subkategori" class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none bg-white transition">
-                            <option value="">Pilih Sub Kategori</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="font-semibold text-gray-700">Nomor Inventaris</label>
-                        <div class="w-full border border-gray-200 p-2.5 rounded-lg bg-gray-50 text-blue-600 font-mono font-bold">
-                            INV00001
-                        </div>
-                        <p class="text-xs text-gray-400 mt-1">Akan otomatis dibuat oleh sistem</p>
-                    </div>
-                    <div>
-                        <label class="font-semibold text-gray-700">Penerbit</label>
-                        <input type="text" class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                    <div>
-                        <label class="font-semibold text-gray-700">Tahun Terbit</label>
-                        <input type="text" class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                    <div class="col-span-2">
-                        <label class="font-semibold text-gray-700">Deskripsi Buku</label>
-                        <textarea class="w-full border border-gray-200 p-2.5 h-24 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition"></textarea>
-                    </div>
-                    <div class="col-span-2 flex items-center gap-3">
-                        <label class="font-semibold text-gray-700">Jumlah Eksemplar</label>
-                        <input type="number" class="w-20 border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
-                    </div>
-                </div>
-            </div>
 
-            <div class="mt-8 flex gap-4 justify-end border-t pt-6">
-                <button type="reset" class="px-6 py-2.5 rounded-lg font-semibold text-gray-600 hover:bg-gray-100 transition">Batal</button>
-                <button type="submit" class="bg-gradient-to-r from-[#0052cc] to-[#3b82f6] text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:shadow-lg transition">
-                    Tambah Buku
-                </button>
+                            <option value="nonfiksi">Non-Fiksi</option>
+
+                            <option value="pendidikan">Pendidikan</option>
+
+                            <option value="ip">Ilmu Pengetahuan</option>
+
+                            <option value="teknologi">Teknologi & Komputer</option>
+
+                            <option value="sosial">Sosial & Humaniora</option>
+
+                            <option value="bahasa">Bahasa</option>
+
+                            <option value="seni">Seni & Budaya</option>
+
+                            <option value="agama">Agama</option>
+
+                            <option value="referensi">Referensi</option>
+                    </select>
             </div>
-        </form>
+            <div>
+                <label class="font-semibold text-gray-700">Sub Kategori</label>
+                <select id="subkategori" name="sub_kategori" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none bg-white transition">
+                    <option value="">Pilih Sub Kategori</option>
+                </select>
+            </div>
+            <div>
+                <label class="font-semibold text-gray-700">Nomor Inventaris</label>
+                <input type="text" name="no_inventaris" value="AUTO" readonly class="w-full border border-gray-200 p-2.5 rounded-lg bg-gray-50 text-blue-600 font-mono font-bold">
+            </div>
+            <div>
+                <label class="font-semibold text-gray-700">Penerbit</label>
+                <input type="text" name="penerbit" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
+            </div>
+            <div>
+                <label class="font-semibold text-gray-700">Tahun Terbit</label>
+                <input type="number" name="tahun_terbit" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
+            </div>
+            <div class="col-span-2">
+                <label class="font-semibold text-gray-700">Deskripsi Buku</label>
+                <textarea name="deskripsi" class="w-full border border-gray-200 p-2.5 h-24 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition"></textarea>
+            </div>
+            <div class="col-span-2 flex items-center gap-3">
+                <label class="font-semibold text-gray-700">Jumlah Eksemplar</label>
+                <input type="number" name="jumlah_eksemplar" required class="w-20 border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-8 flex gap-4 justify-end border-t pt-6">
+        <button type="reset" class="px-6 py-2.5 rounded-lg font-semibold text-gray-600 hover:bg-gray-100 transition">Batal</button>
+        <button type="submit" class="bg-gradient-to-r from-[#0052cc] to-[#3b82f6] text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:shadow-lg transition">
+            Tambah Buku
+        </button>
+    </div>
+</form>
     </div>
 </div>
 

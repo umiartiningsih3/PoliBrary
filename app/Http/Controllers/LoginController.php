@@ -9,6 +9,6 @@ class LoginController extends Controller
 {
     public function index()
 {
-    return view('login'); // Hapus 'auth.' jika file ada di resources/views/login.blade.php
+    return view('auth.login'); // Sesuaikan dengan path foldernya
 }
 }

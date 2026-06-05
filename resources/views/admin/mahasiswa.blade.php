@@ -67,22 +67,37 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
-                            <!-- Contoh Baris Data -->
-                            <tr class="hover:bg-gray-50/50 transition">
-                                <td class="px-4 py-4 font-mono text-gray-600">2241101001</td>
-                                <td class="px-4 py-4 font-bold text-gray-800">Ahmad Faisal</td>
-                                <td class="px-4 py-4">
-                                    <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-[10px] font-bold uppercase tracking-wide">D3 TI</span>
-                                </td>
-                                <td class="px-4 py-4 text-gray-500 text-xs">
-                                    {{ date('d M Y') }}
-                                </td>
-                                <td class="px-4 py-4 text-center space-x-3">
-                                    <button class="text-blue-500 hover:text-blue-700 font-bold text-xs">Edit</button>
-                                    <button class="text-red-400 hover:text-red-600 font-bold text-xs">Hapus</button>
-                                </td>
-                            </tr>
-                        </tbody>
+    @forelse($mahasiswas as $mhs)
+        <tr class="hover:bg-gray-50/50 transition">
+            <td class="px-4 py-4 font-mono text-gray-600">{{ $mhs->nim }}</td>
+            <td class="px-4 py-4 font-bold text-gray-800">{{ $mhs->name }}</td>
+            <td class="px-4 py-4">
+                <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-[10px] font-bold uppercase tracking-wide">
+                    {{ $mhs->prodi }}
+                </span>
+            </td>
+            <td class="px-4 py-4 text-gray-500 text-xs">
+                {{ $mhs->created_at ? $mhs->created_at->format('d M Y') : '-' }}
+            </td>
+            <td class="px-4 py-4 text-center space-x-3">
+                <a href="#" class="text-blue-500 hover:text-blue-700 font-bold text-xs">Edit</a>
+                
+                <form action="#" method="POST" class="inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-red-400 hover:text-red-600 font-bold text-xs" 
+                            onclick="return confirm('Yakin ingin menghapus?')">
+                        Hapus
+                    </button>
+                </form>
+            </td>
+        </tr>
+    @empty
+        <tr>
+            <td colspan="5" class="px-4 py-8 text-center text-gray-400">Belum ada data mahasiswa.</td>
+        </tr>
+    @endforelse
+</tbody>
                     </table>
                 </div>
             </div>

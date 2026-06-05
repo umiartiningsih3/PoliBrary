@@ -43,65 +43,43 @@
 
             <div class="border-t border-white/40 mb-6"></div>
 
-            <!-- FORM (LEFT ALIGNED DEFAULT) -->
-            <form action="{{ route('dashboard') }}" method="GET">
-                @csrf
+            <form action="{{ route('login.process') }}" method="POST">
+    @csrf
 
-                <!-- NIM -->
-                <div class="mb-5">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        NIM
-                    </label>
+    @if($errors->any())
+        <div class="mb-4 p-3 bg-red-100 text-red-600 text-sm rounded-lg">
+            {{ $errors->first() }}
+        </div>
+    @endif
 
-                    <input type="text"
-                           placeholder="Masukkan NIM"
-                           class="w-full px-4 py-3 rounded-xl
-                                  bg-white/90 border border-gray-300
-                                  outline-none
-                                  focus:ring-2 focus:ring-sky-400
-                                  focus:border-transparent
-                                  transition">
-                </div>
+    <div class="mb-5">
+        <label class="block text-sm font-semibold text-gray-700 mb-2">NIM</label>
+        <input type="text" name="nim" required value="{{ old('nim') }}"
+               placeholder="Masukkan NIM"
+               class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 outline-none focus:ring-2 focus:ring-sky-400 transition">
+    </div>
 
-                <!-- Password -->
-                <div class="mb-6">
-                    <label class="block text-sm font-semibold text-gray-700 mb-2">
-                        Kata Sandi
-                    </label>
+    <div class="mb-6">
+        <label class="block text-sm font-semibold text-gray-700 mb-2">Kata Sandi</label>
+        <input type="password" name="password" required
+               placeholder="Masukkan kata sandi"
+               class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 outline-none focus:ring-2 focus:ring-sky-400 transition">
+    </div>
 
-                    <input type="password"
-                           placeholder="Masukkan kata sandi"
-                           class="w-full px-4 py-3 rounded-xl
-                                  bg-white/90 border border-gray-300
-                                  outline-none
-                                  focus:ring-2 focus:ring-sky-400
-                                  focus:border-transparent
-                                  transition">
-                </div>
 
-                <!-- Remember -->
-                <div class="flex items-center justify-between mb-6">
-                    <label class="flex items-center gap-2 text-sm text-gray-700">
-                        <input type="checkbox"
-                               class="rounded border-gray-300 text-sky-500 focus:ring-sky-400">
-                        Ingat saya
-                    </label>
+    <button type="submit"
+            class="w-full bg-sky-400 hover:bg-sky-500 text-white font-bold py-3 rounded-full shadow-lg transition">
+        Masuk
+    </button>
 
-                    <a href="{{ route('forgot.password') }}"
-   class="text-sm text-blue-700 hover:underline">
-    Lupa password?
-</a>
-                </div>
+    <div class="text-center">
+        <a href="{{ route('forgot.password') }}"
+           class="text-sm text-blue-700 hover:text-blue-900 hover:underline transition font-medium">
+            Lupa password?
+        </a>
+    </div>
 
-                <!-- Button -->
-                <button type="submit"
-                        class="w-full bg-sky-400 hover:bg-sky-500
-                               text-white font-bold py-3 rounded-full
-                               shadow-lg transition duration-300">
-                    Masuk
-                </button>
-
-            </form>
+</form>
 
         </div>
 

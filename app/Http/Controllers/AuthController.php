@@ -2,45 +2,68 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     // Menampilkan halaman login
     public function showLogin()
     {
-        return view('auth.login'); // Pastikan file login.blade.php ada di folder resources/views/auth/
+        return view('auth.login');
     }
 
     // Menangani proses login
     public function login(Request $request)
+{
+    $credentials = $request->validate([
+        'nim' => ['required', 'string'],
+        'password' => ['required'],
+    ]);
+
+    // Kita beritahu Auth untuk menggunakan 'nim' sebagai identitas
+    if (Auth::attempt(['nim' => $request->nim, 'password' => $request->password])) {
+        $request->session()->regenerate();
+        return redirect()->intended('dashboard');
+    }
+
+    return back()->withErrors([
+        'nim' => 'NIM atau password salah.',
+    ])->onlyInput('nim');
+}
+
+    // Logika verifikasi untuk Lupa Password (Validasi Data)
+    public function verifyForOtp(Request $request)
     {
-        $credentials = $request->validate([
-            'nim' => ['required'],
-            'password' => ['required'],
+        $request->validate([
+            'nim' => 'required',
+            'tgl_lahir' => 'required|date',
+            'security_answer' => 'required'
         ]);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            return redirect()->intended('dashboard');
+        // Cari user berdasarkan NIM
+        $user = User::where('nim', $request->nim)
+                    ->where('tgl_lahir', $request->tgl_lahir)
+                    ->where('security_answer', $request->security_answer)
+                    ->first();
+
+        if ($user) {
+            // Di sini Anda bisa mengarahkan ke halaman input OTP atau reset password
+            return redirect()->route('password.reset.form', ['user' => $user->id])
+                             ->with('success', 'Data valid, silakan buat password baru.');
         }
 
-        return back()->withErrors([
-            'nim' => 'NIM atau password salah.',
-        ]);
+        return back()->withErrors(['error' => 'Data verifikasi tidak cocok.']);
     }
 
-    // Menampilkan halaman lupa password
-    public function showForgotPassword()
+    // Logout
+    public function logout(Request $request)
     {
-        return view('auth.forgot-password'); // Pastikan ini adalah file blade yang baru kita buat
-    }
-
-    // Logika kirim OTP
-    public function sendOtp(Request $request)
-    {
-        // Logika verifikasi NIM, Tanggal Lahir, dan Jawaban Keamanan akan di sini
-        return "OTP telah dikirim.";
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        return redirect('/login');
     }
 }
