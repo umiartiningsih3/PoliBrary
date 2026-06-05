@@ -4,7 +4,7 @@
 
 <div class="max-w-5xl mx-auto py-10 px-6">
 
-    <h2 class="text-3xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-[#0052cc] to-[#3b82f6]">
+    <h2 class="text-3xl font-bold mb-6 bg-clip-text tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-400">
         Tambah Koleksi Buku
     </h2>
 

@@ -5,7 +5,7 @@
      x-data="{ aktifSub: 'Fiksi', aktifSubCat: null }">
 
     <div class="text-center max-w-4xl mx-auto">
-        <h2 class="text-3xl font-extrabold text-slate-800 tracking-tight">Koleksi Buku</h2>
+        <h2 class="text-3xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-400">Koleksi Buku</h2>
         <p class="text-slate-500 text-sm mt-1">Jelajahi berbagai pustaka dan literatur digital pendukung akademik Anda.</p>
 
         <div class="bg-white border border-slate-200 rounded-xl mt-6 shadow-sm overflow-hidden">

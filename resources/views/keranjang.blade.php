@@ -8,7 +8,7 @@
         
         <!-- Header -->
         <div class="mb-8 border-b pb-6">
-            <h2 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#0052cc] to-[#3b82f6]">
+            <h2 class="text-3xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-400">
                 Keranjang Saya
             </h2>
             <p class="text-slate-500 mt-1">Kelola daftar buku yang ingin Anda pinjam.</p>
