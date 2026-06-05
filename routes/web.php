@@ -228,3 +228,6 @@ Route::get('/koleksi', [BukuController::class, 'index'])->name('koleksi.index');
 Route::post('/koleksi/store', [BukuController::class, 'store'])->name('buku.store');
 Route::delete('/koleksi/hapus/{id}', [BukuController::class, 'destroy'])->name('buku.destroy');
 Route::get('/koleksi/subjek', [BukuController::class, 'subjek'])->name('koleksi.subjek');
+
+// Pastikan route ini ada
+Route::post('/koleksi/store', [BukuController::class, 'store'])->name('buku.store');

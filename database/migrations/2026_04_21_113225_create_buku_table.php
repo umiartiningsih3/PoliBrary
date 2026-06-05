@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('tahun_terbit');
             $table->string('kategori');
             $table->string('sub_kategori');
-            $table->string('nomor_inventaris')->unique();
+            $table->string('no_inventaris')->unique();
             $table->text('deskripsi')->nullable();
             $table->integer('jumlah_eksemplar');
             $table->string('cover_image')->nullable();

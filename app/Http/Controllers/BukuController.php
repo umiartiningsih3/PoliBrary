@@ -15,49 +15,41 @@ class BukuController extends Controller
 
     public function store(Request $request)
 {
+    dd($request->all());
+    // Pastikan key-nya adalah 'judul' (bukan 'judul_buku')
+    // jika di form HTML name-nya adalah name="judul"
     $data = $request->validate([
         'judul' => 'required',
-        'isbn' => 'required|unique:buku',
+        'isbn' => 'required',
         'penulis' => 'required',
         'penerbit' => 'required',
         'tahun_terbit' => 'required',
         'kategori' => 'required',
         'sub_kategori' => 'required',
         'jumlah_eksemplar' => 'required|integer',
-        // 'nomor_inventaris' biasanya digenerate otomatis
+        'deskripsi' => 'nullable',
+        'sampul' => 'nullable|image'
     ]);
 
-    // Contoh generate nomor inventaris otomatis (INV + timestamp)
-    $data['nomor_inventaris'] = 'INV-' . time();
+    // Tambahkan no_inventaris ke dalam array data
+    $data['no_inventaris'] = 'INV-' . time();
+
+    // Tambahkan logika upload sampul jika ada
+    if ($request->hasFile('sampul')) {
+        $data['sampul'] = $request->file('sampul')->store('covers', 'public');
+    }
 
     Buku::create($data);
     return redirect()->route('koleksi.index')->with('success', 'Buku berhasil disimpan!');
 }
-
     public function subjek(Request $request)
-{
-    // Mengambil data unik subjek dan jumlahnya
-    $subjek = \App\Models\Buku::select('kategori', \DB::raw('count(*) as jumlah'))
-                ->groupBy('kategori')
-                ->get();
+    {
+        $subjek = \App\Models\Buku::select('kategori', \DB::raw('count(*) as jumlah'))
+                    ->groupBy('kategori')
+                    ->get();
 
-    // Jika ada request kategori, ambil sub-kategorinya
-    $subkategori = [];
-    $buku = [];
-    if ($request->has('kategori')) {
-        $subkategori = \App\Models\Buku::where('kategori', $request->kategori)
-                        ->select('sub_kategori', \DB::raw('count(*) as jumlah'))
-                        ->groupBy('sub_kategori')
-                        ->get();
-        
-        $buku = \App\Models\Buku::where('kategori', $request->kategori)
-                        ->when($request->sub_kategori, function($q) use ($request) {
-                            return $q->where('sub_kategori', $request->sub_kategori);
-                        })->get();
+        return view('koleksi', compact('subjek'));
     }
-
-    return view('koleksi', compact('subjek', 'subkategori', 'buku'));
-}
 
     public function destroy($id)
     {

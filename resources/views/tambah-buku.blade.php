@@ -3,16 +3,13 @@
 @section('content')
 
 <div class="max-w-5xl mx-auto py-10 px-6">
-
     <h2 class="text-3xl font-bold mb-6 bg-clip-text tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-sky-400">
         Tambah Koleksi Buku
     </h2>
 
     <div class="bg-white p-8 shadow-sm rounded-2xl border border-gray-100">
-
         <form action="{{ route('buku.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
-    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
     <div class="grid grid-cols-3 gap-8">
         <div class="flex flex-col items-center">
@@ -34,7 +31,7 @@
         <div class="col-span-2 grid grid-cols-2 gap-4 text-sm">
             <div>
                 <label class="font-semibold text-gray-700">Judul Buku</label>
-                <input type="text" name="judul_buku" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
+                <input type="text" name="judul" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
             </div>
             <div>
                 <label class="font-semibold text-gray-700">ISBN</label>
@@ -48,27 +45,17 @@
                 <label class="font-semibold text-gray-700">Kategori Buku</label>
                 <select id="kategori" name="kategori" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none bg-white transition">
                     <option value="">Pilih Kategori</option>
-
-                            <option value="fiksi">Fiksi</option>
-
-                            <option value="nonfiksi">Non-Fiksi</option>
-
-                            <option value="pendidikan">Pendidikan</option>
-
-                            <option value="ip">Ilmu Pengetahuan</option>
-
-                            <option value="teknologi">Teknologi & Komputer</option>
-
-                            <option value="sosial">Sosial & Humaniora</option>
-
-                            <option value="bahasa">Bahasa</option>
-
-                            <option value="seni">Seni & Budaya</option>
-
-                            <option value="agama">Agama</option>
-
-                            <option value="referensi">Referensi</option>
-                    </select>
+                    <option value="fiksi">Fiksi</option>
+                    <option value="nonfiksi">Non-Fiksi</option>
+                    <option value="pendidikan">Pendidikan</option>
+                    <option value="ip">Ilmu Pengetahuan</option>
+                    <option value="teknologi">Teknologi & Komputer</option>
+                    <option value="sosial">Sosial & Humaniora</option>
+                    <option value="bahasa">Bahasa</option>
+                    <option value="seni">Seni & Budaya</option>
+                    <option value="agama">Agama</option>
+                    <option value="referensi">Referensi</option>
+                </select>
             </div>
             <div>
                 <label class="font-semibold text-gray-700">Sub Kategori</label>
@@ -89,26 +76,22 @@
                 <input type="number" name="tahun_terbit" required class="w-full border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
             </div>
             <div class="col-span-2">
-                <label class="font-semibold text-gray-700">Deskripsi Buku</label>
-                <textarea name="deskripsi" class="w-full border border-gray-200 p-2.5 h-24 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition"></textarea>
+                <label class="font-semibold text-gray-700">Deskripsi</label>
+                <textarea name="deskripsi" class="w-full border border-gray-200 p-2.5 h-24 rounded-lg"></textarea>
             </div>
-            <div class="col-span-2 flex items-center gap-3">
+            <div class="col-span-2">
                 <label class="font-semibold text-gray-700">Jumlah Eksemplar</label>
-                <input type="number" name="jumlah_eksemplar" required class="w-20 border border-gray-200 p-2.5 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition">
+                <input type="number" name="jumlah_eksemplar" required class="w-20 border border-gray-200 p-2.5 rounded-lg">
             </div>
         </div>
     </div>
 
     <div class="mt-8 flex gap-4 justify-end border-t pt-6">
-        <button type="reset" class="px-6 py-2.5 rounded-lg font-semibold text-gray-600 hover:bg-gray-100 transition">Batal</button>
-        <button type="submit" class="bg-gradient-to-r from-[#0052cc] to-[#3b82f6] text-white px-6 py-2.5 rounded-lg font-semibold shadow-md hover:shadow-lg transition">
-            Tambah Buku
-        </button>
+        <button type="submit" class="bg-blue-600 text-white px-6 py-2.5 rounded-lg font-semibold">Tambah Buku</button>
     </div>
 </form>
     </div>
 </div>
-
 @endsection
 
 @push('scripts')
