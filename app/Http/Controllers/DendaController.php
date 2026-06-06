@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\Denda;
-
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\DendaExport;
 
 class DendaController extends Controller
 {
@@ -13,7 +14,8 @@ class DendaController extends Controller
     }
     public function riwayat()
 {
-    $riwayatDenda = Denda::with(['user', 'buku'])->latest()->get();
+    // Ganti ->get() menjadi ->paginate(10)
+$riwayatDenda = Denda::with(['user', 'buku'])->latest()->paginate(10);
     return view('denda.riwayat-denda', compact('riwayatDenda'));
 }
 

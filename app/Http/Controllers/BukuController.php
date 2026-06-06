@@ -10,7 +10,7 @@ class BukuController extends Controller
     public function index()
     {
         $semuaBuku = Buku::all();
-        return view('koleksi', compact('semuaBuku'));
+        return view('koleksi-abc', compact('semuaBuku'));
     }
 
     public function store(Request $request)

@@ -21,4 +21,10 @@ class Peminjaman extends Model
     {
         return $this->belongsTo(Buku::class, 'buku_id');
     }
+
+    // Di dalam model Peminjaman.php
+public function denda()
+{
+    return $this->hasOne(Denda::class);
+}
 }
