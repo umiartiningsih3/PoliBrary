@@ -10,11 +10,18 @@ class MahasiswaController extends Controller
 {
     public function index()
 {
-    // Mengambil semua data user. Jika ingin hanya mahasiswa, 
-    // Anda bisa tambahkan filter ->where('role', 'mahasiswa')
-    $mahasiswas = \App\Models\User::all(); 
+    // Coba tambahkan dd di sini untuk memastikan data ada
+    $mahasiswas = \App\Models\User::where('tipe_keanggotaan', 'mahasiswa')->get();
     
-    return view('admin.mahasiswa', compact('mahasiswas'));
+    // Debug: Cek apakah ID ada di koleksi data
+    // dd($mahasiswas->first()->id); 
+    
+    return view('admin.mahasiswa.index', compact('mahasiswas'));
+}
+
+    public function create()
+{
+    return view('admin.mahasiswa.create'); // Pastikan file blade-nya ada di resources/views/admin/mahasiswa/create.blade.php
 }
     
     public function store(Request $request)
@@ -51,5 +58,36 @@ class MahasiswaController extends Controller
     ]);
 
     return redirect()->route('admin.mahasiswa')->with('success', 'Anggota berhasil didaftarkan dengan email: ' . $emailOtomatis);
+}
+
+    public function destroy($id)
+{
+    // Jika masih error 405, hapus komentar di bawah ini untuk melihat apakah ID masuk
+    // dd($id); 
+
+    $mahasiswa = \App\Models\User::findOrFail($id);
+    $mahasiswa->delete();
+
+    return redirect()->route('admin.mahasiswa')->with('success', 'Data berhasil dihapus!');
+}
+
+public function edit($id)
+{
+    $mahasiswa = \App\Models\User::findOrFail($id);
+    return view('admin.mahasiswa.edit', compact('mahasiswa'));
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required',
+        'nim'  => 'required',
+        'prodi'=> 'required',
+    ]);
+
+    $mahasiswa = \App\Models\User::findOrFail($id);
+    $mahasiswa->update($request->all());
+
+    return redirect()->route('admin.mahasiswa')->with('success', 'Data berhasil diupdate!');
 }
 }

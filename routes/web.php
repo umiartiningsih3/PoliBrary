@@ -125,3 +125,38 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::get('/perpanjangan', [PerpanjanganController::class, 'index'])->name('perpanjangan.index');
 
 Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
+
+// Hapus semua rute yang mirip dan sisakan ini saja:
+Route::delete('/admin/mahasiswa/{id}', [App\Http\Controllers\MahasiswaController::class, 'destroy'])
+    ->name('admin.mahasiswa.destroy');
+
+// Pastikan rute DELETE ada DI ATAS rute GET yang umum
+Route::delete('/admin/mahasiswa/{id}', [App\Http\Controllers\MahasiswaController::class, 'destroy'])
+    ->name('admin.mahasiswa.destroy');
+
+Route::get('/admin/mahasiswa', [App\Http\Controllers\MahasiswaController::class, 'index'])
+    ->name('admin.mahasiswa');
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Rute untuk melihat daftar mahasiswa
+    Route::get('/admin/mahasiswa', [MahasiswaController::class, 'index'])->name('admin.mahasiswa');
+    
+    // Rute untuk HAPUS (Gunakan {id} yang jelas)
+    Route::delete('/admin/mahasiswa/destroy/{id}', [MahasiswaController::class, 'destroy'])->name('admin.mahasiswa.destroy');
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    // ... rute lainnya ...
+    
+    // Tambahkan baris ini:
+    Route::get('/admin/mahasiswa/create', [MahasiswaController::class, 'create'])->name('admin.mahasiswa.create');
+    
+    // Jika kamu juga butuh untuk menyimpan datanya:
+    Route::post('/admin/mahasiswa/store', [MahasiswaController::class, 'store'])->name('admin.store-mahasiswa');
+});
+
+Route::middleware(['auth', 'admin'])->group(function () {
+    // Rute Edit
+    Route::get('/admin/mahasiswa/{id}/edit', [MahasiswaController::class, 'edit'])->name('admin.mahasiswa.edit');
+    Route::put('/admin/mahasiswa/{id}', [MahasiswaController::class, 'update'])->name('admin.mahasiswa.update');
+});
