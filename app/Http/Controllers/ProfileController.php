@@ -11,7 +11,7 @@ class ProfileController extends Controller
     // Menampilkan halaman profil
     public function edit()
     {
-        return view('profile'); // sesuaikan dengan nama file blade Anda (misal: profile.blade.php)
+        return view('profile'); 
     }
 
     // Memproses perubahan data profil
@@ -19,7 +19,7 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
-        // 1. Validasi Input
+        // 1. Validasi Input sesuai data Form Blade
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -30,23 +30,17 @@ class ProfileController extends Controller
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:1024', // maks 1MB
         ]);
 
-        // 2. Handle Upload Foto Profil (Jika ada foto baru)
+        // 2. Handle Upload Foto Profil
         if ($request->hasFile('avatar')) {
-            // Hapus foto lama jika ada di storage
-            if ($user->avatar) {
-                Storage::disk('public')->delete($user->avatar);
-            }
+    $path = $request->file('avatar')->store('avatars', 'public');
+    auth()->user()->update(['avatar' => $path]);
+}
 
-            // Simpan foto baru ke folder storage/app/public/avatars
-            $avatarPath = $request->file('avatar')->store('avatars', 'public');
-            $user->avatar = $avatarPath;
-        }
-
-        // 3. Update Data Lainnya
+        // 3. Update Data Lainnya (Menghubungkan form ke kolom database asli Anda)
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->no_telp = $request->phone;
-        $user->tgl_lahir = $request->tanggal_lahir;
+        $user->no_telp = $request->phone; 
+        $user->tgl_lahir = $request->tanggal_lahir; 
         $user->security_question = $request->security_question;
         $user->security_answer = $request->security_answer;
         

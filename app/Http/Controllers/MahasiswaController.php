@@ -94,11 +94,12 @@ class MahasiswaController extends Controller
             return redirect()->route('admin.mahasiswa')->with('error', 'Gagal menghapus data.');
         }
     }
-    
-public function edit($id)
+
+    public function edit($id)
 {
     $mahasiswa = \App\Models\User::findOrFail($id);
-    return view('admin.mahasiswa.edit', compact('mahasiswa'));
+    // Kembalikan data dalam bentuk JSON untuk pop-up Javascript
+    return response()->json($mahasiswa);
 }
 
 public function update(Request $request, $id)

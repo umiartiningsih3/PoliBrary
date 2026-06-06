@@ -205,3 +205,8 @@ Route::get('/denda-riwayat', function() {
 })->name('denda.riwayat')->middleware('auth');
 
 });
+
+use App\Http\Controllers\OtpController; // Sesuaikan dengan controller Anda
+
+// Pastikan kodenya seperti ini:
+Route::post('/otp/send', [OtpController::class, 'send'])->name('otp.send');

@@ -20,9 +20,16 @@ class User extends Authenticatable
      */
     // app/Models/User.php
     protected $fillable = [
-    'name', 'email', 'password', 'nim', 'prodi', 'tgl_lahir', 
-    'tipe_keanggotaan', 'no_telp', 'security_question', 
-    'security_answer', 'avatar', 'tgl_daftar'
+    'name',
+    'email',
+    'password',
+    'nim',
+    'prodi',
+    'tgl_lahir',         // Harus nama kolom database asli
+    'no_telp',          // Harus nama kolom database asli
+    'avatar',
+    'security_question',
+    'security_answer',
 ];
 
     /**

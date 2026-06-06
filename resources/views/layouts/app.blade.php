@@ -48,12 +48,27 @@
             background: #3b82f6;
             color: white;
         }
+
+        /* Cari bagian tag <style> Anda dan selipkan kode ini di dalamnya */
+img {
+    content-visibility: auto;
+    image-rendering: -webkit-optimize-contrast;
+}   
+
+.logo-container img {
+        display: block;
+        width: 36px; /* Sesuai dengan h-9 (36px) */
+        height: 36px;
+        min-width: 36px;
+        min-height: 36px;
+        background-color: transparent;
+    }
     </style>
 </head>
 
 <body class="bg-gray-100 font-poppins flex flex-col min-h-screen relative overflow-x-hidden">
 
-    @if(!Route::is('login') && !Route::is('register'))
+    @if(!request()->routeIs('login', 'register', 'password.request', 'password.reset'))
     <div id="sidebarBackdrop" class="fixed inset-0 bg-slate-900/40 z-50 hidden transition-opacity duration-300 opacity-0"></div>
     
     <aside id="sidebarMenu" class="fixed top-0 left-0 bottom-0 w-72 bg-white z-50 shadow-2xl transform -translate-x-full transition-transform duration-300 ease-in-out flex flex-col border-r border-slate-200">
@@ -61,14 +76,19 @@
         <button id="sidebarClose" class="p-1 text-slate-500 hover:bg-slate-100 rounded-full">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
-        <img src="{{ asset('image/Polibrary-logo.png') }}" class="h-8 w-auto" alt="Logo">
+        <img src="{{ asset('image/Polibrary-logo.png') }}" width="32" height="32" class="h-8 w-8 object-contain block shrink-0" alt="Logo" loading="eager">
     </div>
 
     <div class="bg-gradient-to-br from-[#0052cc] to-[#3b82f6] p-6 text-white shadow-md">
         <div class="flex items-center justify-between mb-4">
-            <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-bold text-xl shadow-inner border border-white/30">
-                {{ isset(auth()->user()->name) ? strtoupper(substr(auth()->user()->name, 0, 2)) : 'UN' }}
-            </div>
+            {{-- Pastikan class ini ada di pembungkusnya --}}
+<div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center overflow-hidden font-bold text-xl shadow-inner border border-white/30 relative">
+    @if(auth()->user()->avatar && file_exists(public_path('storage/' . auth()->user()->avatar)))
+        <img src="{{ asset('storage/' . auth()->user()->avatar) }}?v={{ time() }}" class="w-full h-full object-cover object-center aspect-square">
+    @else
+        {{ strtoupper(substr(auth()->user()->name ?? 'UN', 0, 2)) }}
+    @endif
+</div>
             <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('sidebar-logout-form').submit();" class="text-xs font-semibold hover:text-white transition opacity-90">
                 Sign out ⟳
             </a>
@@ -201,63 +221,71 @@
     </aside>
     @endif
 
-    @if(!Route::is('login') && !Route::is('register'))
-    <nav class="bg-white shadow-sm px-6 h-[60px] flex items-center justify-between sticky top-0 z-40 select-none">
-        <div class="flex items-center gap-4">
-            <button id="sidebarToggle" class="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition" aria-label="Open Menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+    @if(!request()->routeIs('login', 'register', 'password.request', 'password.reset'))
+<nav class="bg-white shadow-sm px-6 h-[60px] flex items-center justify-between sticky top-0 z-40 select-none">
+    <div class="flex items-center gap-4">
+        <button id="sidebarToggle" class="p-1.5 text-gray-500 hover:bg-gray-100 rounded-lg transition" aria-label="Open Menu">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+        <a href="/" class="flex items-center gap-2 logo-container">
+    <img src="{{ asset('image/Polibrary-logo.png') }}" 
+         class="h-9 w-9 object-contain" 
+         alt="Logo" 
+         style="content-visibility: auto; contain-intrinsic-size: 36px 36px;">
+    <span class="font-bold text-[#1e293b] text-base tracking-wider uppercase hidden sm:block">POLIBRARY</span>
+</a>
+    </div>
+
+    <form action="{{ route('global.search') }}" method="GET" class="flex-1 max-w-xl mx-8 hidden md:block">
+        <div class="relative flex items-center shadow-sm rounded-lg border border-gray-200 bg-gray-50">
+            <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari judul buku, penulis, atau kategori..." class="w-full bg-transparent px-4 py-2 text-xs text-gray-600 placeholder-gray-400 focus:outline-none transition rounded-l-lg">
+            <button type="submit" class="bg-[#10b981] hover:bg-[#059669] text-white px-5 h-[34px] rounded-r-lg transition flex items-center justify-center">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                 </svg>
             </button>
-            <a href="/" class="flex items-center gap-2">
-                <img src="{{ asset('image/Polibrary-logo.png') }}" class="h-9 w-auto" alt="Logo">
-                <span class="font-bold text-[#1e293b] text-base tracking-wider uppercase hidden sm:block">POLIBRARY</span>
-            </a>
+        </div>
+    </form>
+
+    <div class="flex items-center gap-4">
+        <button onclick="toggleMenu()" class="p-1.5 text-gray-500 hover:bg-gray-100 rounded-full relative transition">
+            <span class="absolute top-1 right-1 w-2 h-2 bg-[#ef4444] rounded-full"></span>
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+        </button>
+
+        <div id="menuDropdown" class="hidden absolute right-16 top-[55px] w-52 bg-white rounded-xl shadow-lg border z-50 overflow-hidden">
+            <div class="px-4 py-2 border-b bg-slate-50 text-xs font-semibold text-gray-500">Pilihan Jelajahi</div>
+            <a href="{{ route('koleksi.index') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Koleksi Buku</a>
+            <a href="{{ route('keranjang') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Keranjang Saya</a>
+            <a href="{{ route('tambah-buku') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Tambah Koleksi</a>
         </div>
 
-        <form action="{{ route('global.search') }}" method="GET" class="flex-1 max-w-xl mx-8 hidden md:block">
-            <div class="relative flex items-center shadow-sm rounded-lg border border-gray-200 bg-gray-50">
-                <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari judul buku, penulis, atau kategori..." class="w-full bg-transparent px-4 py-2 text-xs text-gray-600 placeholder-gray-400 focus:outline-none transition rounded-l-lg">
-                <button type="submit" class="bg-[#10b981] hover:bg-[#059669] text-white px-5 h-[34px] rounded-r-lg transition flex items-center justify-center">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                    </svg>
-                </button>
-            </div>
-        </form>
-
-        <div class="flex items-center gap-4">
-            <button onclick="toggleMenu()" class="p-1.5 text-gray-500 hover:bg-gray-100 rounded-full relative transition">
-                <span class="absolute top-1 right-1 w-2 h-2 bg-[#ef4444] rounded-full"></span>
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-                </svg>
-            </button>
-
-            <div id="menuDropdown" class="hidden absolute right-16 top-[55px] w-52 bg-white rounded-xl shadow-lg border z-50 overflow-hidden">
-                <div class="px-4 py-2 border-b bg-slate-50 text-xs font-semibold text-gray-500">Pilihan Jelajahi</div>
-                <a href="{{ route('koleksi.index') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Koleksi Buku</a>
-                <a href="{{ route('keranjang') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Keranjang Saya</a>
-                <a href="{{ route('tambah-buku') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Tambah Koleksi</a>
-            </div>
-
-            <div class="relative">
-                <button onclick="toggleProfile()" class="w-9 h-9 rounded-full bg-[#bae6fd] flex items-center justify-center font-bold text-[#0369a1] text-xs shadow-sm cursor-pointer hover:opacity-90 transition">
-                    {{ isset(auth()->user()->name) ? strtoupper(substr(auth()->user()->name, 0, 2)) : 'UN' }}
-                </button>
-                <div id="profileDropdown" class="hidden absolute right-0 top-[45px] w-56 bg-white rounded-xl shadow-lg border z-50 overflow-hidden">
-                    <div class="px-4 py-3 border-b bg-slate-50">
-                        <p class="text-xs text-slate-400 font-medium">Masuk Sebagai:</p>
-                        <p class="font-semibold text-gray-800 truncate">{{ auth()->user()->name ?? 'Umiarti Ningsih' }}</p>
-                    </div>
-                    <a href="{{ route('profile') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Akun Saya</a>
-                    <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-sm text-red-500 font-medium border-t">Keluar Sesi</a>
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
-                </div>
-            </div>
-        </div>
-    </nav>
+        <div class="relative">
+            {{-- Pastikan class ini ada di pembungkusnya --}}
+<button onclick="toggleProfile()" class="w-9 h-9 rounded-full bg-[#bae6fd] flex items-center justify-center overflow-hidden font-bold text-[#0369a1] text-xs shadow-sm cursor-pointer hover:opacity-90 transition relative">
+    @if(auth()->user()->avatar && file_exists(public_path('storage/' . auth()->user()->avatar)))
+        <img src="{{ asset('storage/' . auth()->user()->avatar) }}?v={{ time() }}" class="w-full h-full object-cover object-center aspect-square">
+    @else
+        {{ strtoupper(substr(auth()->user()->name ?? 'UN', 0, 2)) }}
     @endif
+</button>
+            <div id="profileDropdown" class="hidden absolute right-0 top-[45px] w-56 bg-white rounded-xl shadow-lg border z-50 overflow-hidden">
+                <div class="px-4 py-3 border-b bg-slate-50">
+                    <p class="text-xs text-slate-400 font-medium">Masuk Sebagai:</p>
+                    <p class="font-semibold text-gray-800 truncate">{{ auth()->user()->name ?? 'Umiarti Ningsih' }}</p>
+                </div>
+                <a href="{{ route('profile') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Akun Saya</a>
+                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-sm text-red-500 font-medium border-t">Keluar Sesi</a>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
+            </div>
+        </div>
+    </div>
+</nav>
+@endif
 
     <main class="flex-1 flex flex-col">
         @yield('content')
