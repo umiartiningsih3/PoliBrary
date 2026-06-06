@@ -174,3 +174,21 @@ Route::get('/koleksi-abc', function () {
 Route::get('/koleksi-subjek', function () {
     return view('koleksi-subjek'); // Pastikan kamu punya file koleksi-subjek.blade.php
 })->name('koleksi.subjek');
+
+// Pastikan rute ini ada di web.php
+Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
+
+
+// Pastikan rute ini ada di dalam file routes/web.php
+Route::get('/pinjaman/detail/{id}', [PeminjamanController::class, 'detail'])->name('peminjaman.detail');
+
+// Jika rutenya adalah /riwayat-peminjaman
+Route::view('/riwayat-peminjaman', 'peminjaman.riwayat')->name('riwayat.index');
+Route::get('/riwayat/pdf', [PeminjamanController::class, 'cetakPdf'])->name('riwayat.pdf');
+
+// Ganti Route::view menjadi Route::get
+Route::get('/riwayat-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'riwayat'])->name('riwayat.index');
+
+
+// Pastikan rute ini berada di dalam group middleware yang sesuai (misalnya admin)
+Route::get('/denda/export', [DendaController::class, 'export'])->name('denda.export');

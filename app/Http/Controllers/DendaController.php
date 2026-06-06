@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Denda;
 
 use Illuminate\Http\Request;
 
