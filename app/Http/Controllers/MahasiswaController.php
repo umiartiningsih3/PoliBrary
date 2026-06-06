@@ -57,16 +57,44 @@ class MahasiswaController extends Controller
 }
 
     public function destroy($id)
-{
-    // Jika masih error 405, hapus komentar di bawah ini untuk melihat apakah ID masuk
-    // dd($id); 
+    {
+        // 1. Matikan pengecekan Foreign Key di SQLite agar tidak memicu error 'peminjamans'
+        \DB::statement('PRAGMA foreign_keys = OFF;');
 
-    $mahasiswa = \App\Models\User::findOrFail($id);
-    $mahasiswa->delete();
+        try {
+            // 2. Hapus data denda yang terikat (jika ada)
+            if (\Schema::hasTable('dendas')) {
+                \DB::table('dendas')->whereIn('peminjaman_id', function($query) use ($id) {
+                    $query->select('id')->from('peminjaman')->where('user_id', $id);
+                })->delete();
+            } elseif (\Schema::hasTable('denda')) {
+                \DB::table('denda')->whereIn('peminjaman_id', function($query) use ($id) {
+                    $query->select('id')->from('peminjaman')->where('user_id', $id);
+                })->delete();
+            }
 
-    return redirect()->route('admin.mahasiswa')->with('success', 'Data berhasil dihapus!');
-}
+            // 3. Hapus data dari tabel peminjaman asli
+            \DB::table('peminjaman')->where('user_id', $id)->delete();
 
+            // 4. Hapus user mahasiswa dari tabel users
+            $mahasiswa = \App\Models\User::findOrFail($id);
+            $mahasiswa->delete();
+
+            $success = true;
+        } catch (\Exception $e) {
+            $success = false;
+        }
+
+        // 5. Hidupkan kembali pengecekan Foreign Key demi keamanan database
+        \DB::statement('PRAGMA foreign_keys = ON;');
+
+        if ($success) {
+            return redirect()->route('admin.mahasiswa')->with('success', 'Data berhasil dihapus!');
+        } else {
+            return redirect()->route('admin.mahasiswa')->with('error', 'Gagal menghapus data.');
+        }
+    }
+    
 public function edit($id)
 {
     $mahasiswa = \App\Models\User::findOrFail($id);

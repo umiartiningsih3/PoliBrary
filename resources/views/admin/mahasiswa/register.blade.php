@@ -51,8 +51,8 @@
             <div>
     <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Tipe Keanggotaan</label>
     <select name="tipe_keanggotaan" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none">
-        <option value="mahasiswa">Mahasiswa</option>
-        <option value="dosen">Dosen / Staf</option>
+        <option value="mahasiswa">mahasiswa</option>
+        <option value="dosen">dosen</option>
     </select>
 </div>
 

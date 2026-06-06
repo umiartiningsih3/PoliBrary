@@ -35,15 +35,6 @@ Route::view('/keranjang', 'keranjang')->name('keranjang');
 Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
 });
 
-// --- RUTE ADMIN (Role Admin) ---
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/mahasiswa', [MahasiswaController::class, 'index'])->name('mahasiswa.index');
-    Route::post('/admin/mahasiswa/store', [MahasiswaController::class, 'store'])->name('admin.store-mahasiswa');
-    Route::get('/peminjaman', [PeminjamanAdminController::class, 'index'])->name('peminjaman.admin');
-    Route::get('/perpanjangan', [PerpanjanganController::class, 'index'])->name('perpanjangan.index');
-    Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
-});
-
 // Tambahkan ini di dalam routes/web.php
 
 Route::middleware(['auth'])->group(function () {
@@ -68,58 +59,12 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/riwayat-peminjaman', 'riwayat-peminjaman')->name('riwayat.index');
 });
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    // ... rute admin lainnya ...
-    
-    // Tambahkan baris ini:
-    Route::get('/denda/riwayat', [App\Http\Controllers\DendaController::class, 'riwayat'])->name('denda.riwayat');
-});
-
 // Tambahkan rute untuk pencarian global
 Route::get('/cari', [App\Http\Controllers\BukuController::class, 'searchGlobal'])->name('global.search');
 // Tambahkan rute ini untuk menangani "Lupa Password"
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password'); // Pastikan file blade-nya ada
 })->name('forgot.password');
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    // ... rute admin lainnya ...
-
-    // Tambahkan rute untuk admin perpanjangan dan pengembalian
-    Route::get('/admin/perpanjangan', [App\Http\Controllers\PerpanjanganController::class, 'index'])->name('admin.perpanjangan');
-    Route::get('/admin/pengembalian', [App\Http\Controllers\PengembalianController::class, 'index'])->name('admin.pengembalian');
-});
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    // ... rute lainnya ...
-
-    // Pastikan baris ini ada:
-    Route::get('/admin/mahasiswa', [App\Http\Controllers\MahasiswaController::class, 'index'])->name('admin.mahasiswa');
-});
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    // ... rute lainnya ...
-
-    // Pastikan baris ini ada:
-    Route::get('/admin/mahasiswa', [App\Http\Controllers\MahasiswaController::class, 'index'])->name('admin.mahasiswa');
-});
-
-Route::middleware(['auth', 'admin'])->group(function () {
-    // ... rute lainnya ...
-
-    // Tambahkan ini agar error hilang
-    Route::get('/admin/register', [App\Http\Controllers\RegisterController::class, 'index'])->name('admin.register');
-    
-    // Pastikan juga rute untuk menyimpan data registrasinya ada (jika belum)
-    Route::post('/admin/register', [App\Http\Controllers\RegisterController::class, 'store'])->name('admin.register.post');
-});
-
-// routes/web.php
-Route::middleware(['auth', 'admin'])->group(function () {
-    Route::get('/perpanjangan', [PerpanjanganController::class, 'index'])->name('admin.perpanjangan');
-    Route::post('/perpanjangan/approve/{id}', [PerpanjanganController::class, 'approve'])->name('admin.perpanjangan.approve');
-    Route::post('/perpanjangan/reject/{id}', [PerpanjanganController::class, 'reject'])->name('admin.perpanjangan.reject');
-});
 
 // Pastikan barisnya terlihat seperti ini:
 Route::get('/perpanjangan', [PerpanjanganController::class, 'index'])->name('perpanjangan.index');
@@ -137,32 +82,44 @@ Route::delete('/admin/mahasiswa/{id}', [App\Http\Controllers\MahasiswaController
 Route::get('/admin/mahasiswa', [App\Http\Controllers\MahasiswaController::class, 'index'])
     ->name('admin.mahasiswa');
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    // Rute untuk melihat daftar mahasiswa
-    Route::get('/admin/mahasiswa', [MahasiswaController::class, 'index'])->name('admin.mahasiswa');
+Route::middleware(['auth'])->group(function () {
     
-    // Rute untuk HAPUS (Gunakan {id} yang jelas)
-    Route::delete('/admin/mahasiswa/destroy/{id}', [MahasiswaController::class, 'destroy'])->name('admin.mahasiswa.destroy');
-});
+    // 1. Rute untuk melihat daftar mahasiswa
+    Route::get('/admin/mahasiswa', function() {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
+        return app(MahasiswaController::class)->index();
+    })->name('admin.mahasiswa');
+    
+    // 2. Rute untuk HAPUS Mahasiswa
+    Route::delete('/admin/mahasiswa/destroy/{id}', function($id) {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
+        return app(MahasiswaController::class)->destroy($id);
+    })->name('admin.mahasiswa.destroy');
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    // ... rute lainnya ...
-    
-Route::middleware(['auth', 'admin'])->group(function () {
-    // ... rute lainnya ...
-    
-    // Tambahkan baris ini:
-    Route::get('/admin/mahasiswa/register', [MahasiswaController::class, 'create'])->name('admin.mahasiswa.register');
-});
-    
-    // Jika kamu juga butuh untuk menyimpan datanya:
-    Route::post('/admin/mahasiswa/store', [MahasiswaController::class, 'store'])->name('admin.store-mahasiswa');
-});
+    // 3. Rute Form Tambah/Register Mahasiswa
+    Route::get('/admin/mahasiswa/register', function() {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
+        return app(MahasiswaController::class)->create();
+    })->name('admin.mahasiswa.register');
 
-Route::middleware(['auth', 'admin'])->group(function () {
-    // Rute Edit
-    Route::get('/admin/mahasiswa/{id}/edit', [MahasiswaController::class, 'edit'])->name('admin.mahasiswa.edit');
-    Route::put('/admin/mahasiswa/{id}', [MahasiswaController::class, 'update'])->name('admin.mahasiswa.update');
+    // 4. Rute Simpan Data Mahasiswa Baru
+    Route::post('/admin/mahasiswa/store', function() {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
+        return app(MahasiswaController::class)->store(request());
+    })->name('admin.store-mahasiswa');
+
+    // 5. Rute Form Edit Mahasiswa
+    Route::get('/admin/mahasiswa/{id}/edit', function($id) {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
+        return app(MahasiswaController::class)->edit($id);
+    })->name('admin.mahasiswa.edit');
+
+    // 6. Rute Update Data Mahasiswa
+    Route::put('/admin/mahasiswa/{id}', function($id) {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
+        return app(MahasiswaController::class)->update(request(), $id);
+    })->name('admin.mahasiswa.update');
+
 });
 
 // Jika kamu ingin langsung menampilkan view koleksi-abc.blade.php
@@ -192,3 +149,59 @@ Route::get('/riwayat-peminjaman', [App\Http\Controllers\PeminjamanController::cl
 
 // Pastikan rute ini berada di dalam group middleware yang sesuai (misalnya admin)
 Route::get('/denda/export', [DendaController::class, 'export'])->name('denda.export');
+
+use App\Http\Controllers\ProfileController;
+
+Route::middleware(['auth'])->group(function () {
+    // Menggunakan nama 'profile' saja
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
+    
+    // Rute untuk proses simpan perubahan
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+});
+
+// Pastikan hanya menggunakan middleware 'auth' saja
+Route::middleware(['auth'])->group(function () {
+
+    // 1. Kelola Mahasiswa
+    Route::get('/mahasiswa', function() {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') {
+            return redirect('/dashboard');
+        }
+        return app(App\Http\Controllers\MahasiswaController::class)->index();
+    })->name('mahasiswa.index');
+
+    // 2. Kelola Peminjaman (SUDAH DISESUAIKAN DENGAN LOG ERROR ANDA)
+    Route::get('/peminjaman', function() {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') {
+            return redirect('/dashboard');
+        }
+        return app(App\Http\Controllers\PeminjamanAdminController::class)->index();
+    })->name('peminjaman.admin');
+
+    // 3. Kelola Perpanjangan
+    Route::get('/perpanjangan', function() {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') {
+            return redirect('/dashboard');
+        }
+        return app(App\Http\Controllers\PerpanjanganController::class)->index();
+    })->name('perpanjangan.index');
+
+    // 4. Kelola Pengembalian
+    Route::get('/pengembalian', function() {
+        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') {
+            return redirect('/dashboard');
+        }
+        return app(App\Http\Controllers\PengembalianController::class)->index();
+    })->name('pengembalian.index');
+
+    // Ganti rute denda-riwayat di paling bawah dengan kode ini:
+Route::get('/denda-riwayat', function() {
+    if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') {
+        return redirect('/dashboard');
+    }
+    // Memanggil fungsi 'riwayat' langsung dari DendaController agar data $riwayatDenda ikut dimuat
+    return app(\App\Http\Controllers\DendaController::class)->riwayat();
+})->name('denda.riwayat')->middleware('auth');
+
+});
