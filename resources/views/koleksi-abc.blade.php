@@ -11,29 +11,9 @@
         pencarianTeks: '',
         filterAlfabet: 'SEMUA',
         
-        // MOCKUP DATA: Array 40 buku untuk simulasi sorting & pagination dinamis
-        semuaBuku: Array.from({ length: 40 }, (_, i) => ({
-            id: i + 1,
-            judul: [
-                'Algorithms and Data Structures', 
-                'Clean Code', 
-                'Design Patterns', 
-                'The Pragmatic Programmer'
-            ][i % 4] + ' (Vol. ' + (i + 1) + ')',
-            penulis: [
-                'Thomas H. Cormen', 
-                'Robert C. Martin', 
-                'Erich Gamma', 
-                'Andrew Hunt'
-            ][i % 4],
-            isbn: '978-026203' + (3848 + i),
-            subjek: ['Algoritma', 'Rekayasa Perangkat Lunak', 'Object-Oriented Design', 'Praktik Pemrograman'][i % 4],
-            penerbit: ['MIT Press', 'Prentice Hall', 'Addison-Wesley', 'Pragmatic Bookshelf'][i % 4],
-            tahun: 2000 + (i * 2) % 27, 
-            tersedia: (i % 3) + 1
-        })),
+        // Data dari Database
+        semuaBuku: {{ json_encode($semuaBuku) }},
 
-        // Helper hitung total halaman berdasarkan data yang sudah difilter
         get totalHalaman() {
             let dataDifilter = this.semuaBuku.filter(buku => {
                 if (this.filterAlfabet === 'SEMUA') return true;
@@ -42,7 +22,6 @@
             return Math.ceil(dataDifilter.length / this.jumlahPerHalaman) || 1;
         },
 
-        // Helper fungsi filter, sorting & pagination slice
         get bukuTampil() {
             let produkDisortir = this.semuaBuku.filter(buku => {
                 if (this.filterAlfabet === 'SEMUA') return true;
@@ -52,6 +31,7 @@
             if (this.urutBerdasarkan === 'az') {
                 produkDisortir.sort((a, b) => a.judul.localeCompare(b.judul));
             } else if (this.urutBerdasarkan === 'terbaru') {
+                // Asumsi database memiliki kolom 'tahun' atau 'created_at'
                 produkDisortir.sort((a, b) => b.tahun - a.tahun);
             } else if (this.urutBerdasarkan === 'relevansi') {
                 produkDisortir.sort((a, b) => a.id - b.id);
@@ -59,7 +39,6 @@
 
             let start = (this.halamanSekarang - 1) * this.jumlahPerHalaman;
             let end = start + parseInt(this.jumlahPerHalaman);
-            
             return produkDisortir.slice(start, end);
         }
      }"
@@ -178,15 +157,13 @@
                     
                     <div class="w-full sm:w-32 flex flex-col gap-2">
                         <div @click="bukuTerbuka = (bukuTerbuka === buku.id ? null : buku.id)" 
-                             class="w-full h-40 bg-slate-100 border border-slate-200 rounded-xl flex flex-col items-center justify-center text-center cursor-pointer hover:bg-slate-200 transition shadow-inner select-none p-3 gap-1">
-                            <svg class="w-8 h-8 text-slate-400 mb-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l9-5-9-5-9 5 9 5z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
-                            </svg>
-                            <div class="text-[11px] font-black tracking-wide uppercase select-none">
-                                <span class="text-slate-500">Poli</span><span class="text-slate-400">brary</span>
-                            </div>
-                        </div>
+     class="w-full h-40 bg-slate-100 border border-slate-200 rounded-xl overflow-hidden cursor-pointer transition shadow-inner">
+     
+    <img :src="'{{ asset('storage/') }}/' + buku.sampul" 
+         alt="Sampul Buku" 
+         class="w-full h-full object-cover"
+         onerror="this.src='{{ asset('image/Polibrary-logo.png') }}'">
+</div>
                         
                         <div x-show="bukuTerbuka === buku.id" x-collapse class="text-center space-y-2 pt-1">
                             <p class="text-xs font-bold text-emerald-600">Tersedia <span x-text="buku.tersedia"></span></p>
@@ -223,23 +200,23 @@
                                 <tbody>
                                     <tr class="border-b border-slate-100">
                                         <td class="py-2.5 font-bold text-slate-400 w-32 uppercase tracking-wider">ISBN</td>
-                                        <td class="py-2.5 text-slate-800 font-mono font-semibold" x-text="buku.isbn"></td>
+                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.isbn"></td>
                                     </tr>
                                     <tr class="border-b border-slate-100">
                                         <td class="py-2.5 font-bold text-slate-400 uppercase tracking-wider">Subjek Kategori</td>
-                                        <td class="py-2.5 text-slate-800 font-semibold text-blue-700" x-text="buku.subjek"></td>
+                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.kategori"></td>
                                     </tr>
                                     <tr class="border-b border-slate-100">
                                         <td class="py-2.5 font-bold text-slate-400 uppercase tracking-wider">Penerbit</td>
-                                        <td class="py-2.5 text-slate-800 font-medium" x-text="buku.penerbit"></td>
+                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.penerbit"></td>
                                     </tr>
                                     <tr class="border-b border-slate-100">
                                         <td class="py-2.5 font-bold text-slate-400 uppercase tracking-wider">Tahun Terbit</td>
-                                        <td class="py-2.5 text-slate-800" x-text="buku.tahun"></td>
+                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.tahun_terbit"></td>
                                     </tr>
                                     <tr>
                                         <td class="py-2.5 font-bold text-slate-400 uppercase tracking-wider">Penulis</td>
-                                        <td class="py-2.5 text-slate-800 font-medium leading-relaxed" x-text="buku.penulis"></td>
+                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.penulis"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -257,18 +234,23 @@
         </div> <div class="space-y-4">
             <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
                 <h4 class="font-bold text-sm text-slate-800 mb-4 border-b border-slate-100 pb-2.5 flex items-center gap-2">
-                    📁 Kategori Subjek
-                </h4>
-                @php
-                    $subjekSidebar = [
-                        ["nama" => "Fiksi", "jumlah" => 12],
-                        ["nama" => "Non-Fiksi", "jumlah" => 8],
-                        ["nama" => "Pendidikan", "jumlah" => 15],
-                        ["nama" => "Ilmu Pengetahuan", "jumlah" => 20],
-                        ["nama" => "Teknologi & Komputer", "jumlah" => 9],
-                        ["nama" => "Sosial & Humaniora", "jumlah" => 11],
-                    ];
-                @endphp
+    📁 Kategori Subjek
+</h4>
+
+<ul class="space-y-1.5 text-xs font-medium text-slate-600">
+    @foreach($subjekSidebar as $s)
+        <li @click="filterAlfabet = 'SEMUA'; pencarianTeks = '{{ $s->subjek }}'; kataKunciKategori = 'subjek'" 
+            class="flex justify-between items-center px-3 py-2 rounded-lg hover:bg-sky-50 hover:text-blue-700 cursor-pointer transition duration-150 group">
+            <span class="flex items-center gap-2">
+                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-500 transition-colors"></span>
+                {{ $s->subjek }}
+            </span>
+            <span class="bg-slate-100 text-slate-500 font-bold px-1.5 py-0.5 rounded group-hover:bg-blue-100 group-hover:text-blue-700">
+                {{ $s->jumlah }}
+            </span>
+        </li>
+    @endforeach
+</ul>
                 <ul class="space-y-1.5 text-xs font-medium text-slate-600">
                     @foreach($subjekSidebar as $s)
                         <li @click="alert('Memfilter Kategori: {{ $s['nama'] }}')" class="flex justify-between items-center px-3 py-2 rounded-lg hover:bg-sky-50 hover:text-blue-700 cursor-pointer transition duration-150 group">

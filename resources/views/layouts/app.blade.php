@@ -113,7 +113,7 @@ img {
     </a>
 
     {{-- Koleksi Buku --}}
-    <a href="{{ route('koleksi.index') }}" 
+    <a href="{{ route('koleksi.abc') }}" 
        class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('koleksi.index') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
         Koleksi Buku
@@ -257,13 +257,6 @@ img {
             </svg>
         </button>
 
-        <div id="menuDropdown" class="hidden absolute right-16 top-[55px] w-52 bg-white rounded-xl shadow-lg border z-50 overflow-hidden">
-            <div class="px-4 py-2 border-b bg-slate-50 text-xs font-semibold text-gray-500">Pilihan Jelajahi</div>
-            <a href="{{ route('koleksi.index') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Koleksi Buku</a>
-            <a href="{{ route('keranjang') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Keranjang Saya</a>
-            <a href="{{ route('tambah-buku') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Tambah Koleksi</a>
-        </div>
-
         <div class="relative">
             {{-- Pastikan class ini ada di pembungkusnya --}}
 <button onclick="toggleProfile()" class="w-9 h-9 rounded-full bg-[#bae6fd] flex items-center justify-center overflow-hidden font-bold text-[#0369a1] text-xs shadow-sm cursor-pointer hover:opacity-90 transition relative">
@@ -273,15 +266,6 @@ img {
         {{ strtoupper(substr(auth()->user()->name ?? 'UN', 0, 2)) }}
     @endif
 </button>
-            <div id="profileDropdown" class="hidden absolute right-0 top-[45px] w-56 bg-white rounded-xl shadow-lg border z-50 overflow-hidden">
-                <div class="px-4 py-3 border-b bg-slate-50">
-                    <p class="text-xs text-slate-400 font-medium">Masuk Sebagai:</p>
-                    <p class="font-semibold text-gray-800 truncate">{{ auth()->user()->name ?? 'Umiarti Ningsih' }}</p>
-                </div>
-                <a href="{{ route('profile') }}" class="flex items-center gap-3 px-4 py-3 hover:bg-blue-50 text-sm text-gray-700">Akun Saya</a>
-                <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="flex items-center gap-3 px-4 py-3 hover:bg-red-50 text-sm text-red-500 font-medium border-t">Keluar Sesi</a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
-            </div>
         </div>
     </div>
 </nav>

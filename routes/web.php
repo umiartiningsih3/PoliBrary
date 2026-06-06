@@ -23,7 +23,6 @@ Route::get('/profile', function () {
 // --- RUTE AUTH (User Login) ---
 Route::middleware(['auth'])->group(function () {
     Route::view('/dashboard', 'dashboard')->name('dashboard');
-    Route::get('/koleksi', [BukuController::class, 'index'])->name('koleksi.index');
     Route::post('/logout', function () { Auth::logout(); return redirect('/'); })->name('logout');
     Route::get('/riwayat-peminjaman', [PeminjamanController::class, 'index'])->name('riwayat.index');
     Route::get('/pinjaman-saya', [PeminjamanController::class, 'pinjamanSaya'])->name('pinjaman-saya');
@@ -210,3 +209,17 @@ use App\Http\Controllers\OtpController; // Sesuaikan dengan controller Anda
 
 // Pastikan kodenya seperti ini:
 Route::post('/otp/send', [OtpController::class, 'send'])->name('otp.send');
+
+// Contoh di routes/web.php
+Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.abc');
+
+Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.index');
+
+// Route untuk Daftar Subjek
+Route::get('/koleksi-subjek', [BukuController::class, 'subjek'])->name('koleksi.subjek');
+
+// Route untuk Simpan Buku (tambah-buku)
+Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
+
+// Pastikan route ini menggunakan name('koleksi.abc')
+Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.abc');
