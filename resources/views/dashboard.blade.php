@@ -13,8 +13,8 @@
 
         <div class="max-w-7xl mx-auto mt-4 text-center">
             <h1 class="text-4xl font-light tracking-wide mb-2 text-slate-800">
-                Selamat Datang, <span class="font-semibold text-sky-900">Umiarti Ningsih</span>
-            </h1>
+    Selamat Datang, <span class="font-semibold text-sky-900">{{ Auth::user()->name }}</span>
+</h1>
             <p class="text-slate-600 text-sm tracking-wide font-medium">
                 Membaca adalah jendela dunia. Lanjutkan petualangan literasimu hari ini.
             </p>

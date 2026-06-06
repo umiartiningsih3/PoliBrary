@@ -10,8 +10,8 @@
 
         <div class="bg-white border border-slate-200 rounded-xl mt-6 shadow-sm overflow-hidden">
             <div class="flex justify-center text-sm font-medium">
-                <a href="{{ route('koleksi.index') }}" 
-                   class="w-1/2 py-3 hover:bg-slate-50 text-slate-500 font-semibold text-center border-b-2 border-transparent hover:border-blue-600 transition select-none">
+                <a href="{{ route('koleksi.abc') }}" 
+                   class="w-1/2 py-3 {{ request()->routeIs('koleksi.abc') ? 'bg-gradient-to-r from-blue-50 to-indigo-50 text-blue-700 border-b-2 border-blue-600' : 'text-slate-500 hover:bg-slate-50' }} font-semibold text-center transition select-none">
                     🔤 Daftar A - Z
                 </a>
                 <span class="w-1/2 py-3 bg-gradient-to-r from-sky-50 to-blue-50 text-blue-700 font-semibold text-center border-b-2 border-blue-600">

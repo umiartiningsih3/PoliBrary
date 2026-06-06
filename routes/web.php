@@ -164,3 +164,13 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/admin/mahasiswa/{id}/edit', [MahasiswaController::class, 'edit'])->name('admin.mahasiswa.edit');
     Route::put('/admin/mahasiswa/{id}', [MahasiswaController::class, 'update'])->name('admin.mahasiswa.update');
 });
+
+// Jika kamu ingin langsung menampilkan view koleksi-abc.blade.php
+Route::get('/koleksi-abc', function () {
+    return view('koleksi-abc');
+})->name('koleksi.abc');
+
+// Tambahkan rute ini ke web.php
+Route::get('/koleksi-subjek', function () {
+    return view('koleksi-subjek'); // Pastikan kamu punya file koleksi-subjek.blade.php
+})->name('koleksi.subjek');
