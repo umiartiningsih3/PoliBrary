@@ -18,8 +18,11 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
+    // app/Models/User.php
     protected $fillable = [
-    'name', 'nim', 'email', 'password', 'prodi', 'tgl_lahir', 'no_telp', 'security_question', 'security_answer', 'avatar'
+    'name', 'email', 'password', 'nim', 'prodi', 'tgl_lahir', 
+    'tipe_keanggotaan', 'no_telp', 'security_question', 
+    'security_answer', 'avatar', 'tgl_daftar'
 ];
 
     /**

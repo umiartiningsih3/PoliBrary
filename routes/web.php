@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\Student;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RegisterController;
@@ -231,3 +232,8 @@ Route::get('/koleksi/subjek', [BukuController::class, 'subjek'])->name('koleksi.
 
 // Pastikan route ini ada
 Route::post('/koleksi/store', [BukuController::class, 'store'])->name('buku.store');
+
+Route::get('/students', function () {
+    $students = Student::all(); // Sekarang Laravel tahu Student itu dari App\Models\Student
+    return $students; 
+});
