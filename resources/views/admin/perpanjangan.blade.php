@@ -60,56 +60,38 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
-                            <!-- Contoh Row 1 -->
-                            <tr class="hover:bg-gray-50/50 transition">
-                                <td class="px-6 py-5">
-                                    <div class="font-bold text-gray-800">Budi Santoso</div>
-                                    <div class="text-[10px] text-gray-400">NIM: 2241101001</div>
-                                </td>
-                                <td class="px-6 py-5">
-                                    <div class="text-gray-700">Algoritma & Pemrograman</div>
-                                    <div class="text-[10px] text-gray-400 italic">ISBN: 978-602-xxx</div>
-                                </td>
-                                <td class="px-6 py-5 font-mono text-gray-600">
-                                    2026-05-10
-                                </td>
-                                <td class="px-6 py-5 text-center">
-                                    <div class="flex justify-center gap-3">
-                                        <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-green-700 shadow-sm transition">
-                                            Setujui
-                                        </button>
-                                        <button class="border border-red-200 text-red-500 px-4 py-2 rounded-lg text-xs font-bold hover:bg-red-50 transition">
-                                            Tolak
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-
-                            <!-- Contoh Row 2 -->
-                            <tr class="hover:bg-gray-50/50 transition">
-                                <td class="px-6 py-5">
-                                    <div class="font-bold text-gray-800">Siti Aminah</div>
-                                    <div class="text-[10px] text-gray-400">NIM: 2241101005</div>
-                                </td>
-                                <td class="px-6 py-5">
-                                    <div class="text-gray-700">UI/UX Design Essentials</div>
-                                    <div class="text-[10px] text-gray-400 italic">ISBN: 978-623-xxx</div>
-                                </td>
-                                <td class="px-6 py-5 font-mono text-gray-600">
-                                    2026-05-12
-                                </td>
-                                <td class="px-6 py-5 text-center">
-                                    <div class="flex justify-center gap-3">
-                                        <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-green-700 shadow-sm transition">
-                                            Setujui
-                                        </button>
-                                        <button class="border border-red-200 text-red-500 px-4 py-2 rounded-lg text-xs font-bold hover:bg-red-50 transition">
-                                            Tolak
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+    @forelse($perpanjangans as $pinjam)
+    <tr class="hover:bg-gray-50/50 transition">
+        <td class="px-6 py-5">
+            <div class="font-bold text-gray-800">{{ $pinjam->mahasiswa->nama ?? 'N/A' }}</div>
+            <div class="text-[10px] text-gray-400">NIM: {{ $pinjam->mahasiswa->nim ?? '-' }}</div>
+        </td>
+        <td class="px-6 py-5">
+            <div class="text-gray-700">{{ $pinjam->buku->judul ?? 'Buku Tidak Ditemukan' }}</div>
+            <div class="text-[10px] text-gray-400 italic">ISBN: {{ $pinjam->buku->isbn ?? '-' }}</div>
+        </td>
+        <td class="px-6 py-5 font-mono text-gray-600">
+            {{ $pinjam->tgl_jatuh_tempo }}
+        </td>
+        <td class="px-6 py-5 text-center">
+            <div class="flex justify-center gap-3">
+                <form action="{{ route('admin.perpanjangan.approve', $pinjam->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-green-700 transition">Setujui</button>
+                </form>
+                <form action="{{ route('admin.perpanjangan.reject', $pinjam->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="border border-red-200 text-red-500 px-4 py-2 rounded-lg text-xs font-bold hover:bg-red-50 transition">Tolak</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+    @empty
+    <tr>
+        <td colspan="4" class="px-6 py-10 text-center text-gray-500">Tidak ada permintaan perpanjangan.</td>
+    </tr>
+    @endforelse
+</tbody>
                     </table>
                 </div>
 
