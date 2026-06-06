@@ -148,8 +148,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
 Route::middleware(['auth', 'admin'])->group(function () {
     // ... rute lainnya ...
     
+Route::middleware(['auth', 'admin'])->group(function () {
+    // ... rute lainnya ...
+    
     // Tambahkan baris ini:
-    Route::get('/admin/mahasiswa/create', [MahasiswaController::class, 'create'])->name('admin.mahasiswa.create');
+    Route::get('/admin/mahasiswa/register', [MahasiswaController::class, 'create'])->name('admin.mahasiswa.register');
+});
     
     // Jika kamu juga butuh untuk menyimpan datanya:
     Route::post('/admin/mahasiswa/store', [MahasiswaController::class, 'store'])->name('admin.store-mahasiswa');

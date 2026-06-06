@@ -18,26 +18,20 @@ class MahasiswaController extends Controller
     
     return view('admin.mahasiswa.index', compact('mahasiswas'));
 }
-
-    public function create()
-{
-    return view('admin.mahasiswa.create'); // Pastikan file blade-nya ada di resources/views/admin/mahasiswa/create.blade.php
-}
     
     public function store(Request $request)
 {
     // 1. Validasi input
     $request->validate([
-        'nama'  => 'required|string',
-        'nim'   => 'required|unique:users,nim',
-        'prodi' => 'required',
-        // Tambahkan input tipe_keanggotaan di form jika belum ada
+        'nama'  => 'required|string|max:255',
+        'nim'   => 'required|string|unique:users,nim', // Pastikan kolom di DB adalah 'nim'
+        'prodi' => 'required|string',
         'tipe_keanggotaan' => 'required|in:mahasiswa,dosen', 
     ]);
 
     // 2. Logika Email Otomatis
-    // Ambil nama depan (sebelum spasi pertama) dan jadikan huruf kecil
-    $firstName = strtolower(explode(' ', trim($request->nama))[0]);
+    // Ambil nama depan saja, hilangkan spasi, dan jadikan huruf kecil
+    $firstName = strtolower(preg_replace('/[^a-zA-Z]/', '', explode(' ', trim($request->nama))[0]));
     
     // Tentukan domain berdasarkan tipe_keanggotaan
     $domain = ($request->tipe_keanggotaan === 'mahasiswa') 
@@ -47,17 +41,19 @@ class MahasiswaController extends Controller
     $emailOtomatis = $firstName . '.' . $request->nim . $domain;
 
     // 3. Simpan ke Database
+    // Menggunakan NIM sebagai password awal
     \App\Models\User::create([
         'name'             => $request->nama,
         'nim'              => $request->nim,
         'email'            => $emailOtomatis,
         'prodi'            => $request->prodi,
         'tipe_keanggotaan' => $request->tipe_keanggotaan,
-        'password'         => Hash::make('password123'), // Default password
-        'tgl_daftar'       => $request->tgl_daftar,
+        'password'         => Hash::make($request->nim), // NIM sebagai password
+        // Hapus 'tgl_daftar' jika kolom tersebut tidak ada di tabel users
+        // 'tgl_daftar' => $request->tgl_daftar, 
     ]);
 
-    return redirect()->route('admin.mahasiswa')->with('success', 'Anggota berhasil didaftarkan dengan email: ' . $emailOtomatis);
+    return redirect()->route('admin.mahasiswa')->with('success', 'Anggota berhasil didaftarkan! Email: ' . $emailOtomatis . ' (Password: NIM)');
 }
 
     public function destroy($id)
@@ -90,4 +86,9 @@ public function update(Request $request, $id)
 
     return redirect()->route('admin.mahasiswa')->with('success', 'Data berhasil diupdate!');
 }
+
+    public function create()
+    {
+        return view('admin.mahasiswa.register');
+    }
 }
