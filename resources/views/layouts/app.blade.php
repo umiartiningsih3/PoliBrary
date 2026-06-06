@@ -81,67 +81,117 @@
     </div>
 
     <nav class="flex-1 p-2 flex flex-col gap-1 overflow-y-auto">
-    {{-- Menu Umum --}}
-    <a href="{{ route('dashboard') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('dashboard') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+    {{-- ========================================== --}}
+    {{-- MENU UMUM (Bisa diakses Semua Role)        --}}
+    {{-- ========================================== --}}
+    
+    {{-- Home --}}
+    <a href="{{ route('dashboard') }}" 
+       class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('dashboard') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
         Home
     </a>
-    <a href="{{ route('koleksi.index') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('koleksi.index') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+    {{-- Koleksi Buku --}}
+    <a href="{{ route('koleksi.index') }}" 
+       class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('koleksi.index') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
         Koleksi Buku
     </a>
 
-    {{-- Logika untuk MAHASISWA dan DOSEN --}}
-    @if(in_array(auth()->user()->tipe_keanggotaan, ['mahasiswa', 'dosen']))
-        <a href="{{ route('keranjang') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('keranjang') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+    {{-- ========================================== --}}
+    {{-- LOGIKA UNTUK MAHASISWA DAN DOSEN           --}}
+    {{-- ========================================== --}}
+    @if(in_array(strtolower(auth()->user()->tipe_keanggotaan), ['mahasiswa', 'dosen']))
+        
+        {{-- Keranjang Saya --}}
+        <a href="{{ route('keranjang') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('keranjang') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             Keranjang Saya
         </a>
-        <a href="{{ route('denda') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('denda') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+        {{-- Status Denda --}}
+        <a href="{{ route('denda') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('denda') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
             Status Denda
         </a>
-        <a href="{{ route('pinjaman-saya') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('peminjaman.index') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+        {{-- Pinjaman Saya --}}
+        <a href="{{ route('pinjaman-saya') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('pinjaman-saya') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
             Pinjaman Saya
         </a>
-        <a href="{{ route('disukai-saya') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+
+        {{-- Disukai Saya --}}
+        <a href="{{ route('disukai-saya') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('disukai-saya') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
             Disukai Saya
         </a>
-        <a href="{{ route('keamanan-saya') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium text-[#0052cc] hover:bg-slate-50 rounded-lg transition">
+
+        {{-- Keamanan Saya --}}
+        <a href="{{ route('keamanan-saya') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('keamanan-saya') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             Keamanan Saya
         </a>
-        <a href="{{ route('riwayat.index') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('riwayat.index') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+        {{-- Riwayat Peminjaman --}}
+        <a href="{{ route('riwayat.index') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('riwayat.index') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             Riwayat Peminjaman
         </a>
     @endif
 
-    {{-- Logika untuk PETUGAS --}}
-    @if(auth()->user()->tipe_keanggotaan == 'Petugas')
-        <a href="{{ route('tambah-buku') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('tambah-buku') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+    {{-- ========================================== --}}
+    {{-- LOGIKA UNTUK PETUGAS                       --}}
+    {{-- ========================================== --}}
+    @if(strtolower(auth()->user()->tipe_keanggotaan) == 'petugas')
+        
+        {{-- Tambah Koleksi --}}
+        <a href="{{ route('tambah-buku') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('tambah-buku') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             Tambah Koleksi
         </a>
-        <a href="{{ route('mahasiswa.index') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('mahasiswa.index') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+        {{-- Kelola Mahasiswa --}}
+        <a href="{{ route('mahasiswa.index') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('mahasiswa.index') || Route::is('admin.mahasiswa') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
             Kelola Mahasiswa
         </a>
-        <a href="{{ route('peminjaman.admin') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('peminjaman.admin') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+        {{-- Kelola Peminjaman --}}
+        <a href="{{ route('peminjaman.admin') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('peminjaman.admin') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"/></svg>
             Kelola Peminjaman
         </a>
-        <a href="{{ route('perpanjangan.index') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('perpanjangan.index') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+        {{-- Kelola Perpanjangan --}}
+        <a href="{{ route('perpanjangan.index') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('perpanjangan.index') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             Kelola Perpanjangan
         </a>
-        <a href="{{ route('pengembalian.index') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('pengembalian.index') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+        {{-- Kelola Pengembalian --}}
+        <a href="{{ route('pengembalian.index') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('pengembalian.index') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
             Kelola Pengembalian
         </a>
-        <a href="{{ route('denda.riwayat') }}" class="flex items-center gap-4 px-4 py-3 text-sm font-medium {{ Route::is('denda.riwayat') ? 'bg-slate-100 text-[#0052cc]' : 'text-[#0052cc] hover:bg-slate-50' }} rounded-lg transition">
+
+        {{-- Riwayat Denda --}}
+        <a href="{{ route('denda.riwayat') }}" 
+           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('denda.riwayat') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13C9.683 8.354 8 10.976 8 14c0 3.917 1.513 7 4 7s4-3.083 4-7c0-3.024-1.683-5.646-4-6.354z"/></svg>
             Riwayat Denda
         </a>
