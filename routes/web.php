@@ -223,3 +223,33 @@ Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
 
 // Pastikan route ini menggunakan name('koleksi.abc')
 Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.abc');
+
+use App\Http\Controllers\PetugasDashboardController;
+
+// Route Login
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login.post');
+
+// Route Dashboard (Pastikan tidak ada redirect middleware yang memaksa ke '/dashboard')
+Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])->name('admin.dashboard');
+Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
+use App\Http\Controllers\DashboardController;
+
+// Route untuk Petugas
+Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])
+    ->name('admin.dashboard');
+
+// Route untuk Mahasiswa & Dosen
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->name('dashboard');
+
+    // CONTOH YANG MUNGKIN JADI PENYEBAB:
+Route::middleware(['auth'])->group(function () {
+    
+    // Apakah ada middleware tambahan seperti 'role:petugas'?
+    // Jika ada, periksa isi file 'app/Http/Middleware/EnsureUserHasRole.php'
+    Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])->name('admin.dashboard');
+    
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});

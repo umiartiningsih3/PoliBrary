@@ -43,7 +43,7 @@
 
             <div class="border-t border-white/40 mb-6"></div>
 
-            <form action="{{ route('login.process') }}" method="POST">
+            <form action="{{ route('login.post') }}" method="POST">
     @csrf
 
     @if($errors->any())
@@ -53,7 +53,7 @@
     @endif
 
     <div class="mb-5">
-        <label class="block text-sm font-semibold text-gray-700 mb-2">NIM</label>
+        <label class="block text-sm font-sibold text-gray-700 mb-2">NIM</label>
         <input type="text" name="nim" required value="{{ old('nim') }}"
                placeholder="Masukkan NIM"
                class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 outline-none focus:ring-2 focus:ring-sky-400 transition">

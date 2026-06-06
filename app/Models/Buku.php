@@ -13,4 +13,10 @@ class Buku extends Model
     'kategori', 'sub_kategori', 'jumlah_eksemplar', 
     'deskripsi', 'sampul', 'no_inventaris'
 ];
+
+public function peminjaman()
+    {
+        // Sesuaikan 'buku_id' dengan nama kolom foreign key di tabel peminjaman Anda
+        return $this->hasMany(Peminjaman::class, 'buku_id');
+    }
 }
