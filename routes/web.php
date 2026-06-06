@@ -123,3 +123,5 @@ Route::middleware(['auth', 'admin'])->group(function () {
 
 // Pastikan barisnya terlihat seperti ini:
 Route::get('/perpanjangan', [PerpanjanganController::class, 'index'])->name('perpanjangan.index');
+
+Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
