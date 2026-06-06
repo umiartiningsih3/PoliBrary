@@ -32,9 +32,12 @@
                 <div>
                     <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Program Studi</label>
                     <select name="prodi" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none transition">
-                        <option value="D3TI">D3 Teknologi Informasi</option>
-                        <option value="D4TRPL">D4 Teknologi Rekayasa Perangkat Lunak</option>
-                        <option value="D3SI">D3 Sistem Informasi</option>
+                        <option value="D3 Teknik Informatika">D3 Teknik Informatika</option>
+                        <option value="D3 Teknik Geomatika">D3 Teknik Geomatika</option>
+                        <option value="D4 Teknik Rekayasa Perangkat Lunak">D4 Teknik Rekayasa Perangkat Lunak</option>
+                        <option value="D4 Animasi">D4 Animasi</option>
+                        <option value="D4 Teknologi Rekayasa Multimedia">D4 Teknologi Rekayasa Multimedia</option>
+                        <option value="D4 Rekayasa Keamanan Siber">D4 Rekayasa Keamanan Siber</option>
                     </select>
                 </div>
 
@@ -44,6 +47,14 @@
                     <input type="hidden" name="tgl_daftar" value="{{ date('Y-m-d') }}">
                 </div>
             </div>
+
+            <div>
+    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Tipe Keanggotaan</label>
+    <select name="tipe_keanggotaan" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none">
+        <option value="mahasiswa">Mahasiswa</option>
+        <option value="dosen">Dosen / Staf</option>
+    </select>
+</div>
 
             <div class="pt-6 border-t flex justify-end gap-3">
                 <a href="{{ route('admin.mahasiswa') }}" class="px-6 py-3 rounded-xl font-bold text-sm text-gray-500 hover:bg-gray-100 transition">

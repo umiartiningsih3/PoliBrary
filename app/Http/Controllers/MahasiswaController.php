@@ -16,29 +16,40 @@ class MahasiswaController extends Controller
     
     return view('admin.mahasiswa', compact('mahasiswas'));
 }
-    // Method untuk menyimpan data mahasiswa baru
+    
     public function store(Request $request)
-    {
-        // 1. Validasi Input
-        $request->validate([
-            'nama'     => 'required|string|max:255',
-            'nim'      => 'required|unique:users,nim|max:20',
-            'prodi'    => 'required',
-            // Default password, misalnya nim atau password standar
-            'password' => 'nullable|min:6', 
-        ]);
+{
+    // 1. Validasi input
+    $request->validate([
+        'nama'  => 'required|string',
+        'nim'   => 'required|unique:users,nim',
+        'prodi' => 'required',
+        // Tambahkan input tipe_keanggotaan di form jika belum ada
+        'tipe_keanggotaan' => 'required|in:mahasiswa,dosen', 
+    ]);
 
-        // 2. Simpan ke Database
-        User::create([
-            'name'            => $request->nama,
-            'nim'             => $request->nim,
-            'prodi'           => $request->prodi,
-            'password'        => $request->password ?? 'password123', // Password default jika tidak diisi
-            'tgl_daftar'      => $request->tgl_daftar, // Pastikan field ini ada di tabel users/students
-            // Tambahkan field lainnya jika ada
-        ]);
+    // 2. Logika Email Otomatis
+    // Ambil nama depan (sebelum spasi pertama) dan jadikan huruf kecil
+    $firstName = strtolower(explode(' ', trim($request->nama))[0]);
+    
+    // Tentukan domain berdasarkan tipe_keanggotaan
+    $domain = ($request->tipe_keanggotaan === 'mahasiswa') 
+              ? '@students.polibatam.ac.id' 
+              : '@polibatam.ac.id';
+    
+    $emailOtomatis = $firstName . '.' . $request->nim . $domain;
 
-        // 3. Redirect dengan pesan sukses
-        return redirect()->route('admin.mahasiswa')->with('success', 'Anggota baru berhasil didaftarkan!');
-    }
+    // 3. Simpan ke Database
+    \App\Models\User::create([
+        'name'             => $request->nama,
+        'nim'              => $request->nim,
+        'email'            => $emailOtomatis,
+        'prodi'            => $request->prodi,
+        'tipe_keanggotaan' => $request->tipe_keanggotaan,
+        'password'         => Hash::make('password123'), // Default password
+        'tgl_daftar'       => $request->tgl_daftar,
+    ]);
+
+    return redirect()->route('admin.mahasiswa')->with('success', 'Anggota berhasil didaftarkan dengan email: ' . $emailOtomatis);
+}
 }
