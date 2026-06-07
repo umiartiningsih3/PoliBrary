@@ -63,6 +63,13 @@ img {
         min-height: 36px;
         background-color: transparent;
     }
+
+    .text-gradient-blue {
+        background: linear-gradient(to right, #12376B, #47B8F2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
     </style>
 </head>
 
@@ -76,7 +83,7 @@ img {
         <button id="sidebarClose" class="p-1 text-slate-500 hover:bg-slate-100 rounded-full">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
-        <img src="{{ asset('image/Polibrary-logo.png') }}" width="32" height="32" class="h-8 w-8 object-contain block shrink-0" alt="Logo" loading="eager">
+        <img src="{{ asset('image/Polibrary-logo.png') }}" width="32]]" height="32" class="h-8 w-8 object-contain block shrink-0" alt="Logo" loading="eager">
     </div>
 
     <div class="bg-gradient-to-br from-[#0052cc] to-[#3b82f6] p-6 text-white shadow-md">
@@ -249,7 +256,7 @@ img {
          class="h-9 w-9 object-contain" 
          alt="Logo" 
          style="content-visibility: auto; contain-intrinsic-size: 36px 36px;">
-    <span class="font-bold text-[#1e293b] text-base tracking-wider uppercase hidden sm:block">POLIBRARY</span>
+         <span class="font-bold text-lg tracking-wider uppercase hidden sm:block text-gradient-blue">POLIBRARY</span>
 </a>
     </div>
 

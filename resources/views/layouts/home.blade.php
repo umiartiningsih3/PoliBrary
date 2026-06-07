@@ -27,13 +27,13 @@
 <header class="fixed top-0 left-0 w-full z-50 px-3 md:px-6 py-3">
 
     <div class="bg-white/85 backdrop-blur-xl rounded-2xl shadow-md border border-gray-200
-                px-4 md:px-6 py-3 flex items-center justify-between">
+                px-4 md:px-4 py-2 flex items-center justify-between">
 
         <!-- ================= LOGO ================= -->
         <a href="/" class="flex items-center shrink-0">
             <img src="{{ asset('image/Polibrary-logo.png') }}"
                  alt="Logo PoliBrary"
-                 class="h-12 w-auto">
+                 class="h-14 w-auto">
         </a>
 
         <!-- ================= MENU ================= -->
