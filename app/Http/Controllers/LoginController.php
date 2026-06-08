@@ -20,17 +20,17 @@ class LoginController extends Controller
     ]);
 
     if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-
         $user = Auth::user();
 
+        // Debug: Pastikan data benar
         $role = strtolower(trim($user->tipe_keanggotaan));
 
+        // Jika petugas, arahkan ke admin/dashboard
         if ($role === 'petugas') {
-            return redirect()->intended('admin/dashboard');
-        } 
-        
-        return redirect()->intended('dashboard');
+    return redirect()->to('/admin/dashboard'); 
+} 
+
+return redirect()->to('/dashboard');
     }
 
     return back()->withErrors([

@@ -238,3 +238,13 @@ use App\Http\Controllers\DashboardController;
 
 // Contoh di routes/web.php
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+// Rute untuk Petugas
+Route::middleware(['auth', 'petugas'])->group(function () {
+    Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])->name('admin.dashboard');
+});
+
+// Rute untuk Umum/Mahasiswa
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+});

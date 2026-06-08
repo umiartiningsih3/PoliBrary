@@ -113,11 +113,16 @@ img {
     {{-- ========================================== --}}
     
     {{-- Home --}}
-    <a href="{{ route('dashboard') }}" 
-       class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('dashboard') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
-        Home
-    </a>
+    {{-- Ubah kode menu Home Anda menjadi seperti ini --}}
+    <a href="{{ (strtolower(trim(Auth::user()->tipe_keanggotaan)) === 'petugas') ? route('admin.dashboard') : route('dashboard') }}"
+   class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition 
+   {{ (Route::is('dashboard') || Route::is('admin.dashboard')) ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
+    
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+    </svg>
+    Home
+</a>
 
     {{-- Koleksi Buku --}}
     <a href="{{ route('koleksi.abc') }}" 
@@ -251,7 +256,7 @@ img {
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
         </button>
-        <a href="/" class="flex items-center gap-2 logo-container">
+        <a href="{{ auth()->user()->tipe_keanggotaan === 'petugas' ? route('admin.dashboard') : route('dashboard') }}" class="flex items-center gap-2 logo-container">
     <img src="{{ asset('image/Polibrary-logo.png') }}" 
          class="h-9 w-9 object-contain" 
          alt="Logo" 

@@ -5,16 +5,17 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Illuminate\Support\Facades\Auth; // <-- INI YANG KURANG
 
-class AdminMiddleware
+class EnsureUserIsPetugas
 {
     /**
      * Handle an incoming request.
+     *
+     * @param  Closure(Request): (Response)  $next
      */
-    // Contoh di dalam file middleware
-public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next)
 {
+    // Gunakan strtolower agar tidak terpengaruh huruf besar/kecil
     $tipe = strtolower(trim($request->user()->tipe_keanggotaan));
     
     if ($request->user() && $tipe === 'petugas') {
