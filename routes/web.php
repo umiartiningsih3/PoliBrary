@@ -248,3 +248,8 @@ Route::middleware(['auth', 'petugas'])->group(function () {
 Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
+
+use App\Http\Controllers\KeranjangController;
+
+// Pastikan di bawah ini Anda menggunakan nama class yang benar
+Route::get('/keranjang', [KeranjangController::class, 'index']);
