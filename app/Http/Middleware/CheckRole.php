@@ -13,10 +13,10 @@ class CheckRole
      *
      * @param  Closure(Request): (Response)  $next
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, ...$roles)
 {
-    if ($request->user()->role !== $role) {
-        return redirect('/dashboard');
+    if (!in_array($request->user()->tipe_keanggotaan, $roles)) {
+        return redirect('dashboard'); // Jika bukan admin, tendang ke dashboard biasa
     }
     return $next($request);
 }

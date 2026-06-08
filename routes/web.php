@@ -236,20 +236,5 @@ Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'inde
 
 use App\Http\Controllers\DashboardController;
 
-// Route untuk Petugas
-Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])
-    ->name('admin.dashboard');
-
-// Route untuk Mahasiswa & Dosen
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->name('dashboard');
-
-    // CONTOH YANG MUNGKIN JADI PENYEBAB:
-Route::middleware(['auth'])->group(function () {
-    
-    // Apakah ada middleware tambahan seperti 'role:petugas'?
-    // Jika ada, periksa isi file 'app/Http/Middleware/EnsureUserHasRole.php'
-    Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])->name('admin.dashboard');
-    
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-});
+// Contoh di routes/web.php
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');

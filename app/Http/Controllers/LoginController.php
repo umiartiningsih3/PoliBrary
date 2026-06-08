@@ -19,18 +19,19 @@ class LoginController extends Controller
         'password' => ['required'],
     ]);
 
-    // Di dalam LoginController.php
-if (Auth::attempt($credentials)) {
-    $request->session()->regenerate();
-    $user = Auth::user();
+    if (Auth::attempt($credentials)) {
+        $request->session()->regenerate();
 
-    // Logika pengalihan berdasarkan peran
-    if ($user->tipe_keanggotaan === 'petugas') {
-        return redirect()->route('admin.dashboard'); // Ke admin
+        $user = Auth::user();
+
+        $role = strtolower(trim($user->tipe_keanggotaan));
+
+        if ($role === 'petugas') {
+            return redirect()->intended('admin/dashboard');
+        } 
+        
+        return redirect()->intended('dashboard');
     }
-            
-    return redirect('dashboard'); // Ke dashboard mahasiswa/dosen
-}
 
     return back()->withErrors([
         'nim' => 'NIM atau password salah.',
