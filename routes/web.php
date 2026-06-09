@@ -251,3 +251,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/pinjaman/detail/{id}', [App\Http\Controllers\PeminjamanController::class, 'detail'])->name('peminjaman.detail');
+
+use App\Http\Controllers\PetugasDashboardController; // Tambahkan baris ini di atas
+
+Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])->name('admin.dashboard');
