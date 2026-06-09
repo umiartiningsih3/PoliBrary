@@ -8,6 +8,8 @@ use App\Http\Controllers\{
     MahasiswaController, AuthController, DendaController, 
     PerpanjanganController, PengembalianController
 };
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 
 // --- RUTE PUBLIC ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -30,10 +32,9 @@ Route::middleware(['auth'])->group(function () {
     // Jika menggunakan view langsung:
 Route::view('/keranjang', 'keranjang')->name('keranjang');
 
-// ATAU jika menggunakan Controller:
-Route::get('/keranjang', [KeranjangController::class, 'index'])->name('keranjang');
+// Tambahkan ->name('keranjang') di akhir
+Route::get('/keranjang', [App\Http\Controllers\KeranjangController::class, 'index'])->name('keranjang');
 });
-
 // Tambahkan ini di dalam routes/web.php
 
 Route::middleware(['auth'])->group(function () {
@@ -149,8 +150,6 @@ Route::get('/riwayat-peminjaman', [App\Http\Controllers\PeminjamanController::cl
 // Pastikan rute ini berada di dalam group middleware yang sesuai (misalnya admin)
 Route::get('/denda/export', [DendaController::class, 'export'])->name('denda.export');
 
-use App\Http\Controllers\ProfileController;
-
 Route::middleware(['auth'])->group(function () {
     // Menggunakan nama 'profile' saja
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile');
@@ -205,15 +204,13 @@ Route::get('/denda-riwayat', function() {
 
 });
 
-use App\Http\Controllers\OtpController; // Sesuaikan dengan controller Anda
+
 
 // Pastikan kodenya seperti ini:
 Route::post('/otp/send', [OtpController::class, 'send'])->name('otp.send');
 
-// Contoh di routes/web.php
-Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.abc');
 
-Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.index');
+Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.abc');
 
 // Route untuk Daftar Subjek
 Route::get('/koleksi-subjek', [BukuController::class, 'subjek'])->name('koleksi.subjek');
@@ -224,8 +221,6 @@ Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
 // Pastikan route ini menggunakan name('koleksi.abc')
 Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.abc');
 
-use App\Http\Controllers\PetugasDashboardController;
-
 // Route Login
 Route::get('/login', [LoginController::class, 'index'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.post');
@@ -234,7 +229,6 @@ Route::post('/login', [LoginController::class, 'login'])->name('login.post');
 Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])->name('admin.dashboard');
 Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-use App\Http\Controllers\DashboardController;
 
 // Contoh di routes/web.php
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
@@ -249,7 +243,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 
-use App\Http\Controllers\KeranjangController;
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-// Pastikan di bawah ini Anda menggunakan nama class yang benar
-Route::get('/keranjang', [KeranjangController::class, 'index']);
+Route::middleware(['auth'])->group(function () {
+    // ... rute lainnya
+    Route::get('/pinjaman/detail/{id}', [PeminjamanController::class, 'detail'])->name('peminjaman.detail');
+});
+
+Route::get('/pinjaman/detail/{id}', [App\Http\Controllers\PeminjamanController::class, 'detail'])->name('peminjaman.detail');

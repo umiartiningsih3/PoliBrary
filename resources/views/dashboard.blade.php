@@ -168,19 +168,22 @@
 
 @push('scripts')
 <script>
-// Fungsi Switch Tab Buku (Hanya logika tab internal halaman dashboard)
-function switchTab(tabId) {
+// Fungsi Switch Tab Buku
+function switchTab(tabId, element) {
+    // Sembunyikan semua konten
     document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+    // Tampilkan konten yang dipilih
     document.getElementById(tabId).classList.remove('hidden');
 
+    // Reset gaya semua tombol
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('border-b-2', 'border-sky-500', 'text-sky-600');
-        btn.classList.add('text-gray-400');
+        btn.classList.add('text-slate-400'); // Sesuaikan dengan class awal Anda
     });
 
-    const activeTab = event.currentTarget;
-    activeTab.classList.add('border-b-2', 'border-sky-500', 'text-sky-600');
-    activeTab.classList.remove('text-gray-400');
+    // Beri gaya pada tombol yang aktif
+    element.classList.add('border-b-2', 'border-sky-500', 'text-sky-600');
+    element.classList.remove('text-slate-400');
 }
 </script>
 @endpush

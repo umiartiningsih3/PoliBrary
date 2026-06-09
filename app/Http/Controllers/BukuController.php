@@ -47,7 +47,7 @@ class BukuController extends Controller
 }
 
     Buku::create($data);
-    return redirect()->route('koleksi.index')->with('success', 'Buku berhasil disimpan!');
+    return redirect()->route('koleksi.abc')->with('success', 'Buku berhasil disimpan!');
 }
     public function subjek(Request $request)
 {
@@ -63,6 +63,6 @@ class BukuController extends Controller
     {
         $buku = Buku::findOrFail($id);
         $buku->delete();
-        return redirect()->route('koleksi.index')->with('success', 'Buku berhasil dihapus!');
+        return redirect()->route('koleksi.abc')->with('success', 'Buku berhasil dihapus!');
     }
 }
