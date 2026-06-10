@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
 
             $table->foreignId('peminjaman_id')
-                ->constrained('peminjaman')
+                ->constrained('peminjamans')
                 ->cascadeOnDelete();
 
             $table->date('jatuh_tempo_baru');
