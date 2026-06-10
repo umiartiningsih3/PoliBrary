@@ -6,8 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Peminjaman extends Model
 {
-    // Tambahkan baris ini. Sesuaikan dengan nama tabel yang ada di database.sqlite kamu.
-    // Jika nama tabelnya "peminjaman", maka isi seperti ini:
     protected $table = 'peminjaman';
 
     protected $fillable = ['user_id', 'buku_id', 'status', 'tgl_jatuh_tempo'];
@@ -26,5 +24,10 @@ class Peminjaman extends Model
 public function denda()
 {
     return $this->hasOne(Denda::class);
+}
+
+public function perpanjangan()
+{
+    return $this->hasMany(Perpanjangan::class);
 }
 }

@@ -10,6 +10,7 @@ use App\Http\Controllers\{
 };
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\OtpController;
 
 // --- RUTE PUBLIC ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -255,3 +256,11 @@ Route::get('/pinjaman/detail/{id}', [App\Http\Controllers\PeminjamanController::
 use App\Http\Controllers\PetugasDashboardController; // Tambahkan baris ini di atas
 
 Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])->name('admin.dashboard');
+
+Route::post('/pinjaman/{id}/kembalikan', [PeminjamanController::class, 'kembalikan'])
+    ->name('peminjaman.kembalikan');
+
+Route::post('/pinjaman/{id}/perpanjang', [PeminjamanController::class, 'perpanjang'])
+    ->name('peminjaman.perpanjang');
+
+

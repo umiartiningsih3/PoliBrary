@@ -11,10 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('perpanjangans', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
+        Schema::create('perpanjangan', function (Blueprint $table) {
+    $table->id();
+
+    $table->foreignId('peminjaman_id')
+        ->constrained('peminjaman')
+        ->cascadeOnDelete();
+
+    $table->date('jatuh_tempo_lama');
+    $table->date('jatuh_tempo_baru');
+
+    $table->timestamps();
+});
     }
 
     /**

@@ -13,7 +13,7 @@
                     <p class="text-sm text-gray-500 mt-1">Daftar buku yang sedang Anda pinjam saat ini</p>
                 </div>
                 <span class="bg-blue-50 text-[#0052cc] text-xs font-bold px-4 py-2 rounded-full border border-blue-100">
-                    {{ $dataPinjaman->count() }} {{ count($dataPinjaman) }}
+                    {{ $dataPinjaman->count() }}
                 </span>
             </div>
 
@@ -36,12 +36,12 @@
                                     <img src="{{ asset('image/Polibrary-logo.png') }}" alt="Logo" class="w-8 h-8 object-contain grayscale opacity-60">
                                 </div>
                                 <div>
-                                    <h3 class="font-bold text-sm text-gray-800">{{ $pinjaman->judul }}</h3>
-                                    <p class="text-xs text-gray-400">{{ $pinjaman->penulis }}</p>
+                                    <h3 class="font-bold text-sm text-gray-800">{{ $pinjaman->buku->judul }}</h3>
+                                    <p class="text-xs text-gray-400">{{ $pinjaman->buku->penulis }}</p>
                                 </div>
                             </td>
-                            <td class="py-4 px-2 text-sm text-gray-600">{{ $pinjaman->tgl_pinjam }}</td>
-                            <td class="py-4 px-2 text-sm text-red-500 font-medium">{{ $pinjaman->tgl_kembali }}</td>
+                            <td class="py-4 px-2 text-sm text-gray-600">{{ $pinjaman->created_at->format('d-m-Y') }}</td>
+                            <td class="py-4 px-2 text-sm text-red-500 font-medium">{{ $pinjaman->tgl_jatuh_tempo }}</td>
                             <td class="py-4 px-2">
                                 <span class="bg-yellow-50 text-yellow-700 text-[10px] font-bold px-3 py-1 rounded-full border border-yellow-100 uppercase">
                                     {{ $pinjaman->status }}

@@ -5,11 +5,9 @@
 @php
     use Carbon\Carbon;
 
-    // Simulasi data dari Database
-    $jatuhTempo = Carbon::parse('2026-04-19');
+    $jatuhTempo = Carbon::parse($pinjaman->tgl_jatuh_tempo);
     $hariIni = Carbon::now();
 
-    // Logika perhitungan denda
     $terlambat = $hariIni->greaterThan($jatuhTempo)
         ? $hariIni->diffInDays($jatuhTempo)
         : 0;
@@ -40,14 +38,18 @@
                 <!-- Card Utama Detail -->
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8">
                     <!-- Cover Buku -->
-                    <div class="w-full md:w-48 h-64 bg-gray-100 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-200">
-                        <div class="text-center p-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-300 mx-auto mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            <span class="text-xs text-gray-400 font-medium italic text-balance">Introduction to Algorithms</span>
-                        </div>
-                    </div>
+                    <div class="w-full md:w-48 h-64 overflow-hidden rounded-xl border border-gray-200 flex-shrink-0">
+    @if($pinjaman->buku->sampul)
+        <img
+            src="{{ asset('storage/' . $pinjaman->buku->sampul) }}"
+            alt="{{ $pinjaman->buku->judul }}"
+            class="w-full h-full object-cover">
+    @else
+        <div class="w-full h-full flex items-center justify-center bg-gray-100">
+            Tidak ada sampul
+        </div>
+    @endif
+</div>
 
                     <!-- Informasi Buku -->
                     <div class="flex-1 space-y-5">
@@ -55,32 +57,32 @@
                             <div class="grid grid-cols-[140px_10px_1fr] items-baseline">
                                 <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Judul Buku</span>
                                 <span class="text-gray-400">:</span>
-                                <span class="font-bold text-gray-800 text-lg leading-tight">Introduction to Algorithms</span>
+                                <span class="font-bold text-gray-800 text-lg leading-tight">{{ $pinjaman->buku->judul }}</span>
                             </div>
                             <div class="grid grid-cols-[140px_10px_1fr]">
                                 <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Penulis</span>
                                 <span class="text-gray-400">:</span>
-                                <span class="text-gray-700">Thomas H. Cormen</span>
+                                <span class="text-gray-700">{{ $pinjaman->buku->penulis }}</span>
                             </div>
                             <div class="grid grid-cols-[140px_10px_1fr]">
                                 <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Kategori</span>
                                 <span class="text-gray-400">:</span>
-                                <span class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs font-bold w-fit">Algoritma & Struktur Data</span>
+                                <span class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs font-bold w-fit">{{ $pinjaman->buku->kategori }}</span>
                             </div>
                             <div class="grid grid-cols-[140px_10px_1fr]">
                                 <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">No. Inventaris</span>
                                 <span class="text-gray-400">:</span>
-                                <span class="text-gray-700 font-mono">INV12345</span>
+                                <span class="text-gray-700 font-mono">{{ $pinjaman->buku->no_inventaris }}</span>
                             </div>
                             <div class="grid grid-cols-[140px_10px_1fr]">
                                 <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Status</span>
                                 <span class="text-gray-400">:</span>
-                                <span class="text-blue-600 font-bold italic">Dipinjam</span>
+                                <span class="text-blue-600 font-bold italic">{{ $pinjaman->status }}</span>
                             </div>
                             <div class="grid grid-cols-[140px_10px_1fr]">
                                 <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Tanggal Pinjam</span>
                                 <span class="text-gray-400">:</span>
-                                <span class="text-gray-700">12 April 2026</span>
+                                <span class="text-gray-700">{{ $pinjaman->created_at->translatedFormat('d F Y') }}</span>
                             </div>
                             <div class="grid grid-cols-[140px_10px_1fr]">
                                 <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Jatuh Tempo</span>
@@ -91,15 +93,22 @@
                             </div>
                         </div>
 
-                        <!-- Tombol Aksi -->
-                        <div class="flex flex-wrap gap-3 pt-6 border-t border-gray-100 mt-6">
-                            <button class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold hover:bg-blue-700 transition shadow-md text-sm">
-                                Perpanjang Pinjaman
-                            </button>
-                            <button class="bg-white border-2 border-gray-200 text-gray-700 px-6 py-2.5 rounded-xl font-bold hover:bg-gray-50 transition text-sm">
-                                Kembalikan Buku
-                            </button>
-                        </div>
+                        <form action="{{ route('peminjaman.kembalikan', $pinjaman->id) }}" method="POST">
+    @csrf
+    <button type="submit"
+        class="bg-white border-2 border-gray-200 text-gray-700 px-6 py-2.5 rounded-xl font-bold hover:bg-gray-50">
+        Kembalikan Buku
+    </button>
+</form>
+
+<form action="{{ route('peminjaman.perpanjang', $pinjaman->id) }}" method="POST">
+    @csrf
+
+    <button type="submit"
+        class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold">
+        Perpanjang Pinjaman
+    </button>
+</form>
                     </div>
                 </div>
 
@@ -123,16 +132,11 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="px-6 py-4 text-gray-600 font-medium">12/04/2026</td>
-                                    <td class="px-6 py-4 text-gray-800 font-bold">19/04/2026</td>
-                                    <td class="px-6 py-4 text-green-600 font-semibold italic">Disetujui Petugas</td>
-                                </tr>
-                                <tr class="hover:bg-gray-50 transition">
-                                    <td class="px-6 py-4 text-gray-600 font-medium">19/04/2026</td>
-                                    <td class="px-6 py-4 text-gray-800 font-bold">26/04/2026</td>
-                                    <td class="px-6 py-4 text-green-600 font-semibold italic">Disetujui Petugas</td>
-                                </tr>
+                                <tr>
+    <td colspan="3" class="px-6 py-4 text-center text-gray-500">
+        Belum ada riwayat perpanjangan
+    </td>
+</tr>
                             </tbody>
                         </table>
                     </div>

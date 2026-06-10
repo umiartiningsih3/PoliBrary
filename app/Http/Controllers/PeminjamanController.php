@@ -8,15 +8,13 @@ use App\Models\Peminjaman; // Pastikan model ini di-import
 class PeminjamanController extends Controller
 {
     public function pinjamanSaya()
-    {
-        // Jika data dari database, gunakan: $dataPinjaman = Peminjaman::all();
-        $dataPinjaman = collect([
-            (object)['id' => 1, 'judul' => 'Pemrograman PHP Modern', 'penulis' => 'Andi Offset', 'tgl_pinjam' => '2026-04-28', 'tgl_kembali' => '2026-05-05', 'status' => 'Berjalan'],
-            (object)['id' => 2, 'judul' => 'Sistem Basis Data', 'penulis' => 'Rinaldi Munir', 'tgl_pinjam' => '2026-05-01', 'tgl_kembali' => '2026-05-08', 'status' => 'Berjalan'],
-        ]);
+{
+    $dataPinjaman = Peminjaman::with('buku')
+        ->where('user_id', auth()->id())
+        ->get();
 
-        return view('pinjaman-saya', compact('dataPinjaman'));
-    }
+    return view('pinjaman-saya', compact('dataPinjaman'));
+}
 
     // Gunakan fungsi show ini untuk detail
     public function show($id)
@@ -26,15 +24,14 @@ class PeminjamanController extends Controller
 
         // Sesuaikan dengan letak file view Anda. 
         // Jika file ada di resources/views/peminjaman/detail.blade.php
-        return view('peminjaman.detail', compact('pinjaman'));
+        return view('peminjaman.peminjaman', compact('pinjaman'));
     }
     public function detail($id)
 {
-    // Mengambil data peminjaman dari model
-    $pinjaman = \App\Models\Peminjaman::findOrFail($id); 
+    $pinjaman = Peminjaman::with('buku')
+        ->findOrFail($id);
 
-    // Pastikan file view 'peminjaman-detail.blade.php' tersedia di folder resources/views/
-    return view('peminjaman-detail', compact('pinjaman'));
+    return view('peminjaman.peminjaman', compact('pinjaman'));
 }
     public function cetakPdf()
 {
@@ -56,5 +53,34 @@ class PeminjamanController extends Controller
     ];
 
     return view('peminjaman.riwayat', compact('riwayat'));
+}
+
+    public function kembalikan($id)
+{
+    $pinjaman = Peminjaman::findOrFail($id);
+
+    $pinjaman->update([
+        'status' => 'Dikembalikan'
+    ]);
+
+    return redirect()
+        ->route('pinjaman-saya')
+        ->with('success', 'Buku berhasil dikembalikan');
+}
+
+    public function perpanjang($id)
+{
+    $pinjaman = Peminjaman::findOrFail($id);
+
+    if ($pinjaman->jumlah_perpanjangan >= 2) {
+        return back()->with('error', 'Maksimal perpanjangan 2 kali');
+    }
+
+    $pinjaman->update([
+        'tgl_jatuh_tempo' => Carbon::parse($pinjaman->tgl_jatuh_tempo)->addDays(7),
+        'jumlah_perpanjangan' => $pinjaman->jumlah_perpanjangan + 1
+    ]);
+
+    return back()->with('success', 'Pinjaman berhasil diperpanjang');
 }
 }
