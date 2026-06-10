@@ -132,12 +132,32 @@
                                 </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-100">
-                                <tr>
-    <td colspan="3" class="px-6 py-4 text-center text-gray-500">
-        Belum ada riwayat perpanjangan
-    </td>
-</tr>
-                            </tbody>
+@if($pinjaman->perpanjangan->count())
+
+    @foreach($pinjaman->perpanjangan as $item)
+    <tr>
+        <td class="px-6 py-4">
+            {{ $item->created_at->format('d/m/Y') }}
+        </td>
+        <td class="px-6 py-4">
+            {{ \Carbon\Carbon::parse($item->jatuh_tempo_baru)->format('d/m/Y') }}
+        </td>
+        <td class="px-6 py-4">
+            {{ $item->status }}
+        </td>
+    </tr>
+    @endforeach
+
+@else
+
+    <tr>
+        <td colspan="3" class="text-center py-6 text-gray-500">
+            Belum ada riwayat perpanjangan
+        </td>
+    </tr>
+
+@endif
+</tbody>
                         </table>
                     </div>
                 </div>

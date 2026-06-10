@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Perpanjangan extends Model
 {
-    protected $table = 'perpanjangan';
+    protected $table = 'perpanjangans';
 
     protected $fillable = [
         'peminjaman_id',
-        'jatuh_tempo_lama',
-        'jatuh_tempo_baru'
+        'jatuh_tempo_baru',
+        'status'
     ];
+
+    public function peminjaman()
+    {
+        return $this->belongsTo(Peminjaman::class);
+    }
 }
