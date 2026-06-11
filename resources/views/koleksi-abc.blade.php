@@ -167,10 +167,28 @@
                         
                         <div x-show="bukuTerbuka === buku.id" x-collapse class="text-center space-y-2 pt-1">
                             <p class="text-xs font-bold text-emerald-600">Tersedia <span x-text="buku.tersedia"></span></p>
-                            <button @click="alert(buku.judul + ' ditandai!')" class="w-full bg-slate-50 hover:bg-slate-100 text-slate-600 py-1.5 text-xs font-bold rounded-lg border border-slate-200 transition flex items-center justify-center gap-1 shadow-sm">
-                                <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
-                                Tandai
-                            </button>
+                            <form method="POST" action="{{ route('keranjang.tambah') }}">
+    @csrf
+
+    <input type="hidden" name="buku_id" :value="buku.id">
+
+    <button type="submit"
+        class="bg-slate-50 hover:bg-slate-100 text-slate-600 px-4 py-1.5 text-xs font-bold rounded-lg border border-slate-200 transition flex items-center gap-1 shadow-sm">
+
+        <svg class="w-3 h-3 text-slate-500"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2.5"
+             viewBox="0 0 24 24">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z">
+            </path>
+        </svg>
+
+        Masukkan Keranjang
+    </button>
+</form>
                         </div>
                     </div>
 
@@ -189,10 +207,28 @@
                         
                         <div x-show="bukuTerbuka !== buku.id" class="flex items-center gap-4 mt-3">
                             <span class="text-xs font-bold text-emerald-600">Tersedia <span x-text="buku.tersedia"></span></span>
-                            <button @click="alert(buku.judul + ' ditandai!')" class="bg-slate-50 hover:bg-slate-100 text-slate-600 px-4 py-1.5 text-xs font-bold rounded-lg border border-slate-200 transition flex items-center gap-1 shadow-sm">
-                                <svg class="w-3 h-3 text-slate-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path></svg>
-                                Tandai
-                            </button>
+                            <form method="POST" action="{{ route('disukai.tambah') }}">
+    @csrf
+
+    <input type="hidden" name="buku_id" :value="buku.id">
+
+    <button type="submit"
+        class="bg-slate-50 hover:bg-slate-100 text-slate-600 px-4 py-1.5 text-xs font-bold rounded-lg border border-slate-200 transition flex items-center gap-1 shadow-sm">
+
+        <svg class="w-3 h-3 text-red-500"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            viewBox="0 0 24 24">
+            <path stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z">
+            </path>
+        </svg>
+
+        Tandai
+    </button>
+</form>
                         </div>
                         
                         <div x-show="bukuTerbuka === buku.id" x-collapse class="mt-4 pt-2">

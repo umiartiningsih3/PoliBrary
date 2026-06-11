@@ -11,6 +11,8 @@ use App\Http\Controllers\{
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OtpController;
+use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\DisukaiController;
 
 // --- RUTE PUBLIC ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -263,4 +265,18 @@ Route::post('/pinjaman/{id}/kembalikan', [PeminjamanController::class, 'kembalik
 Route::post('/pinjaman/{id}/perpanjang', [PeminjamanController::class, 'perpanjang'])
     ->name('peminjaman.perpanjang');
 
+Route::post('/keranjang/tambah', [KeranjangController::class, 'tambah'])
+    ->name('keranjang.tambah');
 
+Route::get('/keranjang', [KeranjangController::class, 'index'])
+    ->name('keranjang');
+
+    Route::delete('/keranjang/{id}', [KeranjangController::class, 'hapus'])
+    ->name('keranjang.hapus');
+
+
+Route::post('/disukai/tambah', [DisukaiController::class, 'tambah'])
+    ->name('disukai.tambah');
+
+Route::get('/disukai-saya', [DisukaiController::class, 'index'])
+    ->name('disukai');
