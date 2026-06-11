@@ -48,7 +48,10 @@
                                 </span>
                             </td>
                             <td class="py-4 px-2">
-                                <a href="{{ route('peminjaman.detail', $pinjaman->id) }}" class="text-[#0052cc] font-bold text-sm hover:underline">Detail</a>
+                                <a href="{{ route('peminjaman.detail', $pinjaman->id) }}"
+   class="text-[#0052cc] font-bold text-sm hover:underline">
+    Detail
+</a>
                             </td>
                         </tr>
                         @endforeach

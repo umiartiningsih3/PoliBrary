@@ -280,3 +280,9 @@ Route::post('/disukai/tambah', [DisukaiController::class, 'tambah'])
 
 Route::get('/disukai-saya', [DisukaiController::class, 'index'])
     ->name('disukai');
+
+Route::post('/keranjang/pinjam', [KeranjangController::class, 'pinjam'])
+    ->name('keranjang.pinjam');
+
+Route::get('/peminjaman/{id}', [PeminjamanController::class, 'detail'])
+    ->name('peminjaman.detail');

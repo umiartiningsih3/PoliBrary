@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 use App\Models\Keranjang;
 use Illuminate\Http\Request;
+use App\Models\Peminjaman;
+use Carbon\Carbon;
 
 class KeranjangController extends Controller
 {
@@ -32,5 +34,32 @@ class KeranjangController extends Controller
         ->delete();
 
     return back();
+}
+
+    public function pinjam(Request $request)
+{
+    $request->validate([
+        'keranjang_ids' => 'required|array'
+    ]);
+
+    $items = Keranjang::with('buku')
+        ->whereIn('id', $request->keranjang_ids)
+        ->get();
+
+    foreach ($items as $item) {
+
+        Peminjaman::create([
+    'user_id' => auth()->id(),
+    'buku_id' => $item->buku_id,
+    'status' => 'Dipinjam',
+    'tgl_jatuh_tempo' => now()->addDays(7)
+]);
+
+        $item->delete(); // hapus dari keranjang setelah dipinjam
+    }
+
+    return redirect()
+        ->route('pinjaman-saya')
+        ->with('success', 'Buku berhasil dipinjam.');
 }
 }
