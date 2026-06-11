@@ -9,14 +9,14 @@ class PeminjamanAdminController extends Controller
 {
     public function index()
     {
-        $peminjamans = Peminjaman::with([
+        $peminjaman = Peminjaman::with([
             'mahasiswa',
             'buku'
         ])
         ->where('status', 'Menunggu Konfirmasi')
         ->get();
 
-        return view('admin.peminjaman', compact('peminjamans'));
+        return view('admin.peminjaman', compact('peminjaman'));
     }
 
     public function approve($id)
@@ -49,7 +49,7 @@ class PeminjamanAdminController extends Controller
 
     public function pengembalian()
 {
-    $peminjamans = Peminjaman::with([
+    $peminjaman = Peminjaman::with([
         'mahasiswa',
         'buku'
     ])
@@ -58,7 +58,7 @@ class PeminjamanAdminController extends Controller
 
     return view(
         'admin.pengembalian',
-        compact('peminjamans')
+        compact('peminjaman')
     );
 }
 

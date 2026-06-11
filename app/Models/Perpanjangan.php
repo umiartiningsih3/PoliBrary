@@ -16,6 +16,9 @@ class Perpanjangan extends Model
 
     public function peminjaman()
     {
-        return $this->belongsTo(Peminjaman::class);
+        return $this->belongsTo(
+            Peminjaman::class,
+            'peminjaman_id'
+        );
     }
 }

@@ -1,9 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+use Carbon\Carbon;
 
 use Illuminate\Http\Request;
-use App\Models\Peminjaman; // Pastikan model ini di-import
+use App\Models\Peminjaman;
+use App\Models\Perpanjangan;
 
 class PeminjamanController extends Controller
 {
@@ -98,14 +100,35 @@ class PeminjamanController extends Controller
     $pinjaman = Peminjaman::findOrFail($id);
 
     if ($pinjaman->jumlah_perpanjangan >= 2) {
-        return back()->with('error', 'Maksimal perpanjangan 2 kali');
+        return back()->with(
+            'error',
+            'Maksimal perpanjangan 2 kali'
+        );
     }
 
-    $pinjaman->update([
-        'tgl_jatuh_tempo' => Carbon::parse($pinjaman->tgl_jatuh_tempo)->addDays(7),
-        'jumlah_perpanjangan' => $pinjaman->jumlah_perpanjangan + 1
+    // Cek apakah masih ada permintaan yang menunggu
+    $cek = Perpanjangan::where('peminjaman_id', $pinjaman->id)
+        ->where('status', 'menunggu')
+        ->first();
+
+    if ($cek) {
+        return back()->with(
+            'error',
+            'Permintaan perpanjangan masih menunggu persetujuan petugas'
+        );
+    }
+
+    Perpanjangan::create([
+        'peminjaman_id' => $pinjaman->id,
+        'jatuh_tempo_baru' => Carbon::parse(
+            $pinjaman->tgl_jatuh_tempo
+        )->addDays(7),
+        'status' => 'menunggu'
     ]);
 
-    return back()->with('success', 'Pinjaman berhasil diperpanjang');
+    return back()->with(
+        'success',
+        'Permintaan perpanjangan berhasil dikirim'
+    );
 }
 }

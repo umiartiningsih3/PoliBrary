@@ -11,7 +11,7 @@
                     <p class="text-sm text-gray-500">Tinjau dan konfirmasi buku yang telah dikembalikan oleh mahasiswa.</p>
                 </div>
                 <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">
-                    {{ $peminjamans->count() }} Peminjaman Aktif
+                    {{ $peminjaman->count() }} Peminjaman Aktif
                 </span>
             </div>
 
@@ -26,7 +26,7 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @forelse($peminjamans as $pinjam)
+                        @forelse($peminjaman as $pinjam)
                         <tr class="hover:bg-gray-50/50 transition">
                             <td class="px-6 py-5">
                                 <div class="font-bold text-gray-800">{{ $pinjam->mahasiswa->nama }}</div>

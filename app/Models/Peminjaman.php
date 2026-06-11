@@ -28,6 +28,9 @@ public function denda()
 
 public function perpanjangan()
 {
-    return $this->hasMany(Perpanjangan::class);
+    return $this->hasMany(
+        \App\Models\Perpanjangan::class,
+        'peminjaman_id'
+    );
 }
 }

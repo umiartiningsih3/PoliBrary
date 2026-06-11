@@ -11,7 +11,7 @@ return new class extends Migration
         Schema::create('dendas', function (Blueprint $table) {
             $table->id();
             $table->foreignId('peminjaman_id')
-                ->constrained('peminjamans')
+                ->constrained('peminjaman')
                 ->onDelete('cascade');
 
             $table->foreignId('user_id')

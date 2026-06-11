@@ -18,7 +18,7 @@
             </div>
 
             <span class="bg-blue-100 text-blue-700 text-xs font-bold px-3 py-1 rounded-full">
-                {{ $peminjamans->count() }} Permintaan Baru
+                {{ $peminjaman->count() }} Permintaan Baru
             </span>
         </div>
 
@@ -35,7 +35,7 @@
                 </thead>
 
                 <tbody class="divide-y divide-gray-100">
-                    @forelse($peminjamans as $pinjam)
+                    @forelse($peminjaman as $pinjam)
                     <tr class="hover:bg-gray-50 transition">
 
                         <td class="px-6 py-5">

@@ -11,12 +11,12 @@ class PengembalianController extends Controller
 {
     // Mengambil data peminjaman yang statusnya 'dipinjam' 
     // dan memuat (eager loading) data mahasiswa & buku agar tidak error di view
-    $peminjamans = \App\Models\Peminjaman::where('status', 'dipinjam')
+    $peminjaman = \App\Models\Peminjaman::where('status', 'dipinjam')
                     ->with(['mahasiswa', 'buku'])
                     ->get();
     
     // MENGIRIMKAN DATA MELALUI COMPACT
-    return view('admin.pengembalian.index', compact('peminjamans'));
+    return view('admin.pengembalian.index', compact('peminjaman'));
 
 }
 }
