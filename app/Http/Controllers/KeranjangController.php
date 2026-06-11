@@ -51,7 +51,7 @@ class KeranjangController extends Controller
         Peminjaman::create([
     'user_id' => auth()->id(),
     'buku_id' => $item->buku_id,
-    'status' => 'Dipinjam',
+    'status' => 'Menunggu Konfirmasi',
     'tgl_jatuh_tempo' => now()->addDays(7)
 ]);
 

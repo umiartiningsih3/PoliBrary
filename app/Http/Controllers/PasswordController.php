@@ -3,23 +3,39 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class PasswordController extends Controller
 {
-    public function showForm()
+    public function updatePassword(Request $request)
     {
-        return view('auth.reset-password');
-    }
-
-    public function update(Request $request)
-    {
-        // Logika untuk mengubah password ada di sini
         $request->validate([
-            'password' => 'required|confirmed|min:8',
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|confirmed',
         ]);
 
-        // Proses update password ke database...
+        $user = auth()->user();
 
-        return redirect()->route('login')->with('success', 'Password berhasil diubah!');
+        if (!Hash::check(
+            $request->current_password,
+            $user->password
+        )) {
+
+            return back()->withErrors([
+                'current_password' =>
+                'Password saat ini salah.'
+            ]);
+        }
+
+        $user->update([
+            'password' => Hash::make(
+                $request->new_password
+            )
+        ]);
+
+        return back()->with(
+            'success',
+            'Password berhasil diperbarui.'
+        );
     }
 }

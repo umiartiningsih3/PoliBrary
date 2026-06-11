@@ -11,6 +11,11 @@ class PeminjamanController extends Controller
 {
     $dataPinjaman = Peminjaman::with('buku')
         ->where('user_id', auth()->id())
+        ->whereIn('status', [
+            'Dipinjam',
+            'Menunggu Konfirmasi',
+            'Menunggu Pengembalian'
+        ])
         ->get();
 
     return view('pinjaman-saya', compact('dataPinjaman'));
@@ -35,24 +40,44 @@ class PeminjamanController extends Controller
 }
     public function cetakPdf()
 {
-    // 1. Ambil data yang ingin dicetak
-    $data = \App\Models\Peminjaman::all(); 
+    $riwayat = Peminjaman::with('buku')
+        ->where('user_id', auth()->id())
+        ->where('status', 'Dikembalikan')
+        ->latest()
+        ->get()
+        ->map(function ($item) {
+            return [
+                'judul' => $item->buku->judul ?? '-',
+                'tgl_pinjam' => $item->created_at
+                    ? $item->created_at->format('d-m-Y')
+                    : '-',
+                'tgl_kembali' => $item->updated_at
+                    ? $item->updated_at->format('d-m-Y')
+                    : '-',
+                'status' => $item->status,
+                'denda' => 0
+            ];
+        });
 
-    // 2. Load library PDF (Contoh menggunakan barryvdh/laravel-dompdf)
-    $pdf = \PDF::loadView('peminjaman.riwayat-pdf', compact('data'));
+    $pdf = \PDF::loadView(
+        'peminjaman.riwayat_pdf',
+        compact('riwayat')
+    );
 
-    // 3. Download atau tampilkan PDF
     return $pdf->download('riwayat-peminjaman.pdf');
 }
     public function riwayat()
 {
-    // Ambil data dari database atau buat data dummy
-    $riwayat = [
-        ['judul' => 'Pemrograman PHP', 'tgl_pinjam' => '2026-05-01', 'tgl_kembali' => '2026-05-08', 'status' => 'Dikembalikan', 'denda' => 0],
-        // Tambahkan data lainnya di sini
-    ];
+    $riwayat = Peminjaman::with('buku')
+        ->where('user_id', auth()->id())
+        ->where('status', 'Dikembalikan')
+        ->latest()
+        ->get();
 
-    return view('peminjaman.riwayat', compact('riwayat'));
+    return view(
+        'peminjaman.riwayat',
+        compact('riwayat')
+    );
 }
 
     public function kembalikan($id)
@@ -60,12 +85,12 @@ class PeminjamanController extends Controller
     $pinjaman = Peminjaman::findOrFail($id);
 
     $pinjaman->update([
-        'status' => 'Dikembalikan'
+        'status' => 'Menunggu Pengembalian'
     ]);
 
     return redirect()
         ->route('pinjaman-saya')
-        ->with('success', 'Buku berhasil dikembalikan');
+        ->with('success', 'Permintaan pengembalian berhasil dikirim');
 }
 
     public function perpanjang($id)

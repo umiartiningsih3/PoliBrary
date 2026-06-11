@@ -57,9 +57,6 @@ Route::middleware(['auth'])->group(function () {
     // Tambahkan rute yang menyebabkan error:
     Route::view('/disukai-saya', 'disukai-saya')->name('disukai-saya');
     Route::view('/keamanan-saya', 'keamanan-saya')->name('keamanan-saya');
-    
-    // Pastikan juga rute lain yang mungkin akan dipanggil ada di sini:
-    Route::view('/riwayat-peminjaman', 'riwayat-peminjaman')->name('riwayat.index');
 });
 
 // Tambahkan rute untuk pencarian global
@@ -142,8 +139,6 @@ Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
 // Pastikan rute ini ada di dalam file routes/web.php
 Route::get('/pinjaman/detail/{id}', [PeminjamanController::class, 'detail'])->name('peminjaman.detail');
 
-// Jika rutenya adalah /riwayat-peminjaman
-Route::view('/riwayat-peminjaman', 'peminjaman.riwayat')->name('riwayat.index');
 Route::get('/riwayat/pdf', [PeminjamanController::class, 'cetakPdf'])->name('riwayat.pdf');
 
 // Ganti Route::view menjadi Route::get
@@ -286,3 +281,47 @@ Route::post('/keranjang/pinjam', [KeranjangController::class, 'pinjam'])
 
 Route::get('/peminjaman/{id}', [PeminjamanController::class, 'detail'])
     ->name('peminjaman.detail');
+
+Route::post(
+    '/admin/peminjaman/{id}/approve',
+    [PeminjamanAdminController::class, 'approve']
+)->name('admin.peminjaman.approve');
+
+Route::post(
+    '/admin/peminjaman/{id}/reject',
+    [PeminjamanAdminController::class, 'reject']
+)->name('admin.peminjaman.reject');
+
+Route::get(
+    '/admin/peminjaman',
+    [PeminjamanAdminController::class, 'index']
+)->name('admin.peminjaman');
+
+Route::post(
+    '/admin/peminjaman/{id}/approve',
+    [PeminjamanAdminController::class, 'approve']
+)->name('admin.peminjaman.approve');
+
+Route::post(
+    '/admin/peminjaman/{id}/reject',
+    [PeminjamanAdminController::class, 'reject']
+)->name('admin.peminjaman.reject');
+
+Route::get(
+    '/admin/pengembalian',
+    [PeminjamanAdminController::class, 'pengembalian']
+)->name('admin.pengembalian');
+
+Route::patch(
+    '/admin/pengembalian/{id}/konfirmasi',
+    [PeminjamanAdminController::class, 'konfirmasiPengembalian']
+)->name('admin.pengembalian.konfirmasi');
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::post(
+        '/keamanan/update-password',
+        [PasswordController::class, 'updatePassword']
+    )->name('password.update');
+
+});

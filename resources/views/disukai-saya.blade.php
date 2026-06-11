@@ -41,10 +41,21 @@
         {{ $item->buku->penulis }}
     </p>
 
-    <a href="{{ route('keranjang') }}"
-       class="block text-center bg-blue-600 text-white text-xs font-bold py-2.5 rounded-lg hover:bg-[#0052cc]">
+    <form action="{{ route('keranjang.tambah') }}" method="POST">
+    @csrf
+
+    <input
+        type="hidden"
+        name="buku_id"
+        value="{{ $item->buku->id }}"
+    >
+
+    <button
+        type="submit"
+        class="w-full bg-blue-600 text-white text-xs font-bold py-2.5 rounded-lg hover:bg-[#0052cc]">
         Pinjam Buku
-    </a>
+    </button>
+</form>
 
 </div>
 

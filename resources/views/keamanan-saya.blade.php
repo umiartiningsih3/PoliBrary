@@ -12,16 +12,31 @@
         </div>
 
         <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-            <form action="#" method="POST" class="space-y-6">
+            @if(session('success'))
+<div class="mb-4 p-4 bg-green-100 text-green-700 rounded-lg">
+    {{ session('success') }}
+</div>
+@endif
+            <form action="{{ route('password.update') }}" method="POST" class="space-y-6">
                 @csrf
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 mb-1.5">Kata Sandi Saat Ini</label>
+                    @error('current_password')
+<p class="text-red-500 text-xs mt-1">
+    {{ $message }}
+</p>
+@enderror
                     <input type="password" name="current_password" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition" placeholder="Masukkan kata sandi saat ini" required>
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-1.5">Kata Sandi Baru</label>
+                        @error('new_password')
+<p class="text-red-500 text-xs mt-1">
+    {{ $message }}
+</p>
+@enderror
                         <input type="password" name="new_password" class="w-full px-4 py-2.5 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-100 outline-none transition" placeholder="Min. 8 karakter" required>
                     </div>
                     <div>
