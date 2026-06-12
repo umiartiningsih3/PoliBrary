@@ -2,30 +2,61 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Peminjaman;
 use Illuminate\Http\Request;
+use App\Models\Peminjaman;
+use App\Models\Perpanjangan;
+use Carbon\Carbon;
 
 class PerpanjanganController extends Controller
 {
     public function index()
-    {
-        // Hanya ambil data yang statusnya 'perpanjangan_diajukan'
-        $perpanjangans = Peminjaman::with(['mahasiswa', 'buku'])
-                            ->where('status', 'perpanjangan_diajukan')
-                            ->get();
+{
+    $perpanjangans = Perpanjangan::with([
+        'peminjaman.mahasiswa',
+        'peminjaman.buku'
+    ])
+    ->where('status', 'menunggu')
+    ->get();
 
-        return view('admin.perpanjangan.index', compact('perpanjangans'));
-    }
+    return view(
+        'admin.perpanjangan.index',
+        compact('perpanjangans')
+    );
+}
 
     public function approve($id)
-    {
-        $pinjam = Peminjaman::findOrFail($id);
-        // Logika update: tambah 7 hari dan ubah status
-        $pinjam->update([
-            'status' => 'dipinjam', // atau status lain sesuai alurmu
-            'tgl_jatuh_tempo' => \Carbon\Carbon::parse($pinjam->tgl_jatuh_tempo)->addDays(7)
-        ]);
-        
-        return back()->with('success', 'Perpanjangan disetujui!');
-    }
+{
+    $perpanjangan = Perpanjangan::findOrFail($id);
+
+    $pinjam = $perpanjangan->peminjaman;
+
+    $pinjam->update([
+        'tgl_jatuh_tempo' => Carbon::parse(
+            $pinjam->tgl_jatuh_tempo
+        )->addDays(7)
+    ]);
+
+    $perpanjangan->update([
+        'status' => 'disetujui'
+    ]);
+
+    return back()->with(
+        'success',
+        'Perpanjangan berhasil disetujui'
+    );
+}
+
+    public function reject($id)
+{
+    $perpanjangan = Perpanjangan::findOrFail($id);
+
+    $perpanjangan->update([
+        'status' => 'ditolak'
+    ]);
+
+    return back()->with(
+        'success',
+        'Perpanjangan ditolak'
+    );
+}
 }

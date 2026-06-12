@@ -325,3 +325,13 @@ Route::middleware(['auth'])->group(function () {
     )->name('password.update');
 
 });
+
+Route::post(
+    '/admin/perpanjangan/{id}/approve',
+    [PerpanjanganController::class, 'approve']
+)->name('admin.perpanjangan.approve');
+
+Route::post(
+    '/admin/perpanjangan/{id}/reject',
+    [PerpanjanganController::class, 'reject']
+)->name('admin.perpanjangan.reject');

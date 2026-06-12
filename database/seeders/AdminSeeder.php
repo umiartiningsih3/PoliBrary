@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
             'email' => 'Petugas@polibatam.ac.id',
             'nim' => '202601',
             'tipe_keanggotaan' => 'admin',
-            'password' => Hash::make('123'),
+            'password' => Hash::make('123456'),
             'tgl_daftar' => date('Y-m-d')
         ]);
     }

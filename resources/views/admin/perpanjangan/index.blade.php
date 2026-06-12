@@ -29,15 +29,15 @@
                         @forelse($perpanjangans as $pinjam)
                         <tr class="hover:bg-gray-50/50 transition">
                             <td class="px-6 py-5">
-                                <div class="font-bold text-gray-800">{{ $pinjam->mahasiswa->nama ?? 'N/A' }}</div>
-                                <div class="text-[10px] text-gray-400">NIM: {{ $pinjam->mahasiswa->nim ?? '-' }}</div>
+                                <div class="font-bold text-gray-800">{{ $pinjam->peminjaman->mahasiswa->name ?? 'N/A' }}</div>
+                                <div class="text-[10px] text-gray-400">NIM: {{ $pinjam->peminjaman->mahasiswa->nim ?? '-' }}</div>
                             </td>
                             <td class="px-6 py-5">
-                                <div class="text-gray-700">{{ $pinjam->buku->judul ?? 'N/A' }}</div>
-                                <div class="text-[10px] text-gray-400 italic">ISBN: {{ $pinjam->buku->isbn ?? '-' }}</div>
+                                <div class="text-gray-700">{{ $pinjam->peminjaman->buku->judul ?? 'Buku Tidak Ditemukan' }}</div>
+                                <div class="text-[10px] text-gray-400 italic">ISBN: {{ $pinjam->peminjaman->buku->isbn ?? '-' }}</div>
                             </td>
                             <td class="px-6 py-5 font-mono text-gray-600">
-                                {{ $pinjam->tgl_jatuh_tempo }}
+                                {{ $pinjam->peminjaman->tgl_jatuh_tempo }}
                             </td>
                             <td class="px-6 py-5 text-center">
                                 <div class="flex justify-center gap-2">
