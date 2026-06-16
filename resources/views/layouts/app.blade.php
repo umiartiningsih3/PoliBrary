@@ -96,9 +96,11 @@ img {
         {{ strtoupper(substr(auth()->user()->name ?? 'UN', 0, 2)) }}
     @endif
 </div>
-            <a href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('sidebar-logout-form').submit();" class="text-xs font-semibold hover:text-white transition opacity-90">
-                Sign out ⟳
-            </a>
+            <a href="#"
+   onclick="confirmLogout(event)"
+   class="text-xs font-semibold hover:text-white transition opacity-90">
+    Sign out ⟳
+</a>
         </div>
         <p class="font-semibold text-sm truncate">{{ auth()->user()->name ?? 'Umiarti Ningsih' }}</p>
         <div class="flex justify-between items-center">
@@ -353,6 +355,18 @@ img {
                 if (profile) profile.classList.add('hidden');
             }
         });
+
+        function confirmLogout(event) {
+    event.preventDefault();
+
+    const confirmed = confirm(
+        "Apakah Anda yakin ingin keluar dari PoliBrary?\n\nAnda akan mengakhiri sesi login saat ini."
+    );
+
+    if (confirmed) {
+        document.getElementById('sidebar-logout-form').submit();
+    }
+}
     </script>
     @stack('scripts')
 </body>

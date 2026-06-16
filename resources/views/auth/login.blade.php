@@ -72,6 +72,12 @@
         Masuk
     </button>
 
+    @if(session('success'))
+    <div class="mb-4 rounded-lg bg-green-100 border border-green-300 text-green-700 px-4 py-3">
+        {{ session('success') }}
+    </div>
+@endif
+
     <div class="text-center">
         <a href="{{ route('forgot.password') }}"
            class="text-sm text-blue-700 hover:text-blue-900 hover:underline transition font-medium">

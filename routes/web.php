@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\{
     HomeController, LoginController, RegisterController, PeminjamanController,
@@ -335,3 +336,14 @@ Route::post(
     '/admin/perpanjangan/{id}/reject',
     [PerpanjanganController::class, 'reject']
 )->name('admin.perpanjangan.reject');
+
+Route::post('/logout', function (Request $request) {
+    Auth::logout();
+
+    $request->session()->invalidate();
+    $request->session()->regenerateToken();
+
+    return redirect()
+        ->route('login')
+        ->with('success', 'Anda telah berhasil keluar dari PoliBrary.');
+})->name('logout');

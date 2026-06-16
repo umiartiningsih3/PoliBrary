@@ -203,32 +203,6 @@
     </h3>
     
     <div class="space-y-3">
-        <!-- Opsi QRIS -->
-        <label class="flex items-center justify-between p-4 border border-gray-100 rounded-2xl hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all group">
-            <div class="flex items-center gap-3">
-                <input type="radio" name="payment" value="qris" class="w-4 h-4 text-blue-600 focus:ring-blue-500" {{ $totalDenda > 0 ? 'checked' : '' }}>
-                <div>
-                    <span class="text-sm font-bold text-gray-700 block">QRIS / E-Wallet</span>
-                    <span class="text-[10px] text-gray-400">Gopay, OVO, Dana, LinkAja</span>
-                </div>
-            </div>
-            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo_QRIS.svg" alt="QRIS" class="h-5 grayscale group-hover:grayscale-0 transition">
-        </label>
-
-        <!-- Opsi Transfer Bank -->
-        <label class="flex items-center justify-between p-4 border border-gray-100 rounded-2xl hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all group">
-            <div class="flex items-center gap-3">
-                <input type="radio" name="payment" value="va" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
-                <div>
-                    <span class="text-sm font-bold text-gray-700 block">Transfer Bank (VA)</span>
-                    <span class="text-[10px] text-gray-400">Virtual Account Mandiri, BNI, BRI</span>
-                </div>
-            </div>
-            <div class="flex gap-1 opacity-50 group-hover:opacity-100 transition">
-                <div class="w-6 h-4 bg-gray-200 rounded-sm"></div>
-                <div class="w-6 h-4 bg-gray-200 rounded-sm"></div>
-            </div>
-        </label>
 
         <!-- Opsi Tunai -->
         <label class="flex items-center justify-between p-4 border border-gray-100 rounded-2xl hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all group">
