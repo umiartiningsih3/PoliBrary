@@ -220,9 +220,12 @@
     </div>
 
     <!-- Tombol Bayar -->
-    <button class="w-full bg-blue-600 text-white mt-6 py-4 rounded-2xl font-black hover:bg-blue-700 transition shadow-xl shadow-blue-100 text-sm uppercase tracking-widest {{ $totalDenda == 0 ? 'opacity-50 cursor-not-allowed' : '' }}" {{ $totalDenda == 0 ? 'disabled' : '' }}>
-        Konfirmasi Pembayaran
-    </button>
+    <a href="{{route('bayar.denda')}}"
+class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition">
+
+Bayar Sekarang
+
+</a>
 </div>
 
 <!-- Catatan Kebijakan (Selalu Muncul) -->

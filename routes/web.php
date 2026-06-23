@@ -14,6 +14,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\OtpController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\DisukaiController;
+use App\Http\Controllers\PaymentController;
 
 // --- RUTE PUBLIC ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -33,6 +34,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/riwayat-peminjaman', [PeminjamanController::class, 'index'])->name('riwayat.index');
     Route::get('/pinjaman-saya', [PeminjamanController::class, 'pinjamanSaya'])->name('pinjaman-saya');
     Route::get('/denda', [DendaController::class, 'index'])->name('denda');
+     Route::get('/bayar-denda', 
+        [PaymentController::class,'bayar']
+    )
+    ->name('bayar.denda');
     // Jika menggunakan view langsung:
 Route::view('/keranjang', 'keranjang')->name('keranjang');
 
@@ -334,3 +339,15 @@ Route::post('/logout', function (Request $request) {
         ->route('login')
         ->with('success', 'Anda telah berhasil keluar dari PoliBrary.');
 })->name('logout');
+
+
+Route::get(
+'/bayar-denda',
+[PaymentController::class,'bayar']
+)
+->middleware('auth')
+->name('bayar.denda');
+
+Route::post('/midtrans/callback', 
+    [PaymentController::class, 'callback']
+)->name('midtrans.callback');

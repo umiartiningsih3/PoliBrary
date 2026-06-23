@@ -3,33 +3,47 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Denda extends Model
 {
-    use HasFactory;
-
-    // Tentukan tabel jika nama tabel bukan 'dendas' (jamak dari denda)
     protected $table = 'dendas';
 
-    // Kolom yang bisa diisi (Mass Assignment)
     protected $fillable = [
         'peminjaman_id',
         'user_id',
         'jumlah_denda',
-        'status', // Contoh: 'belum_bayar', 'lunas'
+        'status',
         'tgl_bayar'
     ];
 
-    // Relasi ke Peminjaman
-    public function peminjaman()
-    {
-        return $this->belongsTo(Peminjaman::class);
-    }
 
-    // Relasi ke User
     public function user()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(
+            User::class,
+            'user_id'
+        );
+    }
+
+
+    public function peminjaman()
+    {
+        return $this->belongsTo(
+            Peminjaman::class,
+            'peminjaman_id'
+        );
+    }
+
+
+    public function buku()
+    {
+        return $this->hasOneThrough(
+            Buku::class,
+            Peminjaman::class,
+            'id',
+            'id',
+            'peminjaman_id',
+            'buku_id'
+        );
     }
 }

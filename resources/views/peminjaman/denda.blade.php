@@ -19,9 +19,12 @@
             <h2 class="text-xl font-bold text-gray-800">Anda Memiliki Tunggakan</h2>
             <p class="text-4xl font-black text-red-600 my-4">Rp {{ number_format($denda, 0, ',', '.') }}</p>
             <p class="text-gray-500 mb-6">Segera lakukan pembayaran ke bagian administrasi perpustakaan agar akses peminjaman Anda kembali normal.</p>
-            <button class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition">
-                Konfirmasi Pembayaran
-            </button>
+            <a href="{{route('bayar.denda')}}"
+class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition">
+
+Bayar Sekarang
+
+</a>
         </div>
         @else
         <div class="bg-white rounded-2xl shadow-sm border border-green-100 p-12 text-center">

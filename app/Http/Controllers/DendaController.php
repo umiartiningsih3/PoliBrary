@@ -9,9 +9,25 @@ use App\Exports\DendaExport;
 class DendaController extends Controller
 {
     public function index()
-    {
-        return view('peminjaman.denda');
-    }
+{
+
+$denda = Denda::where(
+'user_id',
+auth()->id()
+)
+->where(
+'status',
+'belum_bayar'
+)
+->sum('jumlah_denda');
+
+
+return view(
+'peminjaman.denda',
+compact('denda')
+);
+
+}
     public function riwayat()
 {
     // Ganti ->get() menjadi ->paginate(10)
