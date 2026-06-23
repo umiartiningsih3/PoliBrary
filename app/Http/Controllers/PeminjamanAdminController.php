@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Peminjaman;
+use Carbon\Carbon;
+use PDF;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PeminjamanExport;
 
 class PeminjamanAdminController extends Controller
 {
@@ -73,6 +77,58 @@ public function konfirmasiPengembalian($id)
     return back()->with(
         'success',
         'Pengembalian berhasil dikonfirmasi'
+    );
+}
+
+    public function daftarDipinjam()
+{
+    $peminjaman = Peminjaman::with([
+        'mahasiswa',
+        'buku'
+    ])
+    ->whereIn('status', [
+        'Dipinjam',
+        'Menunggu Pengembalian'
+    ])
+    ->latest()
+    ->get();
+
+
+    return view(
+        'admin.daftar-dipinjam',
+        compact('peminjaman')
+    );
+}
+
+public function exportPdf()
+{
+    $peminjaman = Peminjaman::with([
+        'mahasiswa',
+        'buku'
+    ])
+    ->whereIn('status', [
+        'Dipinjam',
+        'Menunggu Pengembalian'
+    ])
+    ->get();
+
+
+    $pdf = PDF::loadView(
+        'admin.export-peminjaman-pdf',
+        compact('peminjaman')
+    );
+
+
+    return $pdf->download(
+        'daftar-buku-dipinjam.pdf'
+    );
+}
+
+public function exportExcel()
+{
+    return Excel::download(
+        new PeminjamanExport,
+        'daftar-buku-dipinjam.xlsx'
     );
 }
 }

@@ -57,43 +57,61 @@ class MahasiswaController extends Controller
 }
 
     public function destroy($id)
-    {
-        // 1. Matikan pengecekan Foreign Key di SQLite agar tidak memicu error 'peminjamans'
-        \DB::statement('PRAGMA foreign_keys = OFF;');
+{
+    try {
 
-        try {
-            // 2. Hapus data denda yang terikat (jika ada)
+        \DB::beginTransaction();
+
+        // Ambil semua peminjaman mahasiswa
+        $peminjaman = \App\Models\Peminjaman::where('user_id', $id)->get();
+
+        foreach ($peminjaman as $item) {
+
+            // hapus denda terkait
             if (\Schema::hasTable('dendas')) {
-                \DB::table('dendas')->whereIn('peminjaman_id', function($query) use ($id) {
-                    $query->select('id')->from('peminjaman')->where('user_id', $id);
-                })->delete();
-            } elseif (\Schema::hasTable('denda')) {
-                \DB::table('denda')->whereIn('peminjaman_id', function($query) use ($id) {
-                    $query->select('id')->from('peminjaman')->where('user_id', $id);
-                })->delete();
+                \DB::table('dendas')
+                    ->where('peminjaman_id', $item->id)
+                    ->delete();
             }
 
-            // 3. Hapus data dari tabel peminjaman asli
-            \DB::table('peminjaman')->where('user_id', $id)->delete();
+            // hapus perpanjangan terkait
+            if (\Schema::hasTable('perpanjangans')) {
+                \DB::table('perpanjangans')
+                    ->where('peminjaman_id', $item->id)
+                    ->delete();
+            }
 
-            // 4. Hapus user mahasiswa dari tabel users
-            $mahasiswa = \App\Models\User::findOrFail($id);
-            $mahasiswa->delete();
-
-            $success = true;
-        } catch (\Exception $e) {
-            $success = false;
+            // hapus peminjaman
+            $item->delete();
         }
 
-        // 5. Hidupkan kembali pengecekan Foreign Key demi keamanan database
-        \DB::statement('PRAGMA foreign_keys = ON;');
 
-        if ($success) {
-            return redirect()->route('admin.mahasiswa')->with('success', 'Data berhasil dihapus!');
-        } else {
-            return redirect()->route('admin.mahasiswa')->with('error', 'Gagal menghapus data.');
-        }
+        // hapus user mahasiswa
+        $mahasiswa = \App\Models\User::findOrFail($id);
+        $mahasiswa->delete();
+
+
+        \DB::commit();
+
+
+        return redirect()
+            ->route('mahasiswa.index')
+            ->with(
+                'success',
+                'Data mahasiswa berhasil dihapus'
+            );
+
+
+    } catch (\Exception $e) {
+
+        \DB::rollBack();
+
+        return back()->with(
+            'error',
+            'Gagal menghapus mahasiswa: '.$e->getMessage()
+        );
     }
+}
 
     public function edit($id)
 {

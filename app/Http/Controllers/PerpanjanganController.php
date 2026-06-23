@@ -30,15 +30,20 @@ class PerpanjanganController extends Controller
 
     $pinjam = $perpanjangan->peminjaman;
 
+
+    // update data peminjaman
     $pinjam->update([
-        'tgl_jatuh_tempo' => Carbon::parse(
-            $pinjam->tgl_jatuh_tempo
-        )->addDays(7)
+        'tgl_jatuh_tempo' => $perpanjangan->jatuh_tempo_baru,
+        'status' => 'Dipinjam',
+        'jumlah_perpanjangan' => ($pinjam->jumlah_perpanjangan ?? 0) + 1
     ]);
 
+
+    // update status perpanjangan
     $perpanjangan->update([
         'status' => 'disetujui'
     ]);
+
 
     return back()->with(
         'success',

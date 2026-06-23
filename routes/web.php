@@ -355,3 +355,16 @@ Route::post('/midtrans/callback',
 Route::match(['get','post'], '/denda/cash',
 [PaymentController::class,'cash'])
 ->name('denda.cash');
+
+Route::get('/admin/daftar-dipinjam',
+[App\Http\Controllers\PeminjamanAdminController::class,'daftarDipinjam'])
+->name('admin.daftar.dipinjam');
+
+Route::get('/admin/daftar-dipinjam/export/pdf',
+[App\Http\Controllers\PeminjamanAdminController::class,'exportPdf'])
+->name('admin.dipinjam.pdf');
+
+
+Route::get('/admin/daftar-dipinjam/export/excel',
+[App\Http\Controllers\PeminjamanAdminController::class,'exportExcel'])
+->name('admin.dipinjam.excel');
