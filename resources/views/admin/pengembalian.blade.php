@@ -68,22 +68,87 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-100">
-                            <!-- Contoh Data -->
-                            <tr>
-                                <td class="px-4 py-4 font-medium">Sistem Basis Data</td>
-                                <td class="px-4 py-4 text-gray-500">2026-04-20</td>
-                                <td class="px-4 py-4 text-gray-500 font-mono">2026-04-27</td>
-                                <td class="px-4 py-4 text-right text-red-600 font-bold">Rp 14.000</td>
-                                <td class="px-4 py-4 text-center">
-                                    <form action="#" method="POST">
-                                        @csrf
-                                        <button class="bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-green-700 transition">
-                                            Konfirmasi Kembali
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        </tbody>
+
+@forelse($peminjaman as $item)
+
+<tr>
+
+<td class="px-4 py-4 font-medium">
+    {{ $item->buku->judul }}
+</td>
+
+
+<td class="px-4 py-4 text-gray-500">
+    {{ $item->created_at->format('d-m-Y') }}
+</td>
+
+
+<td class="px-4 py-4 text-gray-500">
+    {{ \Carbon\Carbon::parse($item->tgl_jatuh_tempo)->format('d-m-Y') }}
+</td>
+
+
+<td class="px-4 py-4 text-right text-red-600 font-bold">
+
+@php
+
+$jatuhTempo = \Carbon\Carbon::parse(
+    $item->tgl_jatuh_tempo
+);
+
+$hariIni = \Carbon\Carbon::now();
+
+$terlambat = $hariIni->greaterThan($jatuhTempo)
+    ? $hariIni->diffInDays($jatuhTempo)
+    : 0;
+
+$denda = $terlambat * 2000;
+
+@endphp
+
+
+Rp {{ number_format($denda,0,',','.') }}
+
+</td>
+
+
+<td class="px-4 py-4 text-center">
+
+<form action="{{ route('admin.konfirmasi.pengembalian',$item->id) }}" method="POST">
+
+@csrf
+
+<button 
+class="bg-green-600 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-green-700">
+
+Konfirmasi Kembali
+
+</button>
+
+</form>
+
+</td>
+
+
+</tr>
+
+
+@empty
+
+<tr>
+
+<td colspan="5" class="text-center py-8 text-gray-400">
+
+Tidak ada pengajuan pengembalian
+
+</td>
+
+</tr>
+
+@endforelse
+
+
+</tbody>
                     </table>
                 </div>
 
