@@ -351,3 +351,7 @@ Route::get(
 Route::post('/midtrans/callback', 
     [PaymentController::class, 'callback']
 )->name('midtrans.callback');
+
+Route::match(['get','post'], '/denda/cash',
+[PaymentController::class,'cash'])
+->name('denda.cash');

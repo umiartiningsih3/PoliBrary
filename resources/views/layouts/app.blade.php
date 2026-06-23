@@ -73,7 +73,7 @@ img {
     </style>
 </head>
 
-<body class="bg-gray-100 font-poppins flex flex-col min-h-screen relative overflow-x-hidden">
+<body class="font-poppins">
 
     @if(!request()->routeIs('login', 'register', 'password.request', 'password.reset'))
     <div id="sidebarBackdrop" class="fixed inset-0 bg-slate-900/40 z-50 hidden transition-opacity duration-300 opacity-0"></div>

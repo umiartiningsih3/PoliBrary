@@ -36,7 +36,7 @@
             <div class="lg:col-span-2 space-y-6">
                 
                 <!-- Card Utama Detail -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8">
+                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100 flex flex-col md:flex-row gap-8 items-start">
                     <!-- Cover Buku -->
                     <div class="w-full md:w-48 h-64 overflow-hidden rounded-xl border border-gray-200 flex-shrink-0">
     @if($pinjaman->buku->sampul)
@@ -52,63 +52,119 @@
 </div>
 
                     <!-- Informasi Buku -->
-                    <div class="flex-1 space-y-5">
-                        <div class="space-y-4 text-sm">
-                            <div class="grid grid-cols-[140px_10px_1fr] items-baseline">
-                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Judul Buku</span>
-                                <span class="text-gray-400">:</span>
-                                <span class="font-bold text-gray-800 text-lg leading-tight">{{ $pinjaman->buku->judul }}</span>
-                            </div>
-                            <div class="grid grid-cols-[140px_10px_1fr]">
-                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Penulis</span>
-                                <span class="text-gray-400">:</span>
-                                <span class="text-gray-700">{{ $pinjaman->buku->penulis }}</span>
-                            </div>
-                            <div class="grid grid-cols-[140px_10px_1fr]">
-                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Kategori</span>
-                                <span class="text-gray-400">:</span>
-                                <span class="px-2 py-0.5 bg-blue-50 text-blue-600 rounded text-xs font-bold w-fit">{{ $pinjaman->buku->kategori }}</span>
-                            </div>
-                            <div class="grid grid-cols-[140px_10px_1fr]">
-                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">No. Inventaris</span>
-                                <span class="text-gray-400">:</span>
-                                <span class="text-gray-700 font-mono">{{ $pinjaman->buku->no_inventaris }}</span>
-                            </div>
-                            <div class="grid grid-cols-[140px_10px_1fr]">
-                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Status</span>
-                                <span class="text-gray-400">:</span>
-                                <span class="text-blue-600 font-bold italic">{{ $pinjaman->status }}</span>
-                            </div>
-                            <div class="grid grid-cols-[140px_10px_1fr]">
-                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Tanggal Pinjam</span>
-                                <span class="text-gray-400">:</span>
-                                <span class="text-gray-700">{{ $pinjaman->created_at->translatedFormat('d F Y') }}</span>
-                            </div>
-                            <div class="grid grid-cols-[140px_10px_1fr]">
-                                <span class="text-gray-500 font-semibold uppercase tracking-wider text-[11px]">Jatuh Tempo</span>
-                                <span class="text-gray-400">:</span>
-                                <span class="font-bold {{ $terlambat > 0 ? 'text-red-600' : 'text-blue-600' }}">
-                                    {{ $jatuhTempo->translatedFormat('d F Y') }}
-                                </span>
-                            </div>
-                        </div>
+                    <div class="flex-1">
 
-                        <form action="{{ route('peminjaman.kembalikan', $pinjaman->id) }}" method="POST">
-    @csrf
-    <button type="submit"
-        class="bg-white border-2 border-gray-200 text-gray-700 px-6 py-2.5 rounded-xl font-bold hover:bg-gray-50">
-        Kembalikan Buku
-    </button>
-</form>
+<div class="space-y-4 text-sm">
 
-<form action="{{ route('peminjaman.perpanjang', $pinjaman->id) }}" method="POST">
-    @csrf
+    <div class="grid grid-cols-[140px_10px_1fr] items-center">
+        <span class="text-gray-500 font-medium">
+            Judul Buku
+        </span>
+        <span class="text-gray-400">:</span>
+        <span class="text-gray-800 font-semibold">
+            {{ $pinjaman->buku->judul }}
+        </span>
+    </div>
 
-    <button type="submit"
-        class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-bold">
-        Perpanjang Pinjaman
-    </button>
-</form>
+
+    <div class="grid grid-cols-[140px_10px_1fr] items-center">
+        <span class="text-gray-500 font-medium">
+            Penulis
+        </span>
+        <span class="text-gray-400">:</span>
+        <span class="text-gray-800 font-medium">
+            {{ $pinjaman->buku->penulis }}
+        </span>
+    </div>
+
+
+    <div class="grid grid-cols-[140px_10px_1fr] items-center">
+        <span class="text-gray-500 font-medium">
+            Kategori
+        </span>
+        <span class="text-gray-400">:</span>
+        <span class="text-gray-800 font-medium capitalize">
+            {{ $pinjaman->buku->kategori }}
+        </span>
+    </div>
+
+
+    <div class="grid grid-cols-[140px_10px_1fr] items-center">
+        <span class="text-gray-500 font-medium">
+            No. Inventaris
+        </span>
+        <span class="text-gray-400">:</span>
+        <span class="text-gray-800 font-medium">
+            {{ $pinjaman->buku->no_inventaris }}
+        </span>
+    </div>
+
+
+    <div class="grid grid-cols-[140px_10px_1fr] items-center">
+        <span class="text-gray-500 font-medium">
+            Status
+        </span>
+        <span class="text-gray-400">:</span>
+        <span class="text-blue-600 font-semibold">
+            {{ $pinjaman->status }}
+        </span>
+    </div>
+
+
+    <div class="grid grid-cols-[140px_10px_1fr] items-center">
+        <span class="text-gray-500 font-medium">
+            Tanggal Pinjam
+        </span>
+        <span class="text-gray-400">:</span>
+        <span class="text-gray-800 font-medium">
+            {{ $pinjaman->created_at->translatedFormat('d F Y') }}
+        </span>
+    </div>
+
+
+    <div class="grid grid-cols-[140px_10px_1fr] items-center">
+        <span class="text-gray-500 font-medium">
+            Jatuh Tempo
+        </span>
+        <span class="text-gray-400">:</span>
+        <span class="text-gray-800 font-semibold">
+            {{ $jatuhTempo->translatedFormat('d F Y') }}
+        </span>
+    </div>
+
+
+</div>
+
+
+                    <div class="flex gap-4 mt-8">
+
+    <form action="{{ route('peminjaman.kembalikan', $pinjaman->id) }}" method="POST">
+        @csrf
+
+        <button type="submit"
+            class="bg-white border border-gray-300 text-gray-700 px-6 py-2.5 rounded-xl font-semibold hover:bg-gray-50 transition">
+
+            Kembalikan Buku
+
+        </button>
+
+    </form>
+
+
+    <form action="{{ route('peminjaman.perpanjang', $pinjaman->id) }}" method="POST">
+        @csrf
+
+        <button type="submit"
+            class="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-semibold hover:bg-blue-700 transition">
+
+            Perpanjang Pinjaman
+
+        </button>
+
+    </form>
+
+</div>
+
                     </div>
                 </div>
 
@@ -163,70 +219,122 @@
                 </div>
             </div>
 
-            <!-- Kolom Kanan: Status Keuangan & Pembayaran -->
             <div class="space-y-6">
-                
-                <!-- Card Status Denda -->
-                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 w-20 h-20 bg-red-50 rounded-full opacity-50"></div>
-                    <h3 class="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-4">Informasi Denda</h3>
-                    <div class="space-y-1">
-                        <p class="text-sm text-gray-600">
-                            {{ $terlambat }} Hari Terlambat <span class="mx-1">×</span> Rp {{ number_format($dendaPerHari, 0, ',', '.') }}
-                        </p>
-                        <p class="text-3xl font-black text-red-600">
-                            Rp {{ number_format($totalDenda, 0, ',', '.') }}
-                        </p>
-                    </div>
+            <!-- Card Pembayaran Denda -->
+<div class="bg-white p-6 rounded-2xl shadow-sm border 
+{{ $totalDenda > 0 ? 'border-red-100' : 'border-gray-100' }}">
 
-                    <div class="mt-6 pt-6 border-t border-dashed border-gray-200">
-                        <span class="text-xs font-bold text-gray-400 block mb-2 uppercase tracking-wider">Status Saat Ini</span>
-                        <div class="flex items-center gap-2">
-                            <span class="flex h-3 w-3 relative">
-                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full {{ $terlambat > 0 ? 'bg-red-400' : 'bg-green-400' }} opacity-75"></span>
-                                <span class="relative inline-flex rounded-full h-3 w-3 {{ $terlambat > 0 ? 'bg-red-500' : 'bg-green-500' }}"></span>
-                            </span>
-                            <span class="font-bold text-sm {{ $terlambat > 0 ? 'text-red-700' : 'text-green-700' }}">
-                                {{ $terlambat > 0 ? 'Wajib Mengembalikan' : 'Pinjaman Aman' }}
-                            </span>
-                        </div>
-                    </div>
-                </div>
+    <h3 class="font-bold text-gray-800 mb-5 text-sm flex items-center gap-2">
 
-                <!-- Bagian Modul Pembayaran yang diperbaiki -->
-<div class="bg-white p-6 rounded-2xl shadow-sm border {{ $totalDenda > 0 ? 'border-red-100' : 'border-gray-100' }}">
-    <h3 class="font-bold text-gray-800 mb-4 text-sm flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+        <svg xmlns="http://www.w3.org/2000/svg" 
+        class="h-5 w-5 text-blue-600" 
+        fill="none" 
+        viewBox="0 0 24 24" 
+        stroke="currentColor">
+
+        <path stroke-linecap="round" 
+        stroke-linejoin="round" 
+        stroke-width="2" 
+        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/>
+
         </svg>
-        Metode Pembayaran
+
+        Pembayaran Denda
+
     </h3>
-    
+
+
     <div class="space-y-3">
 
-        <!-- Opsi Tunai -->
-        <label class="flex items-center justify-between p-4 border border-gray-100 rounded-2xl hover:border-blue-500 hover:bg-blue-50 cursor-pointer transition-all group">
-            <div class="flex items-center gap-3">
-                <input type="radio" name="payment" value="cash" class="w-4 h-4 text-blue-600 focus:ring-blue-500">
-                <div>
-                    <span class="text-sm font-bold text-gray-700 block">Tunai di Kasir</span>
-                    <span class="text-[10px] text-gray-400">Bayar langsung ke petugas perpus</span>
-                </div>
+
+        <!-- Total Denda -->
+        <p class="text-sm text-gray-600">
+            Total keterlambatan:
+            <span class="font-bold text-gray-800">
+                {{ $terlambat }} Hari
+            </span>
+        </p>
+
+
+        <p class="text-3xl font-black 
+        {{ $totalDenda > 0 ? 'text-red-600' : 'text-green-600' }}">
+
+            Rp {{ number_format($totalDenda,0,',','.') }}
+
+        </p>
+
+
+
+        <!-- STATUS SAAT INI -->
+        <div class="mt-5 pt-5 border-t border-dashed border-gray-200">
+
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                Status Saat Ini
+            </span>
+
+
+            <div class="flex items-center gap-2 mt-2">
+
+                <span class="flex h-3 w-3 relative">
+
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full 
+                    {{ $totalDenda > 0 ? 'bg-red-400' : 'bg-green-400' }} opacity-75">
+                    </span>
+
+
+                    <span class="relative inline-flex rounded-full h-3 w-3 
+                    {{ $totalDenda > 0 ? 'bg-red-500' : 'bg-green-500' }}">
+                    </span>
+
+                </span>
+
+
+                <span class="font-bold text-sm
+                {{ $totalDenda > 0 ? 'text-red-700' : 'text-green-700' }}">
+
+                    {{ $totalDenda > 0 
+                        ? 'Buku Terlambat Dikembalikan' 
+                        : 'Pinjaman Aman' 
+                    }}
+
+                </span>
+
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-400 group-hover:text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-        </label>
+
+        </div>
+
+
+
+
+        <!-- Tombol Pembayaran -->
+
+        @if($totalDenda > 0)
+
+            <a href="{{ route('bayar.denda') }}"
+            class="mt-6 block text-center bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition">
+
+                Bayar Sekarang
+
+            </a>
+
+
+        @else
+
+            <button
+            onclick="alert('Anda tidak memiliki denda yang harus dibayar')"
+            class="mt-6 w-full bg-gray-400 text-white px-8 py-3 rounded-xl font-bold cursor-not-allowed">
+
+                Bayar Sekarang
+
+            </button>
+
+        @endif
+
+
     </div>
 
-    <!-- Tombol Bayar -->
-    <a href="{{route('bayar.denda')}}"
-class="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 transition">
-
-Bayar Sekarang
-
-</a>
 </div>
+
 
 <!-- Catatan Kebijakan (Selalu Muncul) -->
 <div class="bg-gray-100 p-6 rounded-2xl border border-gray-200 mt-4">

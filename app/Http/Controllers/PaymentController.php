@@ -14,14 +14,28 @@ public function bayar()
 {
 
 $denda = Denda::where(
-'user_id',
-auth()->id()
+    'user_id',
+    auth()->id()
 )
-->where(
-'status',
-'belum_bayar'
+->whereIn(
+    'status',
+    [
+        'belum_bayar',
+        'menunggu_konfirmasi'
+    ]
 )
-->firstOrFail();
+->first();
+
+
+if(!$denda){
+
+    return redirect('/denda')
+    ->with(
+        'error',
+        'Tidak ada tagihan denda.'
+    );
+
+}
 
 
 
@@ -74,6 +88,79 @@ compact(
 );
 
 
+}
+
+public function callback(Request $request)
+{
+    $serverKey = config('services.midtrans.server_key');
+
+    $hashed = hash(
+        "sha512",
+        $request->order_id .
+        $request->status_code .
+        $request->gross_amount .
+        $serverKey
+    );
+
+
+    if($hashed == $request->signature_key){
+
+        if(
+            $request->transaction_status == 'settlement'
+            ||
+            $request->transaction_status == 'capture'
+        ){
+
+            $id = explode(
+                '-',
+                $request->order_id
+            )[1];
+
+
+            Denda::where('id',$id)
+            ->update([
+                'status'=>'lunas',
+                'tgl_bayar'=>now()
+            ]);
+
+        }
+
+    }
+
+
+    return response()->json([
+        'message'=>'OK'
+    ]);
+}
+
+public function cash()
+{
+    $denda = Denda::where('user_id', auth()->id())
+        ->where('status', 'belum_bayar')
+        ->first();
+
+
+    if(!$denda){
+
+        return redirect('/denda')
+        ->with(
+            'error',
+            'Tidak ada tagihan denda.'
+        );
+
+    }
+
+
+    $denda->update([
+        'status' => 'menunggu_konfirmasi'
+    ]);
+
+
+    return redirect('/denda')
+    ->with(
+        'success',
+        'Pengajuan pembayaran cash berhasil. Silahkan tunggu konfirmasi petugas.'
+    );
 }
 
 
