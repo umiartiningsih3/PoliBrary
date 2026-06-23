@@ -72,14 +72,6 @@ Route::get('/perpanjangan', [PerpanjanganController::class, 'index'])->name('per
 
 Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
 
-// Hapus semua rute yang mirip dan sisakan ini saja:
-Route::delete('/admin/mahasiswa/{id}', [App\Http\Controllers\MahasiswaController::class, 'destroy'])
-    ->name('admin.mahasiswa.destroy');
-
-// Pastikan rute DELETE ada DI ATAS rute GET yang umum
-Route::delete('/admin/mahasiswa/{id}', [App\Http\Controllers\MahasiswaController::class, 'destroy'])
-    ->name('admin.mahasiswa.destroy');
-
 Route::get('/admin/mahasiswa', [App\Http\Controllers\MahasiswaController::class, 'index'])
     ->name('admin.mahasiswa');
 
@@ -249,8 +241,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/pinjaman/detail/{id}', [PeminjamanController::class, 'detail'])->name('peminjaman.detail');
 });
 
-Route::get('/pinjaman/detail/{id}', [App\Http\Controllers\PeminjamanController::class, 'detail'])->name('peminjaman.detail');
-
 use App\Http\Controllers\PetugasDashboardController; // Tambahkan baris ini di atas
 
 Route::get('/admin/dashboard', [PetugasDashboardController::class, 'index'])->name('admin.dashboard');
@@ -279,9 +269,6 @@ Route::get('/disukai-saya', [DisukaiController::class, 'index'])
 
 Route::post('/keranjang/pinjam', [KeranjangController::class, 'pinjam'])
     ->name('keranjang.pinjam');
-
-Route::get('/peminjaman/{id}', [PeminjamanController::class, 'detail'])
-    ->name('peminjaman.detail');
 
 Route::post(
     '/admin/peminjaman/{id}/approve',
