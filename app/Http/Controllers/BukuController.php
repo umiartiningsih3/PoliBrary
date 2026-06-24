@@ -9,15 +9,22 @@ class BukuController extends Controller
 {
     public function index()
 {
-    // Mengambil semua data buku dari database
-    $semuaBuku = \App\Models\Buku::all();
+    $semuaBuku = \App\Models\Buku::all()->map(function ($buku) {
+        $buku->tersedia = $buku->tersedia;
+        return $buku;
+    });
 
-    // Menghitung jumlah per subjek (kategori)
-    $subjekSidebar = \App\Models\Buku::select('kategori as subjek', \DB::raw('count(*) as jumlah'))
-                        ->groupBy('kategori')
-                        ->get();
+    $subjekSidebar = \App\Models\Buku::select(
+            'kategori as subjek',
+            \DB::raw('count(*) as jumlah')
+        )
+        ->groupBy('kategori')
+        ->get();
 
-    return view('koleksi-abc', compact('semuaBuku', 'subjekSidebar'));
+    return view('koleksi-abc', compact(
+        'semuaBuku',
+        'subjekSidebar'
+    ));
 }
 
     public function store(Request $request)

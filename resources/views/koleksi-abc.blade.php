@@ -137,166 +137,151 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 max-w-7xl mx-auto mt-6">
+    <div class="max-w-7xl mx-auto mt-6">
 
-        <div class="lg:col-span-3 space-y-4">
+    <div x-show="bukuTampil.length === 0"
+         class="bg-white border border-slate-200 rounded-2xl p-12 text-center text-slate-500 shadow-sm font-medium">
+        📭 Tidak ada koleksi buku yang berawalan huruf
+        "<span class="font-bold text-blue-600" x-text="filterAlfabet"></span>".
+    </div>
 
-            <div x-show="bukuTampil.length === 0" class="bg-white border border-slate-200 rounded-2xl p-12 text-center text-slate-500 shadow-sm font-medium">
-                📭 Tidak ada koleksi buku yang berawalan huruf "<span class="font-bold text-blue-600" x-text="filterAlfabet"></span>".
-            </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5">
 
-            <template x-for="(buku, index) in bukuTampil" :key="buku.id">
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm flex flex-col sm:flex-row gap-6 relative overflow-hidden transition-all duration-300">
-                    
-                    <div x-show="bukuTerbuka === buku.id" x-collapse.duration.200ms class="absolute right-0 top-0 bg-[#00b26a] text-white text-[10px] font-bold px-3 py-1 uppercase tracking-wider rounded-bl-xl shadow-sm">
-                        Tersedia Untuk Dipinjam
-                    </div>
+        <template x-for="(buku, index) in bukuTampil" :key="buku.id">
 
-                    <div class="text-xl font-extrabold text-slate-300 w-6 select-none" 
-                         x-text="((halamanSekarang - 1) * jumlahPerHalaman) + index + 1"></div>
-                    
-                    <div class="w-full sm:w-32 flex flex-col gap-2">
-                        <div @click="bukuTerbuka = (bukuTerbuka === buku.id ? null : buku.id)" 
-     class="w-full h-40 bg-slate-100 border border-slate-200 rounded-xl overflow-hidden cursor-pointer transition shadow-inner">
-     
-    <img :src="'{{ asset('storage/') }}/' + buku.sampul" 
-         alt="Sampul Buku" 
-         class="w-full h-full object-cover"
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-sm overflow-hidden flex flex-col">
+
+                <!-- Cover -->
+                <div class="relative">
+
+    <img :src="'{{ asset('storage/') }}/' + buku.sampul"
+         alt="Sampul Buku"
+         class="w-full h-64 object-cover"
          onerror="this.src='{{ asset('image/Polibrary-logo.png') }}'">
+
+    <!-- Nomor -->
+    <div class="absolute top-2 left-2 bg-blue-600 text-white text-[10px] px-2 py-1 rounded">
+        #<span x-text="((halamanSekarang - 1) * jumlahPerHalaman) + index + 1"></span>
+    </div>
+
+    <!-- STOK HABIS -->
+    <div x-show="buku.tersedia <= 0"
+         class="absolute -right-10 top-5 rotate-45 bg-red-600 text-white text-[10px] font-bold px-10 py-1 shadow-lg">
+        STOK HABIS
+    </div>
+
 </div>
-                        
-                        <div x-show="bukuTerbuka === buku.id" x-collapse class="text-center space-y-2 pt-1">
-                            <p class="text-xs font-bold text-emerald-600">Tersedia <span x-text="buku.tersedia"></span></p>
-                            <form method="POST" action="{{ route('keranjang.tambah') }}">
-    @csrf
 
-    <input type="hidden" name="buku_id" :value="buku.id">
+                <!-- Isi Card -->
+                <div class="p-4 flex flex-col flex-1">
 
-    <button type="submit"
-        class="bg-slate-50 hover:bg-slate-100 text-slate-600 px-4 py-1.5 text-xs font-bold rounded-lg border border-slate-200 transition flex items-center gap-1 shadow-sm">
+                    <span class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 rounded w-fit">
+                        <span x-text="buku.kategori"></span>
+                    </span>
 
-        <svg class="w-3 h-3 text-slate-500"
-             fill="none"
-             stroke="currentColor"
-             stroke-width="2.5"
-             viewBox="0 0 24 24">
-            <path stroke-linecap="round"
-                  stroke-linejoin="round"
-                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z">
-            </path>
-        </svg>
+                    <h3 class="font-bold text-slate-800 mt-2 min-h-[50px] line-clamp-2"
+                        x-text="buku.judul">
+                    </h3>
 
-        Masukkan Keranjang
-    </button>
-</form>
-                        </div>
+                    <p class="text-xs text-slate-500 mt-1"
+                       x-text="buku.penulis">
+                    </p>
+
+                    <div class="mt-3 text-xs text-slate-600">
+                        ISBN :
+                        <span class="font-semibold" x-text="buku.isbn"></span>
                     </div>
 
-                    <div class="flex-1">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span x-show="bukuTerbuka !== buku.id" class="text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-0.5 rounded uppercase tracking-wider mb-1.5 inline-block" x-text="buku.subjek"></span>
-                                <h3 @click="bukuTerbuka = (bukuTerbuka === buku.id ? null : buku.id)" class="text-xl font-bold text-slate-800 leading-tight hover:text-blue-600 cursor-pointer transition select-none" x-text="buku.judul"></h3>
-                                <p x-show="bukuTerbuka !== buku.id" class="text-xs text-slate-500 mt-1 font-medium" x-text="buku.penulis"></p>
-                            </div>
+                    <div class="text-xs text-slate-600 mt-1">
+                        Tahun :
+                        <span class="font-semibold" x-text="buku.tahun_terbit"></span>
+                    </div>
 
-                            <button @click="bukuTerbuka = (bukuTerbuka === buku.id ? null : buku.id)" class="bg-slate-50 hover:bg-slate-100 rounded-full w-7 h-7 flex items-center justify-center text-slate-500 hover:text-slate-800 font-bold transition shadow-sm border border-slate-200 flex-shrink-0">
-                                <span class="text-xs" x-text="bukuTerbuka === buku.id ? '−' : '▲'"></span>
-                            </button>
-                        </div>
-                        
-                        <div x-show="bukuTerbuka !== buku.id" class="flex items-center gap-4 mt-3">
-                            <span class="text-xs font-bold text-emerald-600">Tersedia <span x-text="buku.tersedia"></span></span>
-                            <form method="POST" action="{{ route('disukai.tambah') }}">
+                    <!-- Spacer -->
+                    <div class="flex-1"></div>
+
+                    <!-- Tersedia -->
+                    <div class="mt-5 text-center">
+
+    <template x-if="buku.tersedia > 0">
+        <span class="text-sm font-bold text-emerald-600">
+            Tersedia
+            <span x-text="buku.tersedia"></span>
+        </span>
+    </template>
+
+    <template x-if="buku.tersedia <= 0">
+        <span class="text-sm font-bold text-red-600">
+            Buku Kosong
+        </span>
+    </template>
+
+</div>
+
+                    <!-- Tombol -->
+                    <div class="mt-4 flex justify-center gap-2">
+
+                        <form method="POST" action="{{ route('keranjang.tambah') }}">
     @csrf
 
     <input type="hidden" name="buku_id" :value="buku.id">
 
-    <button type="submit"
-        class="bg-slate-50 hover:bg-slate-100 text-slate-600 px-4 py-1.5 text-xs font-bold rounded-lg border border-slate-200 transition flex items-center gap-1 shadow-sm">
+    <button
+        type="submit"
+        :disabled="buku.tersedia <= 0"
 
-        <svg class="w-3 h-3 text-red-500"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            viewBox="0 0 24 24">
-            <path stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z">
-            </path>
-        </svg>
+        :class="buku.tersedia <= 0
+            ? 'bg-gray-400 cursor-not-allowed'
+            : 'bg-green-600 hover:bg-green-700'"
 
-        Tandai
+        class="text-white px-4 py-2 rounded-lg text-xs font-semibold transition">
+
+        <span x-show="buku.tersedia > 0">
+            Pinjam
+        </span>
+
+        <span x-show="buku.tersedia <= 0">
+            Pinjam
+        </span>
+
     </button>
+
 </form>
-                        </div>
-                        
-                        <div x-show="bukuTerbuka === buku.id" x-collapse class="mt-4 pt-2">
-                            <table class="w-full text-xs text-slate-600">
-                                <tbody>
-                                    <tr class="border-b border-slate-100">
-                                        <td class="py-2.5 font-bold text-slate-400 w-32 uppercase tracking-wider">ISBN</td>
-                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.isbn"></td>
-                                    </tr>
-                                    <tr class="border-b border-slate-100">
-                                        <td class="py-2.5 font-bold text-slate-400 uppercase tracking-wider">Subjek Kategori</td>
-                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.kategori"></td>
-                                    </tr>
-                                    <tr class="border-b border-slate-100">
-                                        <td class="py-2.5 font-bold text-slate-400 uppercase tracking-wider">Penerbit</td>
-                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.penerbit"></td>
-                                    </tr>
-                                    <tr class="border-b border-slate-100">
-                                        <td class="py-2.5 font-bold text-slate-400 uppercase tracking-wider">Tahun Terbit</td>
-                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.tahun_terbit"></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="py-2.5 font-bold text-slate-400 uppercase tracking-wider">Penulis</td>
-                                        <td class="py-2.5 text-slate-900 font-bold leading-relaxed" x-text="buku.penulis"></td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div> </div> </template>
 
-            <div class="mt-6 text-right border-t border-slate-200 pt-4" x-show="bukuTampil.length > 0">
-                <button @click="if(halamanSekarang < totalHalaman) { halamanSekarang++; bukuTerbuka = null; }"
-                        :disabled="halamanSekarang === totalHalaman"
-                        :class="halamanSekarang === totalHalaman ? 'opacity-50 cursor-not-allowed' : 'hover:opacity-90'"
-                        class="bg-gradient-to-r from-[#0f4c81] to-[#1d3557] text-white px-5 py-2 text-sm font-bold rounded-xl shadow-md transition">
-                    Halaman Berikutnya →
-                </button>
-            </div>
-        </div> <div class="space-y-4">
-            <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm">
-                <h4 class="font-bold text-sm text-slate-800 mb-4 border-b border-slate-100 pb-2.5 flex items-center gap-2">
-    📁 Kategori Subjek
-</h4>
+                        <form method="POST" action="{{ route('disukai.tambah') }}">
+                            @csrf
+                            <input type="hidden" name="buku_id" :value="buku.id">
 
-<ul class="space-y-1.5 text-xs font-medium text-slate-600">
-    @foreach($subjekSidebar as $s)
-        <li @click="filterAlfabet = 'SEMUA'; pencarianTeks = '{{ $s->subjek }}'; kataKunciKategori = 'subjek'" 
-            class="flex justify-between items-center px-3 py-2 rounded-lg hover:bg-sky-50 hover:text-blue-700 cursor-pointer transition duration-150 group">
-            <span class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-500 transition-colors"></span>
-                {{ $s->subjek }}
-            </span>
-            <span class="bg-slate-100 text-slate-500 font-bold px-1.5 py-0.5 rounded group-hover:bg-blue-100 group-hover:text-blue-700">
-                {{ $s->jumlah }}
-            </span>
-        </li>
-    @endforeach
-</ul>
-                <ul class="space-y-1.5 text-xs font-medium text-slate-600">
-                    @foreach($subjekSidebar as $s)
-                        <li @click="alert('Memfilter Kategori: {{ $s['nama'] }}')" class="flex justify-between items-center px-3 py-2 rounded-lg hover:bg-sky-50 hover:text-blue-700 cursor-pointer transition duration-150 group">
-                            <span class="flex items-center gap-2">
-                                <span class="w-1.5 h-1.5 rounded-full bg-slate-300 group-hover:bg-blue-500 transition-colors"></span>
-                                {{ $s['nama'] }}
-                            </span>
-                            <span class="bg-slate-100 text-slate-500 font-bold px-1.5 py-0.5 rounded group-hover:bg-blue-100 group-hover:text-blue-700">{{ $s['jumlah'] }}</span>
-                        </li>
-                    @endforeach
-                </ul>
+                            <button type="submit"
+                                    class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg text-xs font-semibold">
+                                Sukai
+                            </button>
+                        </form>
+
+                    </div>
+
+                </div>
+
             </div>
-        </div> </div> </div> @endsection
+
+        </template>
+
+    </div>
+
+    <div class="mt-8 border-t border-slate-200 pt-6 flex justify-center"
+     x-show="bukuTampil.length > 0">
+
+    <button
+        @click="if(halamanSekarang < totalHalaman) halamanSekarang++"
+        :disabled="halamanSekarang === totalHalaman"
+        :class="halamanSekarang === totalHalaman
+            ? 'opacity-50 cursor-not-allowed'
+            : 'hover:opacity-90'"
+        class="bg-gradient-to-r from-[#0f4c81] to-[#1d3557]
+               text-white px-8 py-3 rounded-xl
+               font-semibold shadow-md transition">
+
+        Halaman Berikutnya →
+    </button>
+
+</div> </div> @endsection

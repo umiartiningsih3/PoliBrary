@@ -15,6 +15,7 @@ use App\Http\Controllers\OtpController;
 use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\DisukaiController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\SearchController;
 
 // --- RUTE PUBLIC ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -65,8 +66,12 @@ Route::middleware(['auth'])->group(function () {
     Route::view('/keamanan-saya', 'keamanan-saya')->name('keamanan-saya');
 });
 
-// Tambahkan rute untuk pencarian global
-Route::get('/cari', [App\Http\Controllers\BukuController::class, 'searchGlobal'])->name('global.search');
+Route::get('/search', [SearchController::class, 'index'])
+    ->name('global.search')
+    ->middleware('auth');
+
+    Route::get('/search-live', [SearchController::class, 'live'])
+    ->name('search.live');
 // Tambahkan rute ini untuk menangani "Lupa Password"
 Route::get('/forgot-password', function () {
     return view('auth.forgot-password'); // Pastikan file blade-nya ada

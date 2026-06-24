@@ -280,15 +280,6 @@ img {
          <span class="font-bold text-lg tracking-wider uppercase hidden sm:block text-gradient-blue">POLIBRARY</span>
 </a>
     </div>
-
-    <form action="{{ route('global.search') }}" method="GET" class="flex-1 max-w-xl mx-8 hidden md:block">
-        <div class="relative flex items-center shadow-sm rounded-lg border border-gray-200 bg-gray-50">
-            <input type="text" name="q" value="{{ request('q') }}" placeholder="Cari judul buku, penulis, atau kategori..." class="w-full bg-transparent px-4 py-2 text-xs text-gray-600 placeholder-gray-400 focus:outline-none transition rounded-l-lg">
-            <button type="submit" class="bg-[#10b981] hover:bg-[#059669] text-white px-5 h-[34px] rounded-r-lg transition flex items-center justify-center">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-            </button>
         </div>
     </form>
 
@@ -381,6 +372,36 @@ img {
         document.getElementById('sidebar-logout-form').submit();
     }
 }
+document.getElementById('searchInput').addEventListener('keyup', function() {
+
+    let keyword = this.value;
+
+    if(keyword.length < 1){
+        document.getElementById('searchResult').classList.add('hidden');
+        return;
+    }
+
+    fetch('/search-live?q=' + keyword)
+        .then(response => response.json())
+        .then(data => {
+
+            let html = '';
+
+            data.forEach(item => {
+                html += `
+                    <a href="/buku/${item.id}"
+                       class="block px-4 py-2 hover:bg-gray-100">
+                        ${item.judul}
+                    </a>
+                `;
+            });
+
+            let resultBox = document.getElementById('searchResult');
+
+            resultBox.innerHTML = html;
+            resultBox.classList.remove('hidden');
+        });
+});
     </script>
     @stack('scripts')
 </body>
