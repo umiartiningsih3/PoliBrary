@@ -83,7 +83,7 @@ img {
         <button id="sidebarClose" class="p-1 text-slate-500 hover:bg-slate-100 rounded-full">
             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
-        <img src="{{ asset('image/Polibrary-logo.png') }}" width="32]]" height="32" class="h-8 w-8 object-contain block shrink-0" alt="Logo" loading="eager">
+        <img src="{{ asset('image/Polibrary-logo.png') }}" width="32" height="32" class="h-8 w-8 object-contain block shrink-0" alt="Logo" loading="eager">
     </div>
 
     <div class="bg-gradient-to-br from-[#0052cc] to-[#3b82f6] p-6 text-white shadow-md">
@@ -227,7 +227,7 @@ img {
 </a>
 
 {{-- Kelola Pengembalian --}}
-<a href="{{ route('pengembalian.index') }}" 
+<a href="{{ route('admin.pengembalian') }}" 
    class="flex items-center justify-between px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('pengembalian.index') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
     <div class="flex items-center gap-4">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
@@ -280,16 +280,84 @@ img {
          <span class="font-bold text-lg tracking-wider uppercase hidden sm:block text-gradient-blue">POLIBRARY</span>
 </a>
     </div>
-        </div>
-    </form>
 
     <div class="flex items-center gap-4">
-        <button onclick="toggleMenu()" class="p-1.5 text-gray-500 hover:bg-gray-100 rounded-full relative transition">
-            <span class="absolute top-1 right-1 w-2 h-2 bg-[#ef4444] rounded-full"></span>
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-        </button>
+
+    <div class="relative">
+
+    <button id="notificationButton"
+            onclick="toggleMenu(event)"
+            class="p-1.5 text-gray-500 hover:bg-gray-100 rounded-full relative transition">
+
+        @if(($unreadCount ?? 0) > 0)
+            <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+        @endif
+
+        <svg class="w-6 h-6"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="2"
+             viewBox="0 0 24 24">
+            <path stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/>
+        </svg>
+
+    </button>
+
+    <div id="menuDropdown"
+         class="hidden absolute right-0 top-14 w-[370px] bg-white rounded-lg border border-gray-200 shadow-xl z-50 overflow-hidden">
+
+        <div class="absolute -top-2 right-6 w-4 h-4 bg-white border-l border-t border-gray-200 rotate-45"></div>
+
+        <div class="flex items-center justify-between px-4 py-3 border-b">
+
+            <h3 class="font-semibold text-gray-700">
+                Notifications
+            </h3>
+
+            <a href="#" class="text-xs text-blue-600 hover:underline">
+                View all
+            </a>
+
+        </div>
+
+        <div class="max-h-[420px] overflow-y-auto">
+
+            @forelse(($notifications ?? []) as $notif)
+
+                <a href="#"
+                   class="flex gap-3 px-4 py-3 border-b hover:bg-gray-50">
+
+                    <span class="mt-2 w-2 h-2 rounded-full bg-orange-400"></span>
+
+                    <div class="flex-1">
+
+                        <p class="text-sm text-[#0066cc]">
+                            {{ $notif->data['judul'] ?? $notif->data['title'] ?? 'Notifikasi' }}
+                        </p>
+
+                        <p class="text-xs text-gray-400 mt-1">
+                            {{ $notif->created_at->diffForHumans() }}
+                        </p>
+
+                    </div>
+
+                </a>
+
+            @empty
+
+                <div class="py-10 text-center text-gray-400">
+                    Tidak ada notifikasi
+                </div>
+
+            @endforelse
+
+        </div>
+
+    </div>
+
+</div>
 
         <div class="relative">
             {{-- Pastikan class ini ada di pembungkusnya --}}

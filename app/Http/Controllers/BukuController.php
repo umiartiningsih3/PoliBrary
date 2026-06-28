@@ -10,7 +10,7 @@ class BukuController extends Controller
     public function index()
 {
     $semuaBuku = \App\Models\Buku::all()->map(function ($buku) {
-        $buku->tersedia = $buku->tersedia;
+        $buku->tersedia = $buku->jumlah_eksemplar;
         return $buku;
     });
 

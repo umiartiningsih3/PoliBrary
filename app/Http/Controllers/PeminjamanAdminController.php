@@ -8,6 +8,8 @@ use Carbon\Carbon;
 use PDF;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PeminjamanExport;
+use App\Notifications\PeminjamanNotification;
+use App\Models\User;
 
 
 class PeminjamanAdminController extends Controller
@@ -25,18 +27,43 @@ class PeminjamanAdminController extends Controller
     }
 
     public function approve($id)
-    {
-        $pinjam = Peminjaman::findOrFail($id);
+{
+    $pinjam = Peminjaman::with('buku')
+        ->findOrFail($id);
 
-        $pinjam->update([
-            'status' => 'Dipinjam'
-        ]);
 
-        return back()->with(
-            'success',
-            'Peminjaman berhasil disetujui'
+    // ubah status
+    $pinjam->update([
+        'status' => 'Dipinjam'
+    ]);
+
+
+    // kurangi stok setelah peminjaman disetujui
+$pinjam->buku->decrement('jumlah_eksemplar');
+
+
+    // kirim notif mahasiswa
+    $mahasiswa = User::find($pinjam->user_id);
+
+    if($mahasiswa){
+
+        $mahasiswa->notify(
+            new PeminjamanNotification(
+                'Peminjaman Disetujui',
+                'Buku dengan judul "' .
+                $pinjam->buku->judul .
+                '" telah disetujui oleh petugas.'
+            )
         );
+
     }
+
+
+    return back()->with(
+        'success',
+        'Peminjaman berhasil disetujui'
+    );
+}
 
     public function reject($id)
     {
@@ -62,18 +89,43 @@ class PeminjamanAdminController extends Controller
     ->get();
 
     return view(
-        'admin.pengembalian',
-        compact('peminjaman')
-    );
+    'admin.pengembalian.index',
+    compact('peminjaman')
+);
 }
 
 public function konfirmasiPengembalian($id)
 {
-    $pinjam = Peminjaman::findOrFail($id);
+    $pinjam = Peminjaman::with('buku')
+        ->findOrFail($id);
 
+
+    // ubah status menjadi selesai
     $pinjam->update([
         'status' => 'Dikembalikan'
     ]);
+
+
+    // tambah stok setelah petugas menerima buku
+    $pinjam->buku->increment('jumlah_eksemplar');
+
+
+    // notif mahasiswa
+    $mahasiswa = User::find($pinjam->user_id);
+
+    if($mahasiswa){
+
+        $mahasiswa->notify(
+            new PeminjamanNotification(
+                'Pengembalian Dikonfirmasi',
+                'Buku "' .
+                $pinjam->buku->judul .
+                '" telah berhasil dikembalikan.'
+            )
+        );
+
+    }
+
 
     return back()->with(
         'success',

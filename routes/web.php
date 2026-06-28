@@ -16,6 +16,19 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\DisukaiController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\SearchController;
+use App\Notifications\PeminjamanNotification;
+
+Route::get('/test-notification', function () {
+
+    auth()->user()->notify(
+        new PeminjamanNotification(
+            'Tes Notifikasi',
+            'Laravel Notification berhasil berjalan'
+        )
+    );
+
+    return 'berhasil';
+});
 
 // --- RUTE PUBLIC ---
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -79,8 +92,6 @@ Route::get('/forgot-password', function () {
 
 // Pastikan barisnya terlihat seperti ini:
 Route::get('/perpanjangan', [PerpanjanganController::class, 'index'])->name('perpanjangan.index');
-
-Route::get('/pengembalian', [PengembalianController::class, 'index'])->name('pengembalian.index');
 
 Route::get('/admin/mahasiswa', [App\Http\Controllers\MahasiswaController::class, 'index'])
     ->name('admin.mahasiswa');
@@ -188,11 +199,13 @@ Route::middleware(['auth'])->group(function () {
 
     // 4. Kelola Pengembalian
     Route::get('/pengembalian', function() {
-        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') {
-            return redirect('/dashboard');
-        }
-        return app(App\Http\Controllers\PengembalianController::class)->index();
-    })->name('pengembalian.index');
+    if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') {
+        return redirect('/dashboard');
+    }
+
+    return app(App\Http\Controllers\PeminjamanAdminController::class)->pengembalian();
+
+})->name('pengembalian.index');
 
     // Ganti rute denda-riwayat di paling bawah dengan kode ini:
 Route::get('/denda-riwayat', function() {
@@ -373,3 +386,7 @@ Route::get('/admin/daftar-dipinjam/export/pdf',
 Route::get('/admin/daftar-dipinjam/export/excel',
 [App\Http\Controllers\PeminjamanAdminController::class,'exportExcel'])
 ->name('admin.dipinjam.excel');
+
+Route::get('/admin/pengembalian',
+    [PeminjamanAdminController::class, 'pengembalian']
+)->name('admin.pengembalian');

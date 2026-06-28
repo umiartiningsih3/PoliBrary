@@ -5,6 +5,8 @@ use App\Models\Keranjang;
 use Illuminate\Http\Request;
 use App\Models\Peminjaman;
 use Carbon\Carbon;
+use App\Models\User;
+use App\Notifications\PeminjamanNotification;
 
 class KeranjangController extends Controller
 {
@@ -54,6 +56,32 @@ class KeranjangController extends Controller
     'status' => 'Menunggu Konfirmasi',
     'tgl_jatuh_tempo' => now()->addDays(3)
 ]);
+
+$admins = User::where(
+    'tipe_keanggotaan',
+    'petugas'
+)->get();
+
+
+foreach($admins as $admin){
+
+    $admin->notify(
+        new PeminjamanNotification(
+
+            'Permintaan Peminjaman',
+
+            'Permintaan peminjaman oleh ' .
+            auth()->user()->name .
+            ' (NIM: ' .
+            auth()->user()->nim .
+            ') untuk buku "' .
+            $item->buku->judul .
+            '".'
+
+        )
+    );
+
+}   
 
         $item->delete(); // hapus dari keranjang setelah dipinjam
     }

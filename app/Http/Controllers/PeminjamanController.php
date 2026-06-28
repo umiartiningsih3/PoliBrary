@@ -8,6 +8,8 @@ use App\Models\Perpanjangan;
 use App\Models\Denda;
 use Carbon\Carbon;
 use PDF;
+use App\Notifications\PeminjamanNotification;
+use App\Models\User;
 
 class PeminjamanController extends Controller
 {
@@ -18,24 +20,19 @@ class PeminjamanController extends Controller
     // =========================
 
     public function pinjamanSaya()
-    {
+{
+    $dataPinjaman = Peminjaman::with('buku')
+        ->where('user_id', auth()->id())
+        ->whereNotIn('status', [
+            'Dikembalikan'
+        ])
+        ->get();
 
-        $dataPinjaman = Peminjaman::with('buku')
-            ->where('user_id', auth()->id())
-            ->whereIn('status', [
-                'Dipinjam',
-                'Menunggu Konfirmasi',
-                'Menunggu Pengembalian'
-            ])
-            ->get();
-
-
-        return view(
-            'pinjaman-saya',
-            compact('dataPinjaman')
-        );
-
-    }
+    return view(
+        'pinjaman-saya',
+        compact('dataPinjaman')
+    );
+}
 
 
 
@@ -184,8 +181,19 @@ $totalDenda = $terlambat * $dendaPerHari;
             'Menunggu Pengembalian'
 
         ]);
+        $petugas = User::where('tipe_keanggotaan', 'petugas')->get();
 
+foreach($petugas as $admin){
 
+    $admin->notify(
+        new PeminjamanNotification(
+            'Permintaan Pengembalian',
+            auth()->user()->name .
+            ' mengajukan pengembalian buku.'
+        )
+    );
+
+}
 
         return redirect()
             ->route('pinjaman-saya')
@@ -210,11 +218,9 @@ $totalDenda = $terlambat * $dendaPerHari;
     {
 
 
-        $pinjaman = Peminjaman::where(
-                'user_id',
-                auth()->id()
-            )
-            ->findOrFail($id);
+        $pinjaman = Peminjaman::with('buku')
+    ->where('user_id', auth()->id())
+    ->findOrFail($id);
 
 
 
@@ -284,8 +290,32 @@ $totalDenda = $terlambat * $dendaPerHari;
 
         ]);
 
+        $admins = User::where('tipe_keanggotaan', 'petugas')->get();
 
+foreach ($admins as $admin) {
 
+    NotificationService::send(
+
+        $admin->id,
+
+        auth()->id(),
+
+        'Permintaan Perpanjangan',
+
+        auth()->user()->name .
+        ' mengajukan perpanjangan buku "' .
+        $pinjaman->buku->judul .
+        '".',
+
+        'perpanjangan',
+
+        $pinjaman->id,
+
+        'peminjaman'
+
+    );
+
+}
 
 
         return back()
@@ -296,6 +326,8 @@ $totalDenda = $terlambat * $dendaPerHari;
 
 
     }
+
+    
 
 
 
