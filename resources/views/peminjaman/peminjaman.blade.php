@@ -6,14 +6,6 @@
     use Carbon\Carbon;
 
     $jatuhTempo = Carbon::parse($pinjaman->tgl_jatuh_tempo);
-    $hariIni = Carbon::now();
-
-    $terlambat = $hariIni->greaterThan($jatuhTempo)
-        ? $hariIni->diffInDays($jatuhTempo)
-        : 0;
-
-    $dendaPerHari = 2000;
-    $totalDenda = $terlambat * $dendaPerHari;
 @endphp
 
 <div class="bg-gray-50 min-h-screen py-10 px-4 md:px-12">

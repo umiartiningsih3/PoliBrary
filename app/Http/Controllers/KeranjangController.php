@@ -52,7 +52,7 @@ class KeranjangController extends Controller
     'user_id' => auth()->id(),
     'buku_id' => $item->buku_id,
     'status' => 'Menunggu Konfirmasi',
-    'tgl_jatuh_tempo' => now()->addDays(7)
+    'tgl_jatuh_tempo' => now()->addDays(3)
 ]);
 
         $item->delete(); // hapus dari keranjang setelah dipinjam

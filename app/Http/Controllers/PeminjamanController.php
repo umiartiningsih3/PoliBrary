@@ -62,37 +62,16 @@ class PeminjamanController extends Controller
         */
 
 
-        $hariIni = Carbon::now();
+        $hariIni = Carbon::today();
+$jatuhTempo = Carbon::parse($pinjaman->tgl_jatuh_tempo)->startOfDay();
 
+$terlambat = max(
+    0,
+    $jatuhTempo->diffInDays($hariIni)
+);
 
-        $jatuhTempo = Carbon::parse(
-            $pinjaman->tgl_jatuh_tempo
-        );
-
-
-
-        if($hariIni->greaterThan($jatuhTempo)){
-
-
-            $terlambat = $hariIni
-                ->diffInDays($jatuhTempo);
-
-
-        }else{
-
-
-            $terlambat = 0;
-
-
-        }
-
-
-
-        $dendaPerHari = 2000;
-
-
-        $totalDenda =
-            $terlambat * $dendaPerHari;
+$dendaPerHari = 2000;
+$totalDenda = $terlambat * $dendaPerHari;
 
 
 
@@ -296,7 +275,7 @@ class PeminjamanController extends Controller
             Carbon::parse(
                 $pinjaman->tgl_jatuh_tempo
             )
-            ->addDays(7),
+            ->addDays(3),
 
 
             'status'
