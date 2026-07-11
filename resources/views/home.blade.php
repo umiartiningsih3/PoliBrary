@@ -14,7 +14,25 @@
                  alt="background">
 
             <!-- Overlay -->
-            <div class="absolute inset-0 bg-gradient-to-r from-[#eef7ff] via-[#eef7ff]/90 to-transparent"></div>
+            <div class="absolute inset-0">
+    <img src="{{ asset('image/library-bg.png') }}"
+         class="w-full h-full object-cover"
+         alt="background">
+
+    <!-- Overlay -->
+    <div
+        class="absolute inset-0"
+        style="
+            background:
+            radial-gradient(circle at 18% 50%,
+                rgba(255,255,255,.92) 0%,
+                rgba(255,255,255,.82) 28%,
+                rgba(255,255,255,.60) 48%,
+                rgba(255,255,255,.25) 68%,
+                rgba(255,255,255,0) 100%);
+        ">
+    </div>
+</div>
         </div>
 
         <!-- ================= CONTENT ================= -->
@@ -26,16 +44,13 @@
                 <!-- Welcome -->
                 <div>
 
-                    <h1 class="text-4xl md:text-5xl font-extrabold text-[#12376B] leading-none">
-                        Selamat
-                        <span class="text-[#47B8F2]">
-                            Datang
-                        </span>
-                    </h1>
-
-                    <p class="text-[#12376B] font-medium mt-3">
-                        Di Digital Library Polibatam
-                    </p>
+                    <h1 class="text-4xl md:text-5xl font-extrabold text-[#12376B] leading-tight">
+    Selamat Datang
+    <br /> <!-- Baris baru -->
+    <span class="text-[#47B8F2]">
+        Di PoliBrary
+    </span>
+</h1>
 
                 </div>
 
@@ -90,6 +105,7 @@
                 </div>
 
             </div>
+
 
             <!-- ================= RIGHT EMPTY ================= -->
             <div></div>

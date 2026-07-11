@@ -27,27 +27,34 @@ class PerpanjanganController extends Controller
     public function approve($id)
 {
     $perpanjangan = Perpanjangan::findOrFail($id);
-
     $pinjam = $perpanjangan->peminjaman;
 
+    // Maksimal 2 kali perpanjangan
+    if (($pinjam->jumlah_perpanjangan ?? 0) >= 2) {
 
-    // update data peminjaman
+        $perpanjangan->update([
+            'status' => 'ditolak'
+        ]);
+
+        return back()->with(
+            'error',
+            'Perpanjangan ditolak karena sudah mencapai batas maksimal 2 kali.'
+        );
+    }
+
     $pinjam->update([
-        'tgl_jatuh_tempo' => $perpanjangan->jatuh_tempo_baru,
-        'status' => 'Dipinjam',
-        'jumlah_perpanjangan' => ($pinjam->jumlah_perpanjangan ?? 0) + 1
+        'tgl_jatuh_tempo'      => $perpanjangan->jatuh_tempo_baru,
+        'status'               => 'Dipinjam',
+        'jumlah_perpanjangan'  => ($pinjam->jumlah_perpanjangan ?? 0) + 1
     ]);
 
-
-    // update status perpanjangan
     $perpanjangan->update([
         'status' => 'disetujui'
     ]);
 
-
     return back()->with(
         'success',
-        'Perpanjangan berhasil disetujui'
+        'Perpanjangan berhasil disetujui.'
     );
 }
 

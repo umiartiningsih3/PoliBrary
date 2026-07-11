@@ -10,14 +10,13 @@ use Carbon\Carbon;
 use PDF;
 use App\Notifications\PeminjamanNotification;
 use App\Models\User;
+use App\Services\NotificationService;
 
 class PeminjamanController extends Controller
 {
 
 
-    // =========================
     // PINJAMAN SAYA
-    // =========================
 
     public function pinjamanSaya()
 {
@@ -236,9 +235,6 @@ foreach($petugas as $admin){
                 );
 
         }
-
-
-
 
 
         $cek =

@@ -1,70 +1,199 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="bg-gray-50 min-h-screen py-10 px-4 md:px-12">
-    <div class="max-w-4xl mx-auto bg-white p-6 md:p-8 rounded-xl shadow-sm border border-gray-100">
-        
-        <div class="mb-8 border-b pb-4 flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-bold text-gray-800">Tambah Anggota Baru</h1>
-                <p class="text-sm text-gray-500">Lengkapi data berikut untuk mendaftarkan mahasiswa ke sistem.</p>
-            </div>
-            <a href="{{ route('admin.mahasiswa') }}" class="text-gray-400 hover:text-gray-600 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </a>
-        </div>
 
-        <form action="{{ route('admin.store-mahasiswa') }}" method="POST" class="space-y-6">
-            @csrf
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="col-span-1 md:col-span-2">
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Nama Lengkap Mahasiswa</label>
-                    <input type="text" name="nama" required class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none transition" placeholder="Masukkan nama lengkap sesuai KTM">
-                </div>
+<div class="min-h-screen bg-[#F8FAFC] py-10 px-6 font-['Poppins']">
 
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">NIM (Nomor Induk Mahasiswa)</label>
-                    <input type="text" name="nim" required class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none transition" placeholder="Contoh: 2241101xxx">
-                </div>
+<div class="max-w-5xl mx-auto">
 
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Program Studi</label>
-                    <select name="prodi" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none transition">
-                        <option value="D3 Teknik Informatika">D3 Teknik Informatika</option>
-                        <option value="D3 Teknik Geomatika">D3 Teknik Geomatika</option>
-                        <option value="D4 Teknik Rekayasa Perangkat Lunak">D4 Teknik Rekayasa Perangkat Lunak</option>
-                        <option value="D4 Animasi">D4 Animasi</option>
-                        <option value="D4 Teknologi Rekayasa Multimedia">D4 Teknologi Rekayasa Multimedia</option>
-                        <option value="D4 Rekayasa Keamanan Siber">D4 Rekayasa Keamanan Siber</option>
-                    </select>
-                </div>
+<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8">
 
-                <div>
-                    <label class="block text-xs font-bold text-gray-400 uppercase mb-2 text-pink-600">Tanggal Terdaftar (Sistem)</label>
-                    <input type="text" value="{{ date('d F Y') }}" readonly class="w-full bg-pink-50 border border-pink-100 rounded-lg p-3 text-sm text-pink-700 font-bold cursor-not-allowed outline-none">
-                    <input type="hidden" name="tgl_daftar" value="{{ date('Y-m-d') }}">
-                </div>
-            </div>
+<!-- HEADER -->
 
-            <div>
-    <label class="block text-xs font-bold text-gray-400 uppercase mb-2">Tipe Keanggotaan</label>
-    <select name="tipe_keanggotaan" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-3 text-sm focus:ring-2 focus:ring-pink-500 outline-none">
-        <option value="mahasiswa">mahasiswa</option>
-        <option value="dosen">dosen</option>
-    </select>
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-5 mb-8">
+
+<div>
+
+<span class="px-4 py-2 rounded-full text-xs font-semibold
+bg-[#C8A951]/10 text-[#A27D20] border border-[#C8A951]/30">
+
+M A H A S I S W A
+
+</span>
+
+<h1 class="text-3xl font-bold text-[#0F3D5E] mt-4">
+
+Tambah Mahasiswa
+
+</h1>
+
+<p class="text-sm text-slate-500 mt-2">
+
+Tambahkan anggota mahasiswa baru ke dalam sistem PoliBrary.
+
+</p>
+
 </div>
 
-            <div class="pt-6 border-t flex justify-end gap-3">
-                <a href="{{ route('admin.mahasiswa') }}" class="px-6 py-3 rounded-xl font-bold text-sm text-gray-500 hover:bg-gray-100 transition">
-                    Batal
-                </a>
-                <button type="submit" class="bg-slate-900 text-white px-10 py-3 rounded-xl font-bold text-sm hover:bg-pink-600 transition shadow-lg shadow-gray-200">
-                    Simpan Anggota
-                </button>
-            </div>
-        </form>
-    </div>
+
 </div>
+
+<!-- FORM -->
+
+<form action="{{ route('admin.store-mahasiswa') }}" method="POST">
+
+@csrf
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+<!-- Nama -->
+
+<div class="md:col-span-2">
+
+<label class="block text-sm font-semibold text-slate-700 mb-2">
+
+Nama Lengkap
+
+</label>
+
+<input
+type="text"
+name="nama"
+required
+placeholder="Masukkan nama lengkap mahasiswa"
+class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-blue-200 focus:border-[#0F3D5E] outline-none transition">
+
+</div>
+
+<!-- NIM -->
+
+<div>
+
+<label class="block text-sm font-semibold text-slate-700 mb-2">
+
+NIM
+
+</label>
+
+<input
+type="text"
+name="nim"
+required
+placeholder="Contoh : 2241101001"
+class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-blue-200 focus:border-[#0F3D5E] outline-none transition">
+
+</div>
+
+<!-- Prodi -->
+
+<div>
+
+<label class="block text-sm font-semibold text-slate-700 mb-2">
+
+Program Studi
+
+</label>
+
+<select
+name="prodi"
+required
+class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:ring-2 focus:ring-blue-200 focus:border-[#0F3D5E] outline-none transition">
+
+<option value="">Pilih Program Studi</option>
+
+<option value="D3 Teknik Informatika">D3 Teknik Informatika</option>
+
+<option value="D3 Teknik Geomatika">D3 Teknik Geomatika</option>
+
+<option value="D4 Teknik Rekayasa Perangkat Lunak">D4 Teknik Rekayasa Perangkat Lunak</option>
+
+<option value="D4 Animasi">D4 Animasi</option>
+
+<option value="D4 Teknologi Rekayasa Multimedia">D4 Teknologi Rekayasa Multimedia</option>
+
+<option value="D4 Rekayasa Keamanan Siber">D4 Rekayasa Keamanan Siber</option>
+
+</select>
+
+</div>
+
+<!-- Tanggal -->
+
+<div>
+
+<label class="block text-sm font-semibold text-slate-700 mb-2">
+
+Tanggal Terdaftar
+
+</label>
+
+<input
+type="text"
+value="{{ date('d F Y') }}"
+readonly
+class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 cursor-not-allowed">
+
+<input
+type="hidden"
+name="tgl_daftar"
+value="{{ date('Y-m-d') }}">
+
+</div>
+
+<!-- Tipe -->
+
+<div>
+
+<label class="block text-sm font-semibold text-slate-700 mb-2">
+
+Tipe Keanggotaan
+
+</label>
+
+<select
+name="tipe_keanggotaan"
+class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 text-slate-600 cursor-not-allowed">
+
+<option value="mahasiswa" selected>
+
+Mahasiswa
+
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<div class="mt-10 pt-6 border-t border-slate-200 flex justify-end gap-3">
+
+<a
+href="{{ route('mahasiswa.index') }}"
+class="px-6 py-3 rounded-xl border border-slate-200 text-slate-600 font-semibold hover:bg-slate-50 transition">
+
+Batal
+
+</a>
+
+<button
+type="submit"
+class="px-8 py-3 rounded-xl bg-[#0F3D5E] hover:bg-[#1D5D8F] text-white font-semibold transition">
+
+Simpan Mahasiswa
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
 @endsection

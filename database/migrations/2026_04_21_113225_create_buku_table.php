@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('kategori');
             $table->string('sub_kategori');
             $table->string('no_inventaris')->unique();
+            $table->string('nomor_rak')->nullable();
             $table->text('deskripsi')->nullable();
             $table->integer('jumlah_eksemplar');
             $table->string('cover_image')->nullable();

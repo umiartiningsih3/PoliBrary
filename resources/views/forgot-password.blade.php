@@ -69,7 +69,7 @@
 
                 <button type="submit"
                     class="w-full bg-sky-400 hover:bg-sky-500 text-white font-bold py-3 rounded-full">
-                    Kirim OTP
+                    Simpan
                 </button>
 
             </form>

@@ -7,18 +7,28 @@ use App\Models\Peminjaman;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Notifications\PeminjamanNotification;
+use App\Models\Buku;
 
 class KeranjangController extends Controller
 {
-    public function tambah(Request $request)
-    {
-        Keranjang::firstOrCreate([
-            'user_id' => auth()->id(),
-            'buku_id' => $request->buku_id
-        ]);
 
-        return back()->with('success', 'Buku ditambahkan ke keranjang');
+public function tambah(Request $request)
+{
+    $buku = Buku::findOrFail($request->buku_id);
+
+    if ($buku->jumlah_eksemplar <= 0) {
+        return back()->with('error', 'Maaf, buku ini sedang tidak tersedia.');
     }
+
+    Keranjang::firstOrCreate([
+        'user_id' => auth()->id(),
+        'buku_id' => $request->buku_id,
+    ]);
+
+    return redirect()
+        ->route('keranjang')
+        ->with('success', 'Buku berhasil ditambahkan ke keranjang.');
+}
 
     public function index()
     {

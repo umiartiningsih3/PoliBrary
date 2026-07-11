@@ -117,10 +117,10 @@ public function konfirmasiPengembalian($id)
 
         $mahasiswa->notify(
             new PeminjamanNotification(
-                'Pengembalian Dikonfirmasi',
-                'Buku "' .
+                'Pengembalian Berhasil',
+                'Terima kasih, buku "' .
                 $pinjam->buku->judul .
-                '" telah berhasil dikembalikan.'
+                '" telah diterima oleh petugas dan transaksi pengembalian telah selesai.'
             )
         );
 
@@ -133,7 +133,7 @@ public function konfirmasiPengembalian($id)
     );
 }
 
-    public function daftarDipinjam()
+    public function daftarDipinjam(Request $request)
 {
     $peminjaman = Peminjaman::with([
         'mahasiswa',
@@ -142,9 +142,27 @@ public function konfirmasiPengembalian($id)
     ->whereIn('status', [
         'Dipinjam',
         'Menunggu Pengembalian'
-    ])
-    ->latest()
-    ->get();
+    ]);
+
+
+    if($request->search_nim){
+
+        $peminjaman->whereHas('mahasiswa', function($query) use ($request){
+
+            $query->where(
+                'nim',
+                'like',
+                '%' . $request->search_nim . '%'
+            );
+
+        });
+
+    }
+
+
+    $peminjaman = $peminjaman
+        ->latest()
+        ->get();
 
 
     return view(

@@ -8,14 +8,18 @@ use Illuminate\Support\Facades\Hash;
 
 class MahasiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
 {
-    // Coba tambahkan dd di sini untuk memastikan data ada
-    $mahasiswas = \App\Models\User::where('tipe_keanggotaan', 'mahasiswa')->get();
-    
-    // Debug: Cek apakah ID ada di koleksi data
-    // dd($mahasiswas->first()->id); 
-    
+    $query = User::where('tipe_keanggotaan', 'mahasiswa');
+
+    if ($request->filled('search_nim')) {
+        $query->where('nim', 'like', '%' . $request->search_nim . '%');
+    }
+
+    $mahasiswas = $query
+        ->orderBy('name')
+        ->get();
+
     return view('admin.mahasiswa.index', compact('mahasiswas'));
 }
     

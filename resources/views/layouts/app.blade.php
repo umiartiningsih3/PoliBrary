@@ -90,16 +90,30 @@ img {
         <div class="flex items-center justify-between mb-4">
             {{-- Pastikan class ini ada di pembungkusnya --}}
 <div class="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center overflow-hidden font-bold text-xl shadow-inner border border-white/30 relative">
+    @if(auth()->check())
+
     @if(auth()->user()->avatar && file_exists(public_path('storage/' . auth()->user()->avatar)))
-        <img src="{{ asset('storage/' . auth()->user()->avatar) }}?v={{ time() }}" class="w-full h-full object-cover object-center aspect-square">
+
+        <img src="{{ asset('storage/' . auth()->user()->avatar) }}?v={{ time() }}"
+             class="w-full h-full object-cover object-center aspect-square">
+
     @else
+
         {{ strtoupper(substr(auth()->user()->name ?? 'UN', 0, 2)) }}
+
     @endif
+
+@else
+
+    <img src="{{ asset('image/Polibrary-logo.png') }}"
+         class="w-10 h-10 object-contain opacity-80">
+
+@endif
 </div>
             <a href="#"
    onclick="confirmLogout(event)"
    class="text-xs font-semibold hover:text-white transition opacity-90">
-    Sign out ⟳
+    Keluar ⟳
 </a>
         </div>
         <p class="font-semibold text-sm truncate">{{ auth()->user()->name ?? 'Umiarti Ningsih' }}</p>
@@ -116,7 +130,9 @@ img {
     
     {{-- Home --}}
     {{-- Ubah kode menu Home Anda menjadi seperti ini --}}
-    <a href="{{ (strtolower(trim(Auth::user()->tipe_keanggotaan)) === 'petugas') ? route('admin.dashboard') : route('dashboard') }}"
+    <a href="{{ auth()->check() && strtolower(trim(auth()->user()->tipe_keanggotaan)) === 'petugas' 
+? route('admin.dashboard') 
+: route('dashboard') }}"
    class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition 
    {{ (Route::is('dashboard') || Route::is('admin.dashboard')) ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
     
@@ -127,23 +143,34 @@ img {
 </a>
 
     {{-- Koleksi Buku --}}
-    <a href="{{ route('koleksi.abc') }}" 
-       class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('koleksi.index') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-        Koleksi Buku
-    </a>
+@if(auth()->check() && in_array(strtolower(auth()->user()->tipe_keanggotaan), ['mahasiswa','dosen']))
+
+<a href="{{ route('koleksi.abc') }}" 
+   class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition 
+   {{ Route::is('koleksi.abc') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
+
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+    </svg>
+
+    Koleksi Buku
+
+</a>
+
+@endif
 
 
     {{-- ========================================== --}}
     {{-- LOGIKA UNTUK MAHASISWA DAN DOSEN           --}}
     {{-- ========================================== --}}
-    @if(in_array(strtolower(auth()->user()->tipe_keanggotaan), ['mahasiswa', 'dosen']))
+    @if(auth()->check() && in_array(strtolower(auth()->user()->tipe_keanggotaan), ['mahasiswa','dosen']))
         
         {{-- Keranjang Saya --}}
         <a href="{{ route('keranjang') }}" 
            class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('keranjang') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-            Peminjaman
+            Keranjang Peminjaman
         </a>
 
         {{-- Status Denda --}}
@@ -187,13 +214,20 @@ img {
     {{-- LOGIKA UNTUK PETUGAS                       --}}
     {{-- ========================================== --}}
     @if(strtolower(auth()->user()->tipe_keanggotaan) == 'petugas')
-        
-        {{-- Tambah Koleksi --}}
-        <a href="{{ route('tambah-buku') }}" 
-           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('tambah-buku') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-            Tambah Koleksi
-        </a>
+
+        {{-- Data Buku --}}
+<a href="{{ route('admin.buku.index') }}" 
+   class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition 
+   {{ Route::is('admin.buku.index') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
+
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+        d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253"/>
+    </svg>
+
+    Data Buku
+
+</a>
 
         {{-- Kelola Mahasiswa --}}
         <a href="{{ route('mahasiswa.index') }}" 
@@ -254,10 +288,19 @@ img {
 
         {{-- Riwayat Denda --}}
         <a href="{{ route('denda.riwayat') }}" 
-           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('denda.riwayat') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13C9.683 8.354 8 10.976 8 14c0 3.917 1.513 7 4 7s4-3.083 4-7c0-3.024-1.683-5.646-4-6.354z"/></svg>
-            Riwayat Denda
-        </a>
+   class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('denda.riwayat') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
+
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9" stroke-width="2"/>
+        <path stroke-linecap="round" 
+              stroke-linejoin="round" 
+              stroke-width="2"
+              d="M12 7v10m3-7.5c0-1.1-1.3-2-3-2s-3 .9-3 2 1.3 2 3 2 3 .9 3 2-1.3 2-3 2-3-.9-3-2"/>
+    </svg>
+
+    Riwayat Denda
+
+</a>
     @endif
 </nav>
     <form id="sidebar-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>

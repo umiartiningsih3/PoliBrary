@@ -22,7 +22,7 @@
                     <img src="{{ asset('image/Polibrary-logo.png') }}" class="h-20 w-auto">
                 </div>
                 <h2 class="text-3xl font-bold text-blue-800">Lupa Password</h2>
-                <p class="text-gray-600 mt-2 text-sm">Verifikasi akun untuk menerima OTP</p>
+                <p class="text-gray-600 mt-2 text-sm">Verifikasi akun anda</p>
             </div>
 
             <div class="border-t border-white/40 mb-6"></div>
@@ -55,9 +55,19 @@
                     <input type="text" name="answer" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition" placeholder="Masukkan jawaban">
                 </div>
 
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Kata Sandi Baru</label>
+                    <input type="text" name="answer" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition" placeholder="Masukkan Kata Sandi Baru">
+                </div>
+
+                <div class="mb-6">
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">Konfirmasi Kata Sandi</label>
+                    <input type="text" name="answer" class="w-full px-4 py-3 rounded-xl bg-white/90 border border-gray-300 outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition" placeholder="Konfirmasi Kata Sandi Baru">
+                </div>
+
 
             <button type="submit" class="w-full bg-sky-400 hover:bg-sky-500 text-white font-bold py-3 rounded-full shadow-lg transition duration-300">
-    Kirim OTP
+    Simpan Perubahan
 </button>
 
 <div class="text-center mt-4">

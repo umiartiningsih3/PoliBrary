@@ -93,47 +93,25 @@ Route::get('/forgot-password', function () {
 // Pastikan barisnya terlihat seperti ini:
 Route::get('/perpanjangan', [PerpanjanganController::class, 'index'])->name('perpanjangan.index');
 
-Route::get('/admin/mahasiswa', [App\Http\Controllers\MahasiswaController::class, 'index'])
-    ->name('admin.mahasiswa');
-
 Route::middleware(['auth'])->group(function () {
-    
-    // 1. Rute untuk melihat daftar mahasiswa
-    Route::get('/admin/mahasiswa', function() {
-        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
-        return app(MahasiswaController::class)->index();
-    })->name('admin.mahasiswa');
-    
-    // 2. Rute untuk HAPUS Mahasiswa
-    Route::delete('/admin/mahasiswa/destroy/{id}', function($id) {
-        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
-        return app(MahasiswaController::class)->destroy($id);
-    })->name('admin.mahasiswa.destroy');
 
-    // 3. Rute Form Tambah/Register Mahasiswa
-    Route::get('/admin/mahasiswa/register', function() {
-        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
-        return app(MahasiswaController::class)->create();
-    })->name('admin.mahasiswa.register');
+    Route::get('/admin/mahasiswa', [MahasiswaController::class, 'index'])
+        ->name('admin.mahasiswa');
 
-    // 4. Rute Simpan Data Mahasiswa Baru
-    Route::post('/admin/mahasiswa/store', function() {
-        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
-        return app(MahasiswaController::class)->store(request());
-    })->name('admin.store-mahasiswa');
+    Route::get('/admin/mahasiswa/register', [MahasiswaController::class, 'create'])
+        ->name('admin.mahasiswa.register');
 
-    // 5. Rute Form Edit Mahasiswa
-    Route::get('/admin/mahasiswa/{id}/edit', function($id) {
-        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
-        return app(MahasiswaController::class)->edit($id);
-    })->name('admin.mahasiswa.edit');
+    Route::post('/admin/mahasiswa/store', [MahasiswaController::class, 'store'])
+        ->name('admin.store-mahasiswa');
 
-    // 6. Rute Update Data Mahasiswa
-    Route::put('/admin/mahasiswa/{id}', function($id) {
-        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') return redirect('/dashboard');
-        return app(MahasiswaController::class)->update(request(), $id);
-    })->name('admin.mahasiswa.update');
+    Route::get('/admin/mahasiswa/{id}/edit', [MahasiswaController::class, 'edit'])
+        ->name('admin.mahasiswa.edit');
 
+    Route::put('/admin/mahasiswa/{id}', [MahasiswaController::class, 'update'])
+        ->name('admin.mahasiswa.update');
+
+    Route::delete('/admin/mahasiswa/destroy/{id}', [MahasiswaController::class, 'destroy'])
+        ->name('admin.mahasiswa.destroy');
 });
 
 // Jika kamu ingin langsung menampilkan view koleksi-abc.blade.php
@@ -174,12 +152,16 @@ Route::middleware(['auth'])->group(function () {
 Route::middleware(['auth'])->group(function () {
 
     // 1. Kelola Mahasiswa
-    Route::get('/mahasiswa', function() {
-        if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') {
-            return redirect('/dashboard');
-        }
-        return app(App\Http\Controllers\MahasiswaController::class)->index();
-    })->name('mahasiswa.index');
+Route::get('/mahasiswa', function (Request $request) {
+
+    if (strtolower(auth()->user()->tipe_keanggotaan) !== 'petugas') {
+        return redirect('/dashboard');
+    }
+
+    return app(App\Http\Controllers\MahasiswaController::class)
+        ->index($request);
+
+})->name('mahasiswa.index');
 
     // 2. Kelola Peminjaman (SUDAH DISESUAIKAN DENGAN LOG ERROR ANDA)
     Route::get('/peminjaman', function() {
@@ -223,17 +205,15 @@ Route::get('/denda-riwayat', function() {
 // Pastikan kodenya seperti ini:
 Route::post('/otp/send', [OtpController::class, 'send'])->name('otp.send');
 
-
-Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.abc');
-
 // Route untuk Daftar Subjek
 Route::get('/koleksi-subjek', [BukuController::class, 'subjek'])->name('koleksi.subjek');
 
 // Route untuk Simpan Buku (tambah-buku)
 Route::post('/buku', [BukuController::class, 'store'])->name('buku.store');
 
-// Pastikan route ini menggunakan name('koleksi.abc')
-Route::get('/koleksi-abc', [BukuController::class, 'index'])->name('koleksi.abc');
+Route::get('/koleksi-abc', [BukuController::class,'index'])
+    ->middleware(['auth','role:mahasiswa,dosen'])
+    ->name('koleksi.abc');
 
 // Route Login
 Route::get('/login', [LoginController::class, 'index'])->name('login');
@@ -274,15 +254,18 @@ Route::post('/pinjaman/{id}/kembalikan', [PeminjamanController::class, 'kembalik
 Route::post('/pinjaman/{id}/perpanjang', [PeminjamanController::class, 'perpanjang'])
     ->name('peminjaman.perpanjang');
 
-Route::post('/keranjang/tambah', [KeranjangController::class, 'tambah'])
-    ->name('keranjang.tambah');
-
 Route::get('/keranjang', [KeranjangController::class, 'index'])
     ->name('keranjang');
 
-    Route::delete('/keranjang/{id}', [KeranjangController::class, 'hapus'])
-    ->name('keranjang.hapus');
+Route::post('/keranjang/tambah', [KeranjangController::class, 'tambah'])
+    ->name('keranjang.tambah');
 
+Route::post('/keranjang/pinjam', [KeranjangController::class, 'pinjam'])
+    ->name('keranjang.pinjam');
+
+Route::delete('/keranjang/{id}', [KeranjangController::class, 'hapus'])
+    ->whereNumber('id')
+    ->name('keranjang.hapus');
 
 Route::post('/disukai/tambah', [DisukaiController::class, 'tambah'])
     ->name('disukai.tambah');
@@ -390,3 +373,19 @@ Route::get('/admin/daftar-dipinjam/export/excel',
 Route::get('/admin/pengembalian',
     [PeminjamanAdminController::class, 'pengembalian']
 )->name('admin.pengembalian');
+
+Route::get('/admin/data-buku', 
+    [BukuController::class, 'dataBuku']
+)->name('admin.buku.index');
+
+Route::get('/admin/data-buku/{id}/edit',
+    [BukuController::class, 'edit']
+)->name('admin.buku.edit');
+
+Route::put('/admin/data-buku/{id}',
+    [BukuController::class, 'update']
+)->name('admin.buku.update');
+
+Route::delete('/admin/data-buku/{id}',
+    [BukuController::class, 'destroy']
+)->name('admin.buku.destroy');

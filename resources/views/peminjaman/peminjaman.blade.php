@@ -8,21 +8,68 @@
     $jatuhTempo = Carbon::parse($pinjaman->tgl_jatuh_tempo);
 @endphp
 
-<div class="bg-gray-50 min-h-screen py-10 px-4 md:px-12">
-    <div class="max-w-6xl mx-auto">
-        
-        <!-- Header & Breadcrumbs -->
-        <div class="mb-8">
-            <a href="{{ route('pinjaman-saya') }}" class="text-blue-600 hover:text-blue-700 font-semibold flex items-center gap-2 mb-2 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                Kembali ke Pinjaman Saya
-            </a>
-            <h1 class="text-3xl font-extrabold text-gray-800 tracking-tight">Rincian Pinjaman Buku</h1>
-        </div>
+<div class="min-h-screen bg-[#F8FAFC] py-10 px-6 font-['Poppins']">
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <div class="max-w-7xl mx-auto">
+
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+
+            <!-- HEADER CARD -->
+
+            <div class="px-8 py-6 border-b border-slate-200 bg-gradient-to-r from-sky-50 to-white">
+
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-5">
+
+                    <div>
+
+                        <span class="px-4 py-2 rounded-full text-xs font-semibold bg-blue-50 text-[#0F3D5E] border border-blue-100">
+
+                            D E T A I L &nbsp; P I N J A M A N
+
+                        </span>
+
+                        <h1 class="text-3xl font-bold text-[#0F3D5E] mt-4">
+
+                            Rincian Pinjaman Buku
+
+                        </h1>
+
+                        <p class="text-sm text-slate-500 mt-2">
+
+                            Informasi lengkap mengenai buku yang sedang dipinjam beserta status, riwayat, dan proses pengembaliannya.
+
+                        </p>
+
+                    </div>
+
+                    <a href="{{ route('pinjaman-saya') }}"
+                    class="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-sm font-semibold transition">
+
+                        <svg class="w-5 h-5"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24">
+
+                            <path stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M15 19l-7-7 7-7"/>
+
+                        </svg>
+
+                        Kembali
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- ISI HALAMAN -->
+
+            <div class="p-8">
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             
             <!-- Kolom Kiri: Detail Buku & Aksi -->
             <div class="lg:col-span-2 space-y-6">
@@ -160,56 +207,175 @@
                     </div>
                 </div>
 
-                <!-- Card Riwayat Perpanjangan -->
-                <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
-                    <h3 class="font-bold text-gray-800 mb-6 flex items-center gap-3">
-                        <span class="p-2 bg-blue-100 rounded-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </span>
-                        Riwayat Perpanjangan
-                    </h3>
-                    <div class="overflow-hidden border border-gray-100 rounded-xl">
-                        <table class="w-full text-sm text-left">
-                            <thead class="bg-gray-50 text-gray-500 border-b border-gray-100">
-                                <tr>
-                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider text-[11px]">Tanggal</th>
-                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider text-[11px]">Jatuh Tempo Baru</th>
-                                    <th class="px-6 py-4 font-semibold uppercase tracking-wider text-[11px]">Keterangan</th>
-                                </tr>
-                            </thead>
-                            <tbody class="divide-y divide-gray-100">
+                <!-- RIWAYAT PERPANJANGAN -->
+
+<div class="bg-white rounded-2xl border border-slate-200 shadow-sm p-8 mt-8">
+
+<div class="flex items-center gap-3 mb-6">
+
+<div class="w-11 h-11 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center">
+
+<svg class="w-5 h-5 text-[#1D5D8F]"
+fill="none"
+stroke="currentColor"
+viewBox="0 0 24 24">
+
+<path stroke-linecap="round"
+stroke-linejoin="round"
+stroke-width="2"
+d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0"/>
+
+</svg>
+
+</div>
+
+<div>
+
+<h3 class="font-semibold text-[#0F3D5E]">
+
+Riwayat Perpanjangan
+
+</h3>
+
+<p class="text-xs text-slate-400">
+
+Riwayat seluruh pengajuan perpanjangan buku.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="overflow-x-auto">
+
+<table class="w-full">
+
+<thead>
+
+<tr class="border-b border-slate-200 text-xs uppercase tracking-wider text-slate-400">
+
+<th class="px-6 py-4 text-center">
+
+Tanggal
+
+</th>
+
+<th class="px-6 py-4 text-center">
+
+Jatuh Tempo Baru
+
+</th>
+
+<th class="px-6 py-4 text-center">
+
+Status
+
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
 @if($pinjaman->perpanjangan->count())
 
-    @foreach($pinjaman->perpanjangan as $item)
-    <tr>
-        <td class="px-6 py-4">
-            {{ $item->created_at->format('d/m/Y') }}
-        </td>
-        <td class="px-6 py-4">
-            {{ \Carbon\Carbon::parse($item->jatuh_tempo_baru)->format('d/m/Y') }}
-        </td>
-        <td class="px-6 py-4">
-            {{ $item->status }}
-        </td>
-    </tr>
-    @endforeach
+@foreach($pinjaman->perpanjangan as $item)
+
+<tr class="border-b border-slate-100 hover:bg-slate-50 transition">
+
+<td class="px-6 py-5 text-center text-sm text-slate-600">
+
+{{ $item->created_at->format('d M Y') }}
+
+</td>
+
+<td class="px-6 py-5 text-center">
+
+<span class="px-3 py-1 rounded-full text-xs font-semibold
+bg-blue-50 text-blue-600 border border-blue-100">
+
+{{ \Carbon\Carbon::parse($item->jatuh_tempo_baru)->format('d M Y') }}
+
+</span>
+
+</td>
+
+<td class="px-6 py-5 text-center">
+
+@php
+
+$statusPerpanjang = match($item->status){
+
+'Disetujui' => 'bg-emerald-50 text-emerald-600 border-emerald-100',
+
+'Ditolak' => 'bg-red-50 text-red-600 border-red-100',
+
+default => 'bg-yellow-50 text-yellow-700 border-yellow-100'
+
+};
+
+@endphp
+
+<span class="px-3 py-1 rounded-full text-xs font-semibold border {{ $statusPerpanjang }}">
+
+{{ $item->status }}
+
+</span>
+
+</td>
+
+</tr>
+
+@endforeach
 
 @else
 
-    <tr>
-        <td colspan="3" class="text-center py-6 text-gray-500">
-            Belum ada riwayat perpanjangan
-        </td>
-    </tr>
+<tr>
+
+<td colspan="3" class="py-16 text-center">
+
+<svg class="w-14 h-14 mx-auto text-slate-300 mb-3"
+fill="none"
+stroke="currentColor"
+viewBox="0 0 24 24">
+
+<path stroke-width="1.5"
+stroke-linecap="round"
+stroke-linejoin="round"
+d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0"/>
+
+</svg>
+
+<p class="text-sm font-medium text-slate-500">
+
+Belum Ada Riwayat Perpanjangan
+
+</p>
+
+<p class="text-xs text-slate-400 mt-1">
+
+Belum pernah melakukan perpanjangan masa pinjam.
+
+</p>
+
+</td>
+
+</tr>
 
 @endif
+
 </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+
+</table>
+
+</div>
+
+</div>
+
+</div>
+
 
             <div class="space-y-6">
             <!-- Card Pembayaran Denda -->

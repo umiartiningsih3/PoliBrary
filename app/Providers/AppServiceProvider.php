@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\View; // Pastikan ini ada
 use App\Models\Peminjaman;           // Pastikan ini ada
 use App\Models\Perpanjangan;     
 use Illuminate\Support\Facades\Auth;    // Pastikan ini ada
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
 {
+    Carbon::setLocale('id');
     View::composer('layouts.app', function ($view) {
 
         $notifications = collect();

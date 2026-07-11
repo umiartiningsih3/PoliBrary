@@ -9,13 +9,11 @@ use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
-    // Menampilkan halaman login
     public function showLogin()
     {
         return view('auth.login');
     }
 
-    // Menangani proses login
     public function login(Request $request)
 {
     $credentials = $request->validate([
@@ -23,7 +21,6 @@ class AuthController extends Controller
         'password' => ['required'],
     ]);
 
-    // Kita beritahu Auth untuk menggunakan 'nim' sebagai identitas
     if (Auth::attempt(['nim' => $request->nim, 'password' => $request->password])) {
         $request->session()->regenerate();
         return redirect()->intended('dashboard');
@@ -34,7 +31,6 @@ class AuthController extends Controller
     ])->onlyInput('nim');
 }
 
-    // Logika verifikasi untuk Lupa Password (Validasi Data)
     public function verifyForOtp(Request $request)
     {
         $request->validate([
@@ -43,7 +39,7 @@ class AuthController extends Controller
             'security_answer' => 'required'
         ]);
 
-        // Cari user berdasarkan NIM
+
         $user = User::where('nim', $request->nim)
                     ->where('tgl_lahir', $request->tgl_lahir)
                     ->where('security_answer', $request->security_answer)

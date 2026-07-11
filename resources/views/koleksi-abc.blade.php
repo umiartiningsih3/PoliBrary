@@ -218,10 +218,9 @@
 
 </div>
 
-                    <!-- Tombol -->
-                    <div class="mt-4 flex justify-center gap-2">
+<div class="mt-4 flex justify-center gap-2">
 
-                        <form method="POST" action="{{ route('keranjang.tambah') }}">
+<form method="POST" action="{{ route('keranjang.tambah') }}">
     @csrf
 
     <input type="hidden" name="buku_id" :value="buku.id">
