@@ -389,3 +389,7 @@ Route::put('/admin/data-buku/{id}',
 Route::delete('/admin/data-buku/{id}',
     [BukuController::class, 'destroy']
 )->name('admin.buku.destroy');
+
+Route::get('/faq', function () {
+    return view('faq');
+})->name('faq');
