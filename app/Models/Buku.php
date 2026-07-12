@@ -9,19 +9,21 @@ class Buku extends Model
     protected $table = 'buku';
 
     protected $fillable = [
-    'judul',
-    'isbn',
-    'penulis',
-    'penerbit',
-    'tahun_terbit',
-    'kategori',
-    'sub_kategori',
-    'no_inventaris',
-    'nomor_rak',
-    'deskripsi',
-    'jumlah_eksemplar',
-    'sampul'
-];
+        'judul',
+        'isbn',
+        'penulis',
+        'penerbit',
+        'tahun_terbit',
+        'bahasa',
+        'jumlah_halaman',
+        'kategori',
+        'sub_kategori',
+        'no_inventaris',
+        'nomor_rak',
+        'deskripsi',
+        'jumlah_eksemplar',
+        'sampul',
+    ];
 
     /**
      * Relasi ke tabel peminjaman
@@ -32,7 +34,7 @@ class Buku extends Model
     }
 
     /**
-     * Hitung stok tersedia secara realtime
+     * Menghitung stok tersedia secara otomatis
      */
     public function getTersediaAttribute()
     {

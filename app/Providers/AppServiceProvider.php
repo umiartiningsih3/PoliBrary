@@ -9,6 +9,7 @@ use App\Models\Peminjaman;           // Pastikan ini ada
 use App\Models\Perpanjangan;     
 use Illuminate\Support\Facades\Auth;    // Pastikan ini ada
 use Carbon\Carbon;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,8 +36,9 @@ class AppServiceProvider extends ServiceProvider
                 ->unreadNotifications()
                 ->count();
         }
-
-
+        
+        Paginator::useTailwind();
+        
         $view->with([
 
             'counts' => [

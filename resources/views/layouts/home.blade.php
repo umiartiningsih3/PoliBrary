@@ -143,7 +143,7 @@ MASUK
 <a href="{{ route('dashboard') }}"
 class="hover:text-sky-600 transition">
 
-MY SPACE
+MASUK
 
 </a>
 

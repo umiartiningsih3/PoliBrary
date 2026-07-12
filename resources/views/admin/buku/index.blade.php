@@ -62,7 +62,7 @@ Total Judul Buku
 </p>
 
 <h2 class="text-3xl font-bold text-[#1D5D8F] mt-2">
-{{ $buku->count() }}
+{{ $totalJudul }}
 </h2>
 
 </div>
@@ -76,7 +76,7 @@ Total Stok Buku
 </p>
 
 <h2 class="text-3xl font-bold text-[#1D5D8F] mt-2">
-{{ $buku->sum('jumlah_eksemplar') }}
+{{ $totalStok }}
 </h2>
 
 </div>
@@ -90,7 +90,7 @@ Buku Terbaru
 </p>
 
 <h2 class="text-lg font-bold text-[#0F3D5E] mt-2">
-{{ $buku->first()->judul ?? '-' }}
+{{ $bukuTerbaru->judul ?? '-' }}
 </h2>
 
 </div>
@@ -126,58 +126,73 @@ Semua buku yang telah diinput oleh petugas.
 
 <!-- SEARCH -->
 
-<div class="relative w-full md:w-80">
+<div class="flex flex-col md:flex-row gap-3">
 
+<form action="{{ route('admin.buku.index') }}"
+      method="GET"
+      class="flex flex-col md:flex-row gap-3 w-full">
 
-<form action="{{ route('admin.buku.index') }}" method="GET">
+    <div class="relative flex-1">
 
+        <svg
+            class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24">
 
-<div class="relative">
+            <path
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
 
+        </svg>
 
-<svg
-class="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400"
-fill="none"
-stroke="currentColor"
-viewBox="0 0 24 24">
+        <input
+            type="text"
+            name="search"
+            value="{{ request('search') }}"
+            placeholder="Cari judul, penulis, atau ISBN..."
 
-<path
-stroke-width="2"
-stroke-linecap="round"
-stroke-linejoin="round"
-d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            class="w-full pl-12 pr-12 py-3 rounded-2xl border border-slate-200 bg-slate-50">
 
-</svg>
+        @if(request('search'))
 
+            <a href="{{ route('admin.buku.index') }}"
+               class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-500">
 
+                ✕
 
-<input
-type="text"
-name="search"
-value="{{ request('search') }}"
-placeholder="Cari judul, penulis, atau ISBN..."
+            </a>
 
-class="w-full pl-12 pr-12 py-3 rounded-2xl border border-slate-200 bg-slate-50 text-sm text-slate-700 placeholder-slate-400 focus:bg-white focus:border-sky-400 focus:ring-4 focus:ring-sky-100 transition">
+        @endif
 
+    </div>
 
-@if(request('search'))
+    <select
+        name="per_page"
+        onchange="this.form.submit()"
+        class="px-4 py-3 rounded-xl border border-slate-200">
 
-<a href="{{ route('admin.buku.index') }}"
-class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-red-500">
+        <option value="10" {{ request('per_page',10)==10?'selected':'' }}>
+            10 Buku
+        </option>
 
-✕
+        <option value="20" {{ request('per_page')==20?'selected':'' }}>
+            20 Buku
+        </option>
 
+        <option value="50" {{ request('per_page')==50?'selected':'' }}>
+            50 Buku
+        </option>
 
-</a>
+        <option value="100" {{ request('per_page')==100?'selected':'' }}>
+            100 Buku
+        </option>
 
-@endif
-
-
-</div>
-
+    </select>
 
 </form>
-
 
 </div>
 
@@ -249,7 +264,7 @@ Aksi
 
 
 <td class="px-6 py-5 text-slate-500">
-{{ $index+1 }}
+{{ $buku->firstItem() + $index }}
 </td>
 
 
@@ -418,6 +433,16 @@ Belum ada data buku
 
 
 </table>
+
+<div class="flex flex-col md:flex-row justify-between items-center px-6 py-5 border-t bg-white">
+
+    <div class="mt-4 md:mt-0">
+
+        {{ $buku->links() }}
+
+    </div>
+
+</div>
 
 
 </div>

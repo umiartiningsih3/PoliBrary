@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/collapse@3.x.x/dist/cdn.min.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-
+    <link href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <script>
@@ -194,12 +194,6 @@ img {
             Disukai Saya
         </a>
 
-        {{-- Keamanan Saya --}}
-        <a href="{{ route('keamanan-saya') }}" 
-           class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition {{ Route::is('keamanan-saya') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-            Keamanan Saya
-        </a>
 
         {{-- Riwayat Peminjaman --}}
         <a href="{{ route('riwayat.index') }}" 
@@ -302,6 +296,18 @@ img {
 
 </a>
     @endif
+    <a href="{{ route('keamanan-saya') }}" 
+   class="flex items-center gap-4 px-4 py-3 text-sm font-medium rounded-lg transition 
+   {{ Route::is('keamanan-saya') ? 'bg-blue-50/70 text-[#0052cc] font-semibold' : 'text-gray-600 hover:bg-slate-50 hover:text-[#0052cc]' }}">
+
+    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round"
+        d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+    </svg>
+
+    Keamanan Saya
+
+</a>
 </nav>
     <form id="sidebar-logout-form" action="{{ route('logout') }}" method="POST" class="hidden">@csrf</form>
     </aside>
@@ -320,7 +326,9 @@ img {
          class="h-9 w-9 object-contain" 
          alt="Logo" 
          style="content-visibility: auto; contain-intrinsic-size: 36px 36px;">
-         <span class="font-bold text-lg tracking-wider uppercase hidden sm:block text-gradient-blue">POLIBRARY</span>
+         <h1 class="text-xl font-bold leading-tight"
+style="font-family: 'Audiowide', sans-serif; letter-spacing: 1px;">
+        <span class="text-slate-900 drop-shadow-lg">P</span><span class="text-orange-500 drop-shadow-lg">o</span><span class="text-slate-900 drop-shadow-lg">li</span><span class="text-sky-400 drop-shadow-lg">Brary</span></h1>
 </a>
     </div>
 

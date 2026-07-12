@@ -1,0 +1,23 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('buku', function (Blueprint $table) {
+            $table->string('bahasa')->after('tahun_terbit');
+            $table->integer('jumlah_halaman')->after('bahasa');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('buku', function (Blueprint $table) {
+            $table->dropColumn(['bahasa', 'jumlah_halaman']);
+        });
+    }
+};

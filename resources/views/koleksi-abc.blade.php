@@ -135,38 +135,51 @@ Temukan berbagai koleksi buku yang tersedia pada sistem PoliBrary.
 
 <div class="border border-slate-200 rounded-2xl overflow-hidden">
 
+    <div class="flex text-sm font-semibold">
 
-<div class="flex text-sm font-semibold">
+        <span
+            class="w-1/2 py-3 text-center
+            bg-gradient-to-r from-blue-50 to-indigo-50
+            text-blue-700
+            border-b-2 border-blue-600">
 
+            Daftar A - Z
 
-<span class="w-1/2 py-3 text-center 
-bg-gradient-to-r from-blue-50 to-indigo-50 
-text-blue-700 
-border-b-2 border-blue-600">
+        </span>
 
-Daftar A - Z
+        <div class="relative w-1/2">
 
-</span>
+            <a
+                href="{{ route('koleksi.subjek') }}"
+                class="block w-full py-3 text-center
+                text-slate-500
+                hover:bg-slate-50
+                transition">
 
+                Daftar Berdasarkan Subjek
 
+            </a>
 
-<a href="{{ route('koleksi.subjek') }}"
+            <!-- Badge Pengembangan -->
+            <span
+                class="absolute -top-2 -right-2
+                bg-amber-500
+                text-white
+                text-[10px]
+                font-bold
+                px-2 py-1
+                rounded-full
+                shadow">
 
-class="w-1/2 py-3 text-center
-text-slate-500
-hover:bg-slate-50
-transition">
+                Sedang Pengembangan
 
-Daftar Berdasarkan Subjek
+            </span>
 
-</a>
+        </div>
 
+    </div>
 
 </div>
-
-
-</div>
-
 
 
 
@@ -545,14 +558,31 @@ flex flex-col
 
 <!-- COVER -->
 
-<div class="relative h-56 bg-slate-100">
+<div class="relative h-56 bg-slate-100 flex items-center justify-center">
 
 
-<img
-:src="'{{ asset('storage/') }}/'+buku.sampul"
-class="w-full h-full object-cover"
-onerror="this.src='{{ asset('image/Polibrary-logo.png') }}'"
->
+<template x-if="buku.sampul">
+
+    <img
+        :src="'{{ asset('storage/') }}/' + buku.sampul"
+        class="w-full h-full object-cover"
+        onerror="this.src='{{ asset('image/Polibrary-logo.png') }}'"
+    >
+
+</template>
+
+
+<template x-if="!buku.sampul">
+
+    <div class="w-full h-full bg-slate-200 flex items-center justify-center">
+
+        <img
+            src="{{ asset('image/Polibrary-logo.png') }}"
+            class="w-20 h-20 opacity-40 object-contain"
+        >
+    </div>
+
+</template>
 
 
 
@@ -819,47 +849,34 @@ font-semibold
 
 
 
-<!-- BUTTON HALAMAN BERIKUTNYA -->
-
+<!-- BUTTON PAGINATION BAWAH -->
 
 <div
 
 x-show="bukuTampil.length > 0"
 
-class="mt-8 border-t border-slate-200 pt-6 flex justify-center">
+class="mt-8 border-t border-slate-200 pt-6 flex justify-center gap-4">
 
 
-
-
+<!-- HALAMAN SEBELUMNYA -->
 
 <button
 
+x-show="halamanSekarang > 1"
 
 @click="
 
-if(halamanSekarang < totalHalaman)
+if(halamanSekarang > 1)
 
-halamanSekarang++
-
-"
-
-
-
-:disabled="halamanSekarang===totalHalaman"
-
-
-
-:class="halamanSekarang===totalHalaman
-
-?'opacity-50 cursor-not-allowed'
-
-:'hover:bg-blue-700'
+halamanSekarang--
 
 "
 
+class="
 
+bg-[#0f4c81]
 
-class="bg-[#0f4c81]
+hover:bg-blue-700
 
 text-white
 
@@ -873,14 +890,64 @@ font-semibold
 
 shadow-sm
 
-transition">
+transition
+
+">
 
 
-Halaman Berikutnya →
+← Halaman Sebelumnya
+
 
 </button>
 
 
+
+
+
+<!-- HALAMAN BERIKUTNYA -->
+
+<button
+
+
+x-show="halamanSekarang < totalHalaman"
+
+
+@click="
+
+if(halamanSekarang < totalHalaman)
+
+halamanSekarang++
+
+"
+
+
+class="
+
+bg-[#0f4c81]
+
+hover:bg-blue-700
+
+text-white
+
+px-8
+
+py-3
+
+rounded-xl
+
+font-semibold
+
+shadow-sm
+
+transition
+
+">
+
+
+Halaman Berikutnya →
+
+
+</button>
 
 
 </div>
